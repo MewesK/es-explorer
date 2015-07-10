@@ -1,0 +1,9 @@
+### Maven
+target/
+dependency-reduced-pom.xml
+
+### JetBrains
+.idea/
+*.iml
+
+

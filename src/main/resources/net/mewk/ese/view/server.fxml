@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<SplitPane dividerPositions="0.3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="net.mewk.ese.presenter.ServerPresenter">
+    <items>
+        <AnchorPane>
+            <children>
+                <SplitPane dividerPositions="0.7" orientation="VERTICAL" AnchorPane.bottomAnchor="4.0"
+                           AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0">
+                    <items>
+                        <AnchorPane minHeight="24.0">
+                            <children>
+                                <TitledPane collapsible="false" text="Indices" AnchorPane.bottomAnchor="0.0"
+                                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                            AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <TreeView fx:id="indexTreeView"/>
+                                    </content>
+                                </TitledPane>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane minHeight="24.0">
+                            <children>
+                                <TitledPane collapsible="false" text="Properties" AnchorPane.bottomAnchor="0.0"
+                                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                            AnchorPane.topAnchor="0.0">
+                                    <content>
+                                        <TableView fx:id="propertyTableView">
+                                            <columns>
+                                                <TableColumn fx:id="propertyTableViewNameColumn" text="Name" />
+                                                <TableColumn fx:id="propertyTableViewValueColumn" text="Value"/>
+                                            </columns>
+                                        </TableView>
+                                    </content>
+                                </TitledPane>
+                            </children>
+                        </AnchorPane>
+                    </items>
+                </SplitPane>
+            </children>
+        </AnchorPane>
+        <AnchorPane>
+            <children>
+                <TabPane fx:id="serverTabPane" id="serverTabPane" tabClosingPolicy="SELECTED_TAB" AnchorPane.bottomAnchor="4.0"
+                         AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="4.0"/>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<SplitPane stylesheets="query.css" dividerPositions="0.6" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8">
+    <items>
+        <AnchorPane>
+            <children>
+                <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                         AnchorPane.topAnchor="0.0">
+                    <items>
+                        <Button mnemonicParsing="false" text="Run"/>
+                    </items>
+                </ToolBar>
+                <TextArea AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                          AnchorPane.topAnchor="40.0"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane minHeight="24.0" style="-fx-border-width: 0;">
+            <children>
+                <TitledPane id="resultTitledPane" collapsible="false" text="Result" AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <content>
+                        <TabPane id="resultTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Tree Table">
+                                    <content>
+                                        <AnchorPane>
+                                            <children>
+                                                <TreeTableView id="resultTreeTableView" AnchorPane.bottomAnchor="0.0"
+                                                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                               AnchorPane.topAnchor="0.0">
+                                                    <columns>
+                                                        <TreeTableColumn text="Name"/>
+                                                        <TreeTableColumn text="Value"/>
+                                                    </columns>
+                                                </TreeTableView>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="JSON">
+                                    <content>
+                                        <AnchorPane>
+                                            <children>
+                                                <TextArea AnchorPane.bottomAnchor="0.0"
+                                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                          AnchorPane.topAnchor="0.0"/>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </content>
+                </TitledPane>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

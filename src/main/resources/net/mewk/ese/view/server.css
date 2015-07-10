@@ -1,0 +1,34 @@
+.split-pane .titled-pane > .title {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+.split-pane .titled-pane > *.content {
+    -fx-background-insets: 0;
+}
+.split-pane .titled-pane * {
+    -fx-border-width: 0;
+}
+.titled-pane AnchorPane {
+    -fx-padding: 0;
+}
+#serverTabPane {
+    -fx-border-color: -fx-box-border;
+    -fx-border-width: 1px;
+}
+
+#resultTitledPane {
+    -fx-border-width: 0;
+}
+#resultTabPane {
+    -fx-border-width: 0;
+}
+#resultTreeTableView {
+    -fx-border-color: red;
+    -fx-background-color: green;
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}
+#resultTreeTableView * {
+    -fx-border-width: 0;
+    -fx-background-insets: 0;
+}

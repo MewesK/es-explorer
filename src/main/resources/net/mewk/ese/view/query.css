@@ -1,0 +1,19 @@
+.key {
+    -fx-fill: purple;
+    -fx-font-weight: bold;
+}
+.value {
+     -fx-fill: blue;
+     -fx-font-weight: bold;
+ }
+.bracket {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}
+.brace {
+    -fx-fill: teal;
+    -fx-font-weight: 900;
+}
+.string {
+    -fx-fill: blue;
+}
