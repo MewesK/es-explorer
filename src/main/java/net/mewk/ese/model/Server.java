@@ -3,6 +3,7 @@ package net.mewk.ese.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import net.mewk.ese.Main;
+import net.mewk.ese.mapper.es.IndexMapper;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -20,12 +21,23 @@ import java.io.Serializable;
 public class Server implements Serializable {
 
     private Client client = null;
-
-    protected Connection connection;
-    protected ObservableMap<String, Index> indexMap = FXCollections.observableHashMap();
+    private Connection connection;
+    private ObservableMap<String, Index> indexMap = FXCollections.observableHashMap();
 
     public Server(Connection connection) {
         this.connection = connection;
+    }
+
+    private void initialize() {
+        // Reset
+        indexMap.clear();
+
+        // Get index data
+        ObjectContainer<IndexMetaData> indexMetaDataObjectContainer = client.admin().cluster().prepareState().execute().actionGet().getState().getMetaData().indices().values();
+        for (ObjectCursor<IndexMetaData> indexMetaDataObjectCursor : indexMetaDataObjectContainer) {
+            Index index = (Index) Main.getMapperManager().findByClass(IndexMapper.class).map(indexMetaDataObjectCursor.value);
+            indexMap.put(index.getName(), index);
+        }
     }
 
     public void start() {
@@ -51,36 +63,11 @@ public class Server implements Serializable {
         }
     }
 
-    public Result search(String[] indices, String query) {
-        Result result = new Result();
-
-        SearchRequest searchRequest = new SearchRequest(indices, query.getBytes());
-        client.search(searchRequest, new ActionListener<SearchResponse>() {
-            @Override
-            public void onResponse(SearchResponse searchResponse) {
-                result.setSearchResponseProperty(searchResponse);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                // TODO
-            }
-        });
-
-        return result;
-    };
-
-    private void initialize() {
-        // Reset
-        indexMap.clear();
-
-        // Get index data
-        ObjectContainer<IndexMetaData> indexMetaDataObjectContainer = client.admin().cluster().prepareState().execute().actionGet().getState().getMetaData().indices().values();
-        for (ObjectCursor<IndexMetaData> indexMetaDataObjectCursor : indexMetaDataObjectContainer) {
-            Index index = (Index) Main.getMapperManager().findByClass(Index.class).map(indexMetaDataObjectCursor.value);
-            indexMap.put(index.getName(), index);
-        }
+    public void search(String[] indices, String query, ActionListener<SearchResponse> actionListener) {
+        client.search(new SearchRequest(indices, query.getBytes()), actionListener);
     }
+
+    ;
 
     public Connection getConnection() {
         return connection;

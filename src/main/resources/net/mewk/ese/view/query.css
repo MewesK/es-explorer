@@ -1,19 +1,25 @@
-.key {
-    -fx-fill: purple;
+.match {
     -fx-font-weight: bold;
 }
-.value {
-     -fx-fill: blue;
-     -fx-font-weight: bold;
- }
-.bracket {
-    -fx-fill: darkgreen;
-    -fx-font-weight: bold;
-}
-.brace {
-    -fx-fill: teal;
+.brace, .bracket, .comma {
     -fx-font-weight: 900;
+    -fx-fill: black;
+}
+.key {
+    -fx-fill: teal;
 }
 .string {
-    -fx-fill: blue;
+     -fx-fill: blue;
+}
+.bool {
+     -fx-fill: darkblue;
+}
+.null {
+     -fx-fill: darkblue;
+}
+.int {
+     -fx-fill: darkred;
+}
+.double {
+     -fx-fill: darkred;
 }

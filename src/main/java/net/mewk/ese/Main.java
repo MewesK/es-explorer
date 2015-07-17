@@ -26,9 +26,9 @@ public class Main extends Application {
         mapperManager = new MapperManager();
 
         Map<Object, Object> customProperties = new HashMap<>();
-        customProperties.put("connectionManager", connectionManager);
-        customProperties.put("serverManager", serverManager);
-        customProperties.put("mapperManager", mapperManager);
+        customProperties.put(connectionManager.getClass().getSimpleName(), connectionManager);
+        customProperties.put(serverManager.getClass().getSimpleName(), serverManager);
+        customProperties.put(mapperManager.getClass().getSimpleName(), mapperManager);
         Injector.setConfigurationSource(customProperties::get);
 
         MainView mainView = new MainView();

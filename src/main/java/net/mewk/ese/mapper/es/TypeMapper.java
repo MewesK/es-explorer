@@ -1,6 +1,7 @@
-package net.mewk.ese.mapper;
+package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
+import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.Field;
 import net.mewk.ese.model.MetaData;
 import net.mewk.ese.model.SimpleType;
@@ -25,7 +26,7 @@ public class TypeMapper implements Mapper<MappingMetaData, Type> {
                 if (stringObjectEntry.getKey().equals("properties")) {
                     Set<Map.Entry<String, Map>> stringMapSet = ((Map<String, Map>) stringObjectEntry.getValue()).entrySet();
                     for (Map.Entry<String, Map> stringMapEntry : stringMapSet) {
-                        Field field = (Field) Main.getMapperManager().findByClass(Field.class).map(stringMapEntry);
+                        Field field = (Field) Main.getMapperManager().findByClass(FieldMapper.class).map(stringMapEntry);
                         type.getFieldMap().put(field.getName(), field);
                     }
                 }

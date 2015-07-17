@@ -11,7 +11,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import net.mewk.ese.model.*;
+import net.mewk.ese.Main;
+import net.mewk.ese.mapper.ui.IndexViewMapper;
+import net.mewk.ese.model.Index;
+import net.mewk.ese.model.MetaData;
+import net.mewk.ese.model.MetaDataContainer;
+import net.mewk.ese.model.Server;
 import net.mewk.ese.view.QueryView;
 
 import java.net.URL;
@@ -41,46 +46,8 @@ public class ServerPresenter implements Initializable {
             indexTreeView.setRoot(rootItem);
         }
 
-        indexTreeView.getRoot().getChildren().add(mapIndex(index));
+        indexTreeView.getRoot().getChildren().add((TreeItem<Object>) Main.getMapperManager().findByClass(IndexViewMapper.class).map(index));
         indexTreeView.getRoot().getChildren().sort(Comparator.comparing(Object::toString));
-    }
-
-    private TreeItem<Object> mapIndex(Index index) {
-        TreeItem<Object> indexItem = new TreeItem<>(index);
-
-        for (Map.Entry<String, Type> typeEntry : index.getTypeMap().entrySet()) {
-            indexItem.getChildren().add(mapType(typeEntry.getValue()));
-        }
-
-        indexItem.getChildren().sort(Comparator.comparing(Object::toString));
-
-        return indexItem;
-    }
-
-    private TreeItem<Object> mapType(Type type) {
-        TreeItem<Object> typeItem = new TreeItem<>(type);
-
-        for (Map.Entry<String, Field> fieldEntry : type.getFieldMap().entrySet()) {
-            typeItem.getChildren().add(mapField(fieldEntry.getValue()));
-        }
-
-        typeItem.getChildren().sort(Comparator.comparing(Object::toString));
-
-        return typeItem;
-    }
-
-    private TreeItem<Object> mapField(Field field) {
-        TreeItem<Object> fieldItem = new TreeItem<>(field);
-
-        if (field instanceof NestedType) {
-            for (Map.Entry<String, Field> fieldEntry : ((NestedType) field).getFieldMap().entrySet()) {
-                fieldItem.getChildren().add(mapField(fieldEntry.getValue()));
-            }
-
-            fieldItem.getChildren().sort(Comparator.comparing(Object::toString));
-        }
-
-        return fieldItem;
     }
 
     private void removeIndex(Index index) {

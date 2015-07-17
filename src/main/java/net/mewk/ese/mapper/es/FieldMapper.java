@@ -1,6 +1,7 @@
-package net.mewk.ese.mapper;
+package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
+import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.Field;
 import net.mewk.ese.model.MetaData;
 import net.mewk.ese.model.NestedType;
@@ -32,7 +33,7 @@ public class FieldMapper implements Mapper<Map.Entry<String, Map>, Field> {
                 // Set data
                 Set<Map.Entry<String, Object>> nestedStringObjectSet = ((Map<String, Object>) stringObjectEntry.getValue()).entrySet();
                 for (Map.Entry<String, Object> nestedStringObjectEntry : nestedStringObjectSet) {
-                    Field nestedField = (Field) Main.getMapperManager().findByClass(Field.class).map(nestedStringObjectEntry);
+                    Field nestedField = (Field) Main.getMapperManager().findByClass(FieldMapper.class).map(nestedStringObjectEntry);
                     nestedType.getFieldMap().put(nestedField.getName(), nestedField);
                 }
 

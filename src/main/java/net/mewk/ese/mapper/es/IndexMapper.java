@@ -1,6 +1,7 @@
-package net.mewk.ese.mapper;
+package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
+import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.Index;
 import net.mewk.ese.model.Type;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
@@ -18,7 +19,7 @@ public class IndexMapper implements Mapper<IndexMetaData, Index> {
         // Set data
         ObjectContainer<MappingMetaData> mappingMetaDataObjectContainer = object.mappings().values();
         for (ObjectCursor<MappingMetaData> mappingMetaDataObjectCursor : mappingMetaDataObjectContainer) {
-            Type type = (Type) Main.getMapperManager().findByClass(Type.class).map(mappingMetaDataObjectCursor.value);
+            Type type = (Type) Main.getMapperManager().findByClass(TypeMapper.class).map(mappingMetaDataObjectCursor.value);
             index.getTypeMap().put(type.getName(), type);
         }
 
