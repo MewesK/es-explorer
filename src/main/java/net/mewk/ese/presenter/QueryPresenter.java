@@ -4,11 +4,15 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import net.mewk.ese.CodeArea;
+import net.mewk.ese.Highlighter;
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.Server;
@@ -28,8 +32,20 @@ public class QueryPresenter implements Initializable {
     public CodeArea resultCodeArea;
     @FXML
     public TreeTableView resultTreeTableView;
+    @FXML
+    public TreeTableColumn resultTreeTableViewIndexColumn;
+    @FXML
+    public TreeTableColumn resultTreeTableViewNameColumn;
+    @FXML
+    public TreeTableColumn resultTreeTableViewValueColumn;
+    @FXML
+    public TreeTableColumn resultTreeTableViewScoreColumn;
 
     public void initialize(URL location, ResourceBundle resources) {
+        resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
+        resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+        resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
+        resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
     }
 
     public void handleRunButtonAction(ActionEvent actionEvent) {
@@ -43,6 +59,7 @@ public class QueryPresenter implements Initializable {
                     Platform.runLater(() -> {
                         resultTreeTableView.setRoot(resultItem);
                         resultCodeArea.replaceText(searchResponse.toString());
+                        resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(resultCodeArea.getText()));
                     });
                 }
 
@@ -52,6 +69,12 @@ public class QueryPresenter implements Initializable {
                 }
             });
         }
+    }
+
+    public void handleResultTabSelectionChanged(Event event) {
+        // Redraw hack
+        resultCodeArea.replaceText(resultCodeArea.getText());
+        resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(resultCodeArea.getText()));
     }
 
     public Server getServer() {

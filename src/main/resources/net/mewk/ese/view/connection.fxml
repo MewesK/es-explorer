@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<GridPane fx:controller="net.mewk.ese.presenter.ConnectionPresenter" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.geometry.Insets?><?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
+<GridPane xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="net.mewk.ese.presenter.ConnectionPresenter">
     <columnConstraints>
-        <ColumnConstraints hgrow="NEVER" maxWidth="70.0" minWidth="70.0" />
-        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" />
+        <ColumnConstraints hgrow="NEVER" maxWidth="70.0" minWidth="70.0"/>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="100.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS" />
-        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS" />
-        <RowConstraints minHeight="0.0" vgrow="ALWAYS" />
+        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS"/>
+        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS"/>
+        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS"/>
+        <RowConstraints maxHeight="40.0" minHeight="40.0" vgrow="ALWAYS"/>
+        <RowConstraints minHeight="0.0" vgrow="ALWAYS"/>
     </rowConstraints>
     <children>
-        <Label text="Name" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER" />
-        <TextField fx:id="nameTextField" text="localhost" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER" />
-        <Label text="Hostname" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
-        <TextField fx:id="hostnameTextField" text="127.0.0.1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
-        <Label text="Port" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-        <TextField fx:id="portTextField" text="9300" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-        <Button mnemonicParsing="false" onAction="#handleConnectButtonAction" text="Connect" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Label text="Name" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER"/>
+        <TextField fx:id="nameTextField"
+                   text="localhost"
+                   GridPane.columnIndex="1"
+                   GridPane.hgrow="ALWAYS"
+                   GridPane.vgrow="NEVER"/>
+        <Label text="Hostname" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER"/>
+        <TextField fx:id="hostnameTextField"
+                   text="127.0.0.1"
+                   GridPane.columnIndex="1"
+                   GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="1"
+                   GridPane.vgrow="NEVER"/>
+        <Label text="Port" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER"/>
+        <TextField fx:id="portTextField"
+                   text="9300"
+                   GridPane.columnIndex="1"
+                   GridPane.hgrow="ALWAYS"
+                   GridPane.rowIndex="2"
+                   GridPane.vgrow="NEVER"/>
+        <Button mnemonicParsing="false"
+                onAction="#handleConnectButtonAction"
+                text="Connect"
+                GridPane.columnSpan="2"
+                GridPane.halignment="CENTER"
+                GridPane.rowIndex="3"/>
     </children>
     <padding>
-        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0"/>
     </padding>
 </GridPane>

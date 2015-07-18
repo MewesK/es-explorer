@@ -1,25 +1,8 @@
+.anchor-pane, .split-pane, .split-pane .titled-pane, .split-pane .titled-pane > .content {
+    -fx-border-width: 0;
+}
 .split-pane .titled-pane > .title {
     -fx-background-insets: 0;
+    -fx-border-width: 0;
     -fx-background-radius: 0;
-}
-.split-pane .titled-pane > *.content {
-    -fx-background-insets: 0;
-}
-.split-pane .titled-pane * {
-    -fx-border-width: 0;
-}
-.titled-pane AnchorPane {
-    -fx-padding: 0;
-}
-#serverTabPane {
-    -fx-border-color: -fx-box-border;
-    -fx-border-width: 1px;
-}
-
-#resultTitledPane, #resultTabPane {
-    -fx-border-width: 0;
-}
-#resultTreeTableView, #resultTreeTableView * {
-    -fx-border-width: 0;
-    -fx-background-insets: 0;
 }

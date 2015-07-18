@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import net.mewk.ese.CodeArea?>
-<SplitPane dividerPositions="0.6" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.mewk.ese.presenter.QueryPresenter">
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import net.mewk.ese.CodeArea?>
+<SplitPane fx:controller="net.mewk.ese.presenter.QueryPresenter"
+           dividerPositions="0.6"
+           orientation="VERTICAL"
+           xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1">
     <items>
         <AnchorPane>
             <children>
-                <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                         AnchorPane.topAnchor="0.0">
+                <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                         <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
                     </items>
                 </ToolBar>
-                <CodeArea fx:id="queryCodeArea" AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                <CodeArea fx:id="queryCodeArea"
+                          AnchorPane.bottomAnchor="0.0"
+                          AnchorPane.leftAnchor="0.0"
+                          AnchorPane.rightAnchor="0.0"
                           AnchorPane.topAnchor="40.0"/>
             </children>
         </AnchorPane>
-        <AnchorPane minHeight="24.0" style="-fx-border-width: 0;">
+        <AnchorPane>
             <children>
-                <TitledPane id="resultTitledPane" collapsible="false" text="Result" AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <TitledPane id="resultTitledPane"
+                            collapsible="false"
+                            text="Result"
+                            AnchorPane.bottomAnchor="0.0"
+                            AnchorPane.leftAnchor="0.0"
+                            AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0">
                     <content>
                         <TabPane id="resultTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
@@ -30,24 +37,37 @@
                                     <content>
                                         <AnchorPane>
                                             <children>
-                                                <TreeTableView fx:id="resultTreeTableView" id="resultTreeTableView" AnchorPane.bottomAnchor="0.0"
-                                                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                <TreeTableView fx:id="resultTreeTableView"
+                                                               id="resultTreeTableView"
+                                                               showRoot="false"
+                                                               AnchorPane.bottomAnchor="0.0"
+                                                               AnchorPane.leftAnchor="0.0"
+                                                               AnchorPane.rightAnchor="0.0"
                                                                AnchorPane.topAnchor="0.0">
                                                     <columns>
-                                                        <TreeTableColumn text="Name"/>
-                                                        <TreeTableColumn text="Value"/>
+                                                        <TreeTableColumn fx:id="resultTreeTableViewNameColumn"
+                                                                         text="Name"/>
+                                                        <TreeTableColumn fx:id="resultTreeTableViewValueColumn"
+                                                                         text="Value"/>
+                                                        <TreeTableColumn fx:id="resultTreeTableViewIndexColumn"
+                                                                         text="Index"/>
+                                                        <TreeTableColumn fx:id="resultTreeTableViewScoreColumn"
+                                                                         text="Score"/>
                                                     </columns>
                                                 </TreeTableView>
                                             </children>
                                         </AnchorPane>
                                     </content>
                                 </Tab>
-                                <Tab text="JSON">
+                                <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="JSON">
                                     <content>
                                         <AnchorPane>
                                             <children>
-                                                <CodeArea fx:id="resultCodeArea" AnchorPane.bottomAnchor="0.0"
-                                                          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                                <CodeArea fx:id="resultCodeArea"
+                                                          editable="false"
+                                                          AnchorPane.bottomAnchor="0.0"
+                                                          AnchorPane.leftAnchor="0.0"
+                                                          AnchorPane.rightAnchor="0.0"
                                                           AnchorPane.topAnchor="0.0"/>
                                             </children>
                                         </AnchorPane>
