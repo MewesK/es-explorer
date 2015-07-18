@@ -2,8 +2,8 @@ package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.Index;
-import net.mewk.ese.model.Type;
+import net.mewk.ese.model.server.Index;
+import net.mewk.ese.model.server.Type;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.hppc.ObjectContainer;

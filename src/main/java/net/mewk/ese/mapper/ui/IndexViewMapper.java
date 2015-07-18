@@ -2,10 +2,10 @@ package net.mewk.ese.mapper.ui;
 
 import javafx.scene.control.TreeItem;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.Field;
-import net.mewk.ese.model.Index;
-import net.mewk.ese.model.NestedType;
-import net.mewk.ese.model.Type;
+import net.mewk.ese.model.server.Field;
+import net.mewk.ese.model.server.Index;
+import net.mewk.ese.model.server.NestedType;
+import net.mewk.ese.model.server.Type;
 
 import java.util.Comparator;
 import java.util.Map;

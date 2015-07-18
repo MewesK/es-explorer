@@ -15,7 +15,7 @@ import net.mewk.ese.CodeArea;
 import net.mewk.ese.Highlighter;
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
-import net.mewk.ese.model.Server;
+import net.mewk.ese.model.server.Server;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class QueryPresenter implements Initializable {
 
-    private ObjectProperty<Server> server = new SimpleObjectProperty<>();
+    private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 
     @FXML
     public CodeArea queryCodeArea;

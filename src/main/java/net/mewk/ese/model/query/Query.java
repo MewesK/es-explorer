@@ -1,4 +1,4 @@
-package net.mewk.ese.model;
+package net.mewk.ese.model.query;
 
 import java.io.File;
 import java.io.Serializable;

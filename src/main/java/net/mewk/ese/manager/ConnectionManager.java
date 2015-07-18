@@ -2,7 +2,7 @@ package net.mewk.ese.manager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import net.mewk.ese.model.Connection;
+import net.mewk.ese.model.connection.Connection;
 
 public class ConnectionManager {
 

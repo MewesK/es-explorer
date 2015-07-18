@@ -2,8 +2,8 @@ package net.mewk.ese.manager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import net.mewk.ese.model.Connection;
-import net.mewk.ese.model.Server;
+import net.mewk.ese.model.connection.Connection;
+import net.mewk.ese.model.server.Server;
 import net.mewk.ese.presenter.ServerPresenter;
 import net.mewk.ese.view.ServerView;
 

@@ -2,10 +2,10 @@ package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.Field;
-import net.mewk.ese.model.MetaData;
-import net.mewk.ese.model.NestedType;
-import net.mewk.ese.model.SimpleField;
+import net.mewk.ese.model.server.Field;
+import net.mewk.ese.model.server.MetaData;
+import net.mewk.ese.model.server.NestedType;
+import net.mewk.ese.model.server.SimpleField;
 
 import java.util.Map;
 import java.util.Set;
@@ -21,8 +21,12 @@ public class FieldMapper implements Mapper<Map.Entry<String, Map>, Field> {
         Set<Map.Entry<String, Object>> stringObjectSet = object.getValue().entrySet();
         for (Map.Entry<String, Object> stringObjectEntry : stringObjectSet) {
             // Basic type
-            if (stringObjectEntry.getKey().equals("type")) {
-                ((SimpleField) field).setType((String) stringObjectEntry.getValue());
+            try {
+                if (stringObjectEntry.getKey().equals("type")) {
+                    ((SimpleField) field).setType((String) stringObjectEntry.getValue());
+                }
+            } catch (ClassCastException e) {
+                // TODO
             }
 
             // Nested type

@@ -1,11 +1,11 @@
-package net.mewk.ese.model;
+package net.mewk.ese.model.query;
 
 public class ResultData {
 
-    private String index;
-    private String name;
-    private Object value;
-    private Float score;
+    private final String index;
+    private final String name;
+    private final Object value;
+    private final Float score;
 
     public ResultData(String index, String type, Object value, Float score) {
         this.index = index;

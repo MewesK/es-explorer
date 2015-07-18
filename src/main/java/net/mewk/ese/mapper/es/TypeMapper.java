@@ -2,10 +2,10 @@ package net.mewk.ese.mapper.es;
 
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.Field;
-import net.mewk.ese.model.MetaData;
-import net.mewk.ese.model.SimpleType;
-import net.mewk.ese.model.Type;
+import net.mewk.ese.model.server.Field;
+import net.mewk.ese.model.server.MetaData;
+import net.mewk.ese.model.server.SimpleType;
+import net.mewk.ese.model.server.Type;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 
 import java.io.IOException;

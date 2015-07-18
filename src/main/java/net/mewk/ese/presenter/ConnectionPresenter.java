@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import net.mewk.ese.manager.ConnectionManager;
 import net.mewk.ese.manager.ServerManager;
-import net.mewk.ese.model.Connection;
+import net.mewk.ese.model.connection.Connection;
 
 import javax.inject.Inject;
 import java.net.URL;

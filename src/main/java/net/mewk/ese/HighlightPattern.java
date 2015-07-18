@@ -1,9 +1,9 @@
 package net.mewk.ese;
 
 public class HighlightPattern {
-    private String pattern;
-    private String groupName;
-    private String className;
+    private final String pattern;
+    private final String groupName;
+    private final String className;
 
     public HighlightPattern(String pattern, String groupName, String className) {
         this.pattern = pattern;

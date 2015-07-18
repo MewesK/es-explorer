@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import net.mewk.ese.manager.ServerManager;
-import net.mewk.ese.model.Connection;
+import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.view.ConnectionView;
 import net.mewk.ese.view.ServerView;
 
@@ -33,20 +33,17 @@ public class MainPresenter implements Initializable {
 
         mainTabPane.getTabs().add(connectionTab);
 
-        serverManager.getServerMap().addListener(new MapChangeListener<Connection, ServerView>() {
-            @Override
-            public void onChanged(Change<? extends Connection, ? extends ServerView> change) {
-                if (change.wasAdded()) {
-                    Tab serverTab = new Tab();
-                    serverTab.setClosable(true);
-                    serverTab.setText(change.getKey().getName());
-                    serverTab.setContent(change.getValueAdded().getView());
+        serverManager.getServerMap().addListener((MapChangeListener<Connection, ServerView>) change -> {
+            if (change.wasAdded()) {
+                Tab serverTab = new Tab();
+                serverTab.setClosable(true);
+                serverTab.setText(change.getKey().getName());
+                serverTab.setContent(change.getValueAdded().getView());
 
-                    mainTabPane.getTabs().add(serverTab);
-                    mainTabPane.getSelectionModel().select(serverTab);
-                } else {
-                    // TODO
-                }
+                mainTabPane.getTabs().add(serverTab);
+                mainTabPane.getSelectionModel().select(serverTab);
+            } else {
+                // TODO
             }
         });
     }

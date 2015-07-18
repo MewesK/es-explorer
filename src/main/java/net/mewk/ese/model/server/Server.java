@@ -1,9 +1,10 @@
-package net.mewk.ese.model;
+package net.mewk.ese.model.server;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.es.IndexMapper;
+import net.mewk.ese.model.connection.Connection;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -66,8 +67,6 @@ public class Server implements Serializable {
     public void search(String[] indices, String query, ActionListener<SearchResponse> actionListener) {
         client.search(new SearchRequest(indices, query.getBytes()), actionListener);
     }
-
-    ;
 
     public Connection getConnection() {
         return connection;

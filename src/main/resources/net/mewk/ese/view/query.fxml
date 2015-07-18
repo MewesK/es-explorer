@@ -6,78 +6,54 @@
            orientation="VERTICAL"
            xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1">
-    <items>
-        <AnchorPane>
-            <children>
-                <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                        <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
-                    </items>
-                </ToolBar>
-                <CodeArea fx:id="queryCodeArea"
-                          AnchorPane.bottomAnchor="0.0"
-                          AnchorPane.leftAnchor="0.0"
-                          AnchorPane.rightAnchor="0.0"
-                          AnchorPane.topAnchor="40.0"/>
-            </children>
-        </AnchorPane>
-        <AnchorPane>
-            <children>
-                <TitledPane id="resultTitledPane"
-                            collapsible="false"
-                            text="Result"
-                            AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0"
-                            AnchorPane.topAnchor="0.0">
-                    <content>
-                        <TabPane id="resultTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
-                            <tabs>
-                                <Tab text="Tree Table">
-                                    <content>
-                                        <AnchorPane>
-                                            <children>
-                                                <TreeTableView fx:id="resultTreeTableView"
-                                                               id="resultTreeTableView"
-                                                               showRoot="false"
-                                                               AnchorPane.bottomAnchor="0.0"
-                                                               AnchorPane.leftAnchor="0.0"
-                                                               AnchorPane.rightAnchor="0.0"
-                                                               AnchorPane.topAnchor="0.0">
-                                                    <columns>
-                                                        <TreeTableColumn fx:id="resultTreeTableViewNameColumn"
-                                                                         text="Name"/>
-                                                        <TreeTableColumn fx:id="resultTreeTableViewValueColumn"
-                                                                         text="Value"/>
-                                                        <TreeTableColumn fx:id="resultTreeTableViewIndexColumn"
-                                                                         text="Index"/>
-                                                        <TreeTableColumn fx:id="resultTreeTableViewScoreColumn"
-                                                                         text="Score"/>
-                                                    </columns>
-                                                </TreeTableView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="JSON">
-                                    <content>
-                                        <AnchorPane>
-                                            <children>
-                                                <CodeArea fx:id="resultCodeArea"
-                                                          editable="false"
-                                                          AnchorPane.bottomAnchor="0.0"
-                                                          AnchorPane.leftAnchor="0.0"
-                                                          AnchorPane.rightAnchor="0.0"
-                                                          AnchorPane.topAnchor="0.0"/>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                            </tabs>
-                        </TabPane>
-                    </content>
-                </TitledPane>
-            </children>
-        </AnchorPane>
-    </items>
+    <AnchorPane>
+        <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
+        </ToolBar>
+        <CodeArea fx:id="queryCodeArea"
+                  AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0"
+                  AnchorPane.topAnchor="40.0"/>
+    </AnchorPane>
+    <AnchorPane>
+        <TitledPane id="resultTitledPane"
+                    collapsible="false"
+                    text="Result"
+                    AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
+            <TabPane id="resultTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
+                <Tab text="Tree Table">
+                    <AnchorPane>
+                        <TreeTableView fx:id="resultTreeTableView"
+                                       id="resultTreeTableView"
+                                       showRoot="false"
+                                       AnchorPane.bottomAnchor="0.0"
+                                       AnchorPane.leftAnchor="0.0"
+                                       AnchorPane.rightAnchor="0.0"
+                                       AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
+                            </columns>
+                        </TreeTableView>
+                    </AnchorPane>
+                </Tab>
+                <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="JSON">
+                    <AnchorPane>
+                        <CodeArea fx:id="resultCodeArea"
+                                  editable="false"
+                                  AnchorPane.bottomAnchor="0.0"
+                                  AnchorPane.leftAnchor="0.0"
+                                  AnchorPane.rightAnchor="0.0"
+                                  AnchorPane.topAnchor="0.0"/>
+                    </AnchorPane>
+                </Tab>
+            </TabPane>
+        </TitledPane>
+    </AnchorPane>
 </SplitPane>

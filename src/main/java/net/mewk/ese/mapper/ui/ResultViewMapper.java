@@ -2,7 +2,7 @@ package net.mewk.ese.mapper.ui;
 
 import javafx.scene.control.TreeItem;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.ResultData;
+import net.mewk.ese.model.query.ResultData;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
