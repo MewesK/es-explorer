@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import org.fxmisc.richtext.CodeArea?>
+<?import net.mewk.ese.CodeArea?>
 <SplitPane dividerPositions="0.6" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.mewk.ese.presenter.QueryPresenter">
     <items>

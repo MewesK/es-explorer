@@ -8,14 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
-import net.mewk.ese.Highlighter;
+import net.mewk.ese.CodeArea;
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.Server;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchResponse;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,15 +30,6 @@ public class QueryPresenter implements Initializable {
     public TreeTableView resultTreeTableView;
 
     public void initialize(URL location, ResourceBundle resources) {
-        queryCodeArea.setParagraphGraphicFactory(LineNumberFactory.get(queryCodeArea));
-        queryCodeArea.textProperty().addListener((obs, oldText, newText) -> {
-            queryCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(newText));
-        });
-
-        resultCodeArea.setParagraphGraphicFactory(LineNumberFactory.get(queryCodeArea));
-        resultCodeArea.textProperty().addListener((obs, oldText, newText) -> {
-            resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(newText));
-        });
     }
 
     public void handleRunButtonAction(ActionEvent actionEvent) {

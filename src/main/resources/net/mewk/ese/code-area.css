@@ -1,0 +1,9 @@
+.code-area {
+}
+.lineno {
+    -fx-background-color: #F0F0F0;
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 0 1 0 0 !important;
+    -fx-padding: 0 10 0 4;
+    -fx-margin: 0 10 0 0;
+}

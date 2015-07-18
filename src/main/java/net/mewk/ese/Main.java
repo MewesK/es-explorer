@@ -34,7 +34,7 @@ public class Main extends Application {
         MainView mainView = new MainView();
 
         stage.setTitle("ES Explorer");
-        stage.getIcons().add(new Image("/icon.png"));
+        stage.getIcons().add(new Image("/net/mewk/ese/icon.png"));
         stage.setScene(new Scene(mainView.getView()));
         stage.show();
     }

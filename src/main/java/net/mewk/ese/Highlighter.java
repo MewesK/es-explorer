@@ -48,8 +48,9 @@ public class Highlighter {
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 
         Matcher matcher = PATTERN.matcher(text);
-        int lastKwEnd = 0;
+        int lastMatchEnd = 0;
         while (matcher.find()) {
+            // Create className list
             List<String> styleClassList = Lists.newArrayList();
             styleClassList.add("match");
             for (HighlightPattern highlightPattern : SUB_PATTERNS) {
@@ -58,11 +59,18 @@ public class Highlighter {
                     break;
                 }
             }
-            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+
+            // Add dummy style between end of last match and beginning of current match
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastMatchEnd);
+
+            // Add styles to the current match
             spansBuilder.add(styleClassList, matcher.end() - matcher.start());
-            lastKwEnd = matcher.end();
+
+            // Remember end of current match
+            lastMatchEnd = matcher.end();
         }
-        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        // Add dummy style between end of last match and end of text
+        spansBuilder.add(Collections.emptyList(), text.length() - lastMatchEnd);
 
         return spansBuilder.create();
     }
