@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import net.mewk.ese.CodeArea?>
-<SplitPane fx:controller="net.mewk.ese.presenter.QueryPresenter"
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import net.mewk.ese.CodeArea?><?import org.controlsfx.glyphfont.Glyph?>
+<SplitPane styleClass="noBackgroundInsets"
            dividerPositions="0.6"
            orientation="VERTICAL"
            xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1">
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="net.mewk.ese.presenter.QueryPresenter">
     <AnchorPane>
-        <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <ToolBar AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
             <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
         </ToolBar>
         <CodeArea fx:id="queryCodeArea"
@@ -16,44 +19,62 @@
                   AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="40.0"/>
     </AnchorPane>
-    <AnchorPane>
-        <TitledPane id="resultTitledPane"
-                    collapsible="false"
-                    text="Result"
-                    AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="0.0">
-            <TabPane id="resultTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
-                <Tab text="Tree Table">
-                    <AnchorPane>
-                        <TreeTableView fx:id="resultTreeTableView"
-                                       id="resultTreeTableView"
-                                       showRoot="false"
-                                       AnchorPane.bottomAnchor="0.0"
-                                       AnchorPane.leftAnchor="0.0"
-                                       AnchorPane.rightAnchor="0.0"
-                                       AnchorPane.topAnchor="0.0">
-                            <columns>
-                                <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
-                            </columns>
-                        </TreeTableView>
-                    </AnchorPane>
-                </Tab>
-                <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="JSON">
-                    <AnchorPane>
-                        <CodeArea fx:id="resultCodeArea"
-                                  editable="false"
-                                  AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0"
-                                  AnchorPane.rightAnchor="0.0"
-                                  AnchorPane.topAnchor="0.0"/>
-                    </AnchorPane>
-                </Tab>
-            </TabPane>
-        </TitledPane>
+    <AnchorPane minHeight="20.0">
+        <ToolBar styleClass="splitPaneToolBar"
+                 minHeight="20.0"
+                 AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <items>
+                <Label styleClass="splitPaneToolBarLabel" text="Result" />
+                <Pane HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false">
+                    <graphic>
+                        <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false">
+                    <graphic>
+                        <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
+                    </graphic>
+                </Button>
+            </items>
+        </ToolBar>
+        <TabPane side="BOTTOM"
+                 tabClosingPolicy="UNAVAILABLE"
+                 styleClass="noBackgroundInsets"
+                 AnchorPane.bottomAnchor="0.0"
+                 AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="20.0">
+            <Tab text="Table">
+                <AnchorPane>
+                    <TreeTableView fx:id="resultTreeTableView"
+                                   showRoot="false"
+                                   styleClass="noBackgroundInsets"
+                                   AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0"
+                                   AnchorPane.rightAnchor="0.0"
+                                   AnchorPane.topAnchor="0.0">
+                        <columns>
+                            <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
+                            <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
+                            <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
+                            <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
+                        </columns>
+                    </TreeTableView>
+                </AnchorPane>
+            </Tab>
+            <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="Raw">
+                <AnchorPane>
+                    <CodeArea fx:id="resultCodeArea"
+                              editable="false"
+                              AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0"
+                              AnchorPane.rightAnchor="0.0"
+                              AnchorPane.topAnchor="0.0"/>
+                </AnchorPane>
+            </Tab>
+        </TabPane>
     </AnchorPane>
 </SplitPane>

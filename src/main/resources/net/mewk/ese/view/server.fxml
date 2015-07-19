@@ -1,47 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?><?import javafx.scene.layout.*?>
-<SplitPane dividerPositions="0.3"
+<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import org.controlsfx.control.CheckTreeView?><?import org.controlsfx.glyphfont.Glyph?>
+<SplitPane styleClass="noBackgroundInsets"
+           dividerPositions="0.3"
            xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="net.mewk.ese.presenter.ServerPresenter">
     <AnchorPane>
-        <SplitPane dividerPositions="0.7"
+        <SplitPane styleClass="noBackgroundInsets"
+                   dividerPositions="0.7"
                    orientation="VERTICAL"
                    AnchorPane.bottomAnchor="0.0"
                    AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
-            <AnchorPane minHeight="24.0">
-                <TitledPane collapsible="false"
-                            text="Indices"
-                            AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0"
-                            AnchorPane.topAnchor="0.0">
-                    <TreeView fx:id="indexTreeView"/>
-                </TitledPane>
+            <AnchorPane minHeight="20.0">
+                <ToolBar styleClass="splitPaneToolBar"
+                         minHeight="20.0"
+                         AnchorPane.leftAnchor="0.0"
+                         AnchorPane.rightAnchor="0.0"
+                         AnchorPane.topAnchor="0.0">
+                    <Label styleClass="splitPaneToolBarLabel" text="Indices" />
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Button mnemonicParsing="false">
+                        <graphic>
+                            <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
+                        </graphic>
+                    </Button>
+                    <Button mnemonicParsing="false">
+                        <graphic>
+                            <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
+                        </graphic>
+                    </Button>
+                </ToolBar>
+                <CheckTreeView fx:id="indexTreeView"
+                               styleClass="noBackgroundInsets"
+                               AnchorPane.bottomAnchor="0.0"
+                               AnchorPane.leftAnchor="0.0"
+                               AnchorPane.rightAnchor="0.0"
+                               AnchorPane.topAnchor="20.0"/>
             </AnchorPane>
-            <AnchorPane minHeight="24.0">
-                <TitledPane collapsible="false"
-                            text="Properties"
-                            AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0"
-                            AnchorPane.topAnchor="0.0">
-                    <TableView fx:id="propertyTableView">
-                        <columns>
-                            <TableColumn fx:id="propertyTableViewNameColumn" text="Name"/>
-                            <TableColumn fx:id="propertyTableViewValueColumn" text="Value"/>
-                        </columns>
-                    </TableView>
-                </TitledPane>
+            <AnchorPane minHeight="20.0">
+                <ToolBar styleClass="splitPaneToolBar"
+                         minHeight="20.0"
+                         AnchorPane.leftAnchor="0.0"
+                         AnchorPane.rightAnchor="0.0"
+                         AnchorPane.topAnchor="0.0">
+                    <Label styleClass="splitPaneToolBarLabel" text="Properties" />
+                    <Pane HBox.hgrow="ALWAYS" />
+                    <Button mnemonicParsing="false">
+                        <graphic>
+                            <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
+                        </graphic>
+                    </Button>
+                    <Button mnemonicParsing="false">
+                        <graphic>
+                            <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
+                        </graphic>
+                    </Button>
+                </ToolBar>
+                <TableView fx:id="propertyTableView"
+                           styleClass="noBackgroundInsets"
+                           AnchorPane.bottomAnchor="0.0"
+                           AnchorPane.leftAnchor="0.0"
+                           AnchorPane.rightAnchor="0.0"
+                           AnchorPane.topAnchor="20.0">
+                    <columns>
+                        <TableColumn fx:id="propertyTableViewNameColumn" text="Name"/>
+                        <TableColumn fx:id="propertyTableViewValueColumn" text="Value"/>
+                    </columns>
+                </TableView>
             </AnchorPane>
         </SplitPane>
     </AnchorPane>
     <AnchorPane>
-        <TabPane id="serverTabPane"
-                 fx:id="serverTabPane"
+        <TabPane fx:id="serverTabPane"
                  tabClosingPolicy="SELECTED_TAB"
                  AnchorPane.bottomAnchor="0.0"
                  AnchorPane.leftAnchor="0.0"

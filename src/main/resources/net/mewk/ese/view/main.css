@@ -1,0 +1,35 @@
+/*
+ * .noHeaderTableView
+ */
+
+ .noBackgroundInsets {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/*
+ * .splitPaneToolBar / .splitPaneToolBarLabel
+ */
+
+.splitPaneToolBar {
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-padding: 0 4 0 4;
+}
+
+.splitPaneToolBar .splitPaneToolBarLabel {
+    -fx-font-size: 10;
+}
+
+.splitPaneToolBar .button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.splitPaneToolBar .button:hover .glyph-font .text {
+    -fx-fill: green;
+}
+
+.splitPaneToolBar .button:armed .glyph-font .text {
+    -fx-fill: red;
+}

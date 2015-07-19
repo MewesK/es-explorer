@@ -1,5 +1,6 @@
 package net.mewk.ese.mapper.ui;
 
+import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
 import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.server.Field;
@@ -12,8 +13,9 @@ import java.util.Map;
 
 public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
     @Override
-    public TreeItem<Object> map(Index object) {
-        TreeItem<Object> indexItem = new TreeItem<>(object);
+    public CheckBoxTreeItem<Object> map(Index object) {
+        CheckBoxTreeItem<Object> indexItem = new CheckBoxTreeItem<>(object);
+        indexItem.setSelected(true);
 
         for (Map.Entry<String, Type> typeEntry : object.getTypeMap().entrySet()) {
             indexItem.getChildren().add(mapType(typeEntry.getValue()));
@@ -24,8 +26,9 @@ public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
         return indexItem;
     }
 
-    private TreeItem<Object> mapType(Type type) {
-        TreeItem<Object> typeItem = new TreeItem<>(type);
+    private CheckBoxTreeItem<Object> mapType(Type type) {
+        CheckBoxTreeItem<Object> typeItem = new CheckBoxTreeItem<>(type);
+        typeItem.setSelected(true);
 
         for (Map.Entry<String, Field> fieldEntry : type.getFieldMap().entrySet()) {
             typeItem.getChildren().add(mapField(fieldEntry.getValue()));
@@ -36,8 +39,9 @@ public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
         return typeItem;
     }
 
-    private TreeItem<Object> mapField(Field field) {
-        TreeItem<Object> fieldItem = new TreeItem<>(field);
+    private CheckBoxTreeItem<Object> mapField(Field field) {
+        CheckBoxTreeItem<Object> fieldItem = new CheckBoxTreeItem<>(field);
+        fieldItem.setSelected(true);
 
         if (field instanceof NestedType) {
             for (Map.Entry<String, Field> fieldEntry : ((NestedType) field).getFieldMap().entrySet()) {
