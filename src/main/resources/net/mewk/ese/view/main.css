@@ -1,4 +1,13 @@
 /*
+ * Glyph font defaults
+ */
+
+.glyph-font .text {
+    -fx-font-family: FontAwesome;
+    -fx-font-smoothing-type: gray;
+}
+
+/*
  * .noHeaderTableView
  */
 
@@ -24,8 +33,6 @@
 }
 
 .splitPaneToolBar .button .glyph-font .text {
-    -fx-font-family: FontAwesome;
-    -fx-font-smoothing-type: gray;
     -fx-fill: #A9A9A9;
 }
 

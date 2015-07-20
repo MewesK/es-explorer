@@ -56,7 +56,7 @@ public class QueryPresenter implements Initializable {
         resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
     }
 
-    public void handleRunButtonAction(ActionEvent actionEvent) {
+    public void handleQueryRunButtonAction(ActionEvent actionEvent) {
         if (server.get() != null) {
             // Run search on different thread
             server.get().search(new String[]{"_all"}, queryCodeArea.getText(), new ActionListener<SearchResponse>() {

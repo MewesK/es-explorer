@@ -8,8 +8,42 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="net.mewk.ese.presenter.QueryPresenter">
     <AnchorPane minHeight="40.0">
-        <ToolBar minHeight="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
+        <ToolBar minHeight="40.0"
+                 AnchorPane.leftAnchor="0.0"
+                 AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <Button id="queryButtonNew"
+                    mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="FILE_ALT"/>
+                </graphic>
+            </Button>
+            <Button id="queryButtonOpen"
+                    mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="FOLDER_OPEN_ALT"/>
+                </graphic>
+            </Button>
+            <Button id="queryButtonSave"
+                    mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="FLOPPY_ALT"/>
+                </graphic>
+            </Button>
+            <Separator/>
+            <Button id="queryButtonRun"
+                    mnemonicParsing="false"
+                    onAction="#handleQueryRunButtonAction">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="PLAY"/>
+                </graphic>
+            </Button>
+            <Button id="queryButtonReformat"
+                    mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="CODE"/>
+                </graphic>
+            </Button>
         </ToolBar>
         <CodeArea fx:id="queryCodeArea"
                   AnchorPane.bottomAnchor="0.0"

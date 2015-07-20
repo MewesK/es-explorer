@@ -1,3 +1,11 @@
+#queryButtonRun .glyph-font .text {
+    -fx-fill: green;
+}
+
+/*
+ * Syntax highlighting
+ */
+
 .match {
     -fx-font-weight: bold;
 }
