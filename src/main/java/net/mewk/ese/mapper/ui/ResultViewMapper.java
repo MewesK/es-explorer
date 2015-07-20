@@ -6,9 +6,11 @@ import net.mewk.ese.model.query.ResultData;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
+import javax.inject.Singleton;
 import java.util.Comparator;
 import java.util.Map;
 
+@Singleton
 public class ResultViewMapper implements Mapper<SearchResponse, TreeItem<Object>> {
 
     @Override
@@ -36,6 +38,7 @@ public class ResultViewMapper implements Mapper<SearchResponse, TreeItem<Object>
         return typeItem;
     }
 
+    @SuppressWarnings("unchecked")
     private TreeItem<Object> mapSource(SearchHit searchHit, Map.Entry<String, Object> sourceEntry) {
         TreeItem<Object> sourceItem = new TreeItem<>(new ResultData(searchHit.index(), sourceEntry.getKey(), sourceEntry.getValue(), null));
 

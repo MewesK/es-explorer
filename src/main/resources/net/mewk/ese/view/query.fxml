@@ -7,10 +7,8 @@
            xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="net.mewk.ese.presenter.QueryPresenter">
-    <AnchorPane>
-        <ToolBar AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="0.0">
+    <AnchorPane minHeight="40.0">
+        <ToolBar minHeight="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Button mnemonicParsing="false" onAction="#handleRunButtonAction" text="Run"/>
         </ToolBar>
         <CodeArea fx:id="queryCodeArea"
@@ -19,26 +17,29 @@
                   AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="40.0"/>
     </AnchorPane>
-    <AnchorPane minHeight="20.0">
+    <AnchorPane minHeight="24.0">
         <ToolBar styleClass="splitPaneToolBar"
-                 minHeight="20.0"
+                 minHeight="24.0"
                  AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
                  AnchorPane.topAnchor="0.0">
-            <items>
-                <Label styleClass="splitPaneToolBarLabel" text="Result" />
-                <Pane HBox.hgrow="ALWAYS" />
-                <Button mnemonicParsing="false">
-                    <graphic>
-                        <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
-                    </graphic>
-                </Button>
-                <Button mnemonicParsing="false">
-                    <graphic>
-                        <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
-                    </graphic>
-                </Button>
-            </items>
+            <Label text="Result"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
+                </graphic>
+            </Button>
+            <Button mnemonicParsing="false">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
+                </graphic>
+            </Button>
         </ToolBar>
         <TabPane side="BOTTOM"
                  tabClosingPolicy="UNAVAILABLE"
@@ -46,7 +47,7 @@
                  AnchorPane.bottomAnchor="0.0"
                  AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="20.0">
+                 AnchorPane.topAnchor="24.0">
             <Tab text="Table">
                 <AnchorPane>
                     <TreeTableView fx:id="resultTreeTableView"

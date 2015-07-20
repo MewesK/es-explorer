@@ -12,8 +12,11 @@ import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.IndexViewMapper;
 import net.mewk.ese.model.server.*;
 import net.mewk.ese.view.QueryView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.CheckTreeView;
 
+import javax.inject.Inject;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Comparator;
@@ -22,7 +25,12 @@ import java.util.ResourceBundle;
 
 public class ServerPresenter implements Initializable {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
+
+    @Inject
+    IndexViewMapper indexViewMapper;
 
     @FXML
     private CheckTreeView<Object> indexTreeView;
@@ -53,12 +61,10 @@ public class ServerPresenter implements Initializable {
 
                 // Add index listener
                 newValue.getIndexMap().addListener((MapChangeListener<String, Index>) change -> {
-                    if (change.wasAdded() && change.getValueAdded() != null) {
+                    if (change.wasAdded()) {
                         addIndex(change.getValueAdded());
-                    } else if (change.wasRemoved() && change.getValueRemoved() != null) {
+                    } else if (change.wasRemoved()) {
                         removeIndex(change.getValueRemoved());
-                    } else {
-                        // TODO
                     }
                 });
 
@@ -91,7 +97,7 @@ public class ServerPresenter implements Initializable {
                         CheckBox checkBox = (CheckBox) checkBoxField.get(this);
                         checkBox.setDisable(item instanceof SimpleField || item instanceof SimpleType);
                     } catch (Exception e) {
-                        // TODO
+                        logger.error(e.getMessage(), e);
                     }
                 }
             }
@@ -114,6 +120,10 @@ public class ServerPresenter implements Initializable {
     }
 
     private void addIndex(Index index) {
+        if (index == null) {
+            return;
+        }
+
         if (indexTreeView.getRoot() == null) {
             CheckBoxTreeItem<Object> rootItem = new CheckBoxTreeItem<>("_all");
             rootItem.setExpanded(true);
@@ -121,11 +131,15 @@ public class ServerPresenter implements Initializable {
             indexTreeView.setRoot(rootItem);
         }
 
-        indexTreeView.getRoot().getChildren().add((CheckBoxTreeItem<Object>) Main.getMapperManager().findByClass(IndexViewMapper.class).map(index));
+        indexTreeView.getRoot().getChildren().add(indexViewMapper.map(index));
         indexTreeView.getRoot().getChildren().sort(Comparator.comparing(Object::toString));
     }
 
     private void removeIndex(Index index) {
+        if (index == null) {
+            return;
+        }
+
         if (indexTreeView.getRoot() != null) {
             for (TreeItem<Object> treeItem : indexTreeView.getRoot().getChildren()) {
                 if (treeItem.getValue().equals(index)) {

@@ -9,6 +9,8 @@ import net.mewk.ese.manager.ServerManager;
 import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.view.ConnectionView;
 import net.mewk.ese.view.ServerView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -16,8 +18,10 @@ import java.util.ResourceBundle;
 
 public class MainPresenter implements Initializable {
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Inject
-    private ServerManager serverManager;
+    ServerManager serverManager;
 
     @FXML
     public TabPane mainTabPane;
@@ -43,7 +47,7 @@ public class MainPresenter implements Initializable {
                 mainTabPane.getTabs().add(serverTab);
                 mainTabPane.getSelectionModel().select(serverTab);
             } else {
-                // TODO
+                logger.error("Error: Server was removed");
             }
         });
     }

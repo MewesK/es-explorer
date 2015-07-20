@@ -16,15 +16,23 @@ import net.mewk.ese.Highlighter;
 import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.server.Server;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchResponse;
 
+import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class QueryPresenter implements Initializable {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
+
+    @Inject
+    ResultViewMapper resultViewMapper;
 
     @FXML
     public CodeArea queryCodeArea;
@@ -54,7 +62,7 @@ public class QueryPresenter implements Initializable {
             server.get().search(new String[]{"_all"}, queryCodeArea.getText(), new ActionListener<SearchResponse>() {
                 @Override
                 public void onResponse(SearchResponse searchResponse) {
-                    TreeItem<Object> resultItem = (TreeItem<Object>) Main.getMapperManager().findByClass(ResultViewMapper.class).map(searchResponse);
+                    TreeItem<Object> resultItem = resultViewMapper.map(searchResponse);
                     // Return to FX thread
                     Platform.runLater(() -> {
                         resultTreeTableView.setRoot(resultItem);
@@ -65,7 +73,7 @@ public class QueryPresenter implements Initializable {
 
                 @Override
                 public void onFailure(Throwable e) {
-                    // TODO
+                    logger.error(e.getMessage(), e);
                 }
             });
         }

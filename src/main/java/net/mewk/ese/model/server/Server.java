@@ -1,5 +1,7 @@
 package net.mewk.ese.model.server;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import net.mewk.ese.Main;
@@ -17,6 +19,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
+import javax.inject.Inject;
 import java.io.Serializable;
 
 public class Server implements Serializable {
@@ -24,6 +27,9 @@ public class Server implements Serializable {
     private Client client = null;
     private Connection connection;
     private ObservableMap<String, Index> indexMap = FXCollections.observableHashMap();
+
+    @Inject
+    IndexMapper indexMapper;
 
     public Server(Connection connection) {
         this.connection = connection;
@@ -36,7 +42,7 @@ public class Server implements Serializable {
         // Get index data
         ObjectContainer<IndexMetaData> indexMetaDataObjectContainer = client.admin().cluster().prepareState().execute().actionGet().getState().getMetaData().indices().values();
         for (ObjectCursor<IndexMetaData> indexMetaDataObjectCursor : indexMetaDataObjectContainer) {
-            Index index = (Index) Main.getMapperManager().findByClass(IndexMapper.class).map(indexMetaDataObjectCursor.value);
+            Index index = indexMapper.map(indexMetaDataObjectCursor.value);
             indexMap.put(index.getName(), index);
         }
     }

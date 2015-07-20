@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.mewk.ese.model.connection.Connection;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class ConnectionManager {
 
     private ObservableList<Connection> connectionList = FXCollections.observableArrayList();

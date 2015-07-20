@@ -1,20 +1,27 @@
 package net.mewk.ese.manager;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import net.mewk.ese.Main;
 import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.model.server.Server;
 import net.mewk.ese.presenter.ServerPresenter;
 import net.mewk.ese.view.ServerView;
 
+import javax.inject.Singleton;
 import java.util.Map;
 
+@Singleton
 public class ServerManager {
 
     private ObservableMap<Connection, ServerView> serverMap = FXCollections.observableHashMap();
 
     public ServerView create(Connection connection) {
         Server server = new Server(connection);
+        Main.INJECTOR.injectMembers(server);
+
         server.start();
 
         ServerView serverView = new ServerView();

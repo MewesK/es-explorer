@@ -1,42 +1,50 @@
 package net.mewk.ese.mapper.es;
 
-import net.mewk.ese.Main;
 import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.server.Field;
 import net.mewk.ese.model.server.MetaData;
 import net.mewk.ese.model.server.SimpleType;
 import net.mewk.ese.model.server.Type;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 
+@Singleton
 public class TypeMapper implements Mapper<MappingMetaData, Type> {
 
+    private static final Logger logger = LogManager.getLogger(TypeMapper.class);
+
+    @Inject
+    FieldMapper fieldMapper;
+
     @Override
+    @SuppressWarnings("unchecked")
     public Type map(MappingMetaData object) {
         // Create instance
         Type type = new SimpleType(object.type());
 
         // Set data
         try {
-            Set<Map.Entry<String, Object>> stringObjectSet = object.sourceAsMap().entrySet();
-            for (Map.Entry<String, Object> stringObjectEntry : stringObjectSet) {
-                if (stringObjectEntry.getKey().equals("properties")) {
-                    Set<Map.Entry<String, Map>> stringMapSet = ((Map<String, Map>) stringObjectEntry.getValue()).entrySet();
-                    for (Map.Entry<String, Map> stringMapEntry : stringMapSet) {
-                        Field field = (Field) Main.getMapperManager().findByClass(FieldMapper.class).map(stringMapEntry);
-                        type.getFieldMap().put(field.getName(), field);
+            for (Map.Entry<String, Object> typeSetEntry : object.sourceAsMap().entrySet()) {
+                if (typeSetEntry.getKey().equals("properties")) {
+                    if (typeSetEntry.getValue() instanceof Map) {
+                        for (Map.Entry<String, Object> fieldSetEntry : ((Map<String, Object>) typeSetEntry.getValue()).entrySet()) {
+                            Field field = fieldMapper.map(fieldSetEntry);
+                            type.getFieldMap().put(field.getName(), field);
+                        }
                     }
                 }
 
                 // Add meta data
-                type.getMetaDataList().add(new MetaData(stringObjectEntry.getKey(), stringObjectEntry.getValue()));
+                type.getMetaDataList().add(new MetaData(typeSetEntry.getKey(), typeSetEntry.getValue()));
             }
         } catch (IOException e) {
-            // TODO
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         return type;

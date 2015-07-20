@@ -14,22 +14,22 @@
                    AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
-            <AnchorPane minHeight="20.0">
+            <AnchorPane minHeight="24.0">
                 <ToolBar styleClass="splitPaneToolBar"
-                         minHeight="20.0"
+                         minHeight="24.0"
                          AnchorPane.leftAnchor="0.0"
                          AnchorPane.rightAnchor="0.0"
                          AnchorPane.topAnchor="0.0">
-                    <Label styleClass="splitPaneToolBarLabel" text="Indices" />
-                    <Pane HBox.hgrow="ALWAYS" />
+                    <Label text="Indices"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
                     <Button mnemonicParsing="false">
                         <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
+                            <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
                         </graphic>
                     </Button>
                     <Button mnemonicParsing="false">
                         <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
+                            <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
                         </graphic>
                     </Button>
                 </ToolBar>
@@ -38,24 +38,19 @@
                                AnchorPane.bottomAnchor="0.0"
                                AnchorPane.leftAnchor="0.0"
                                AnchorPane.rightAnchor="0.0"
-                               AnchorPane.topAnchor="20.0"/>
+                               AnchorPane.topAnchor="24.0"/>
             </AnchorPane>
-            <AnchorPane minHeight="20.0">
+            <AnchorPane minHeight="24.0">
                 <ToolBar styleClass="splitPaneToolBar"
-                         minHeight="20.0"
+                         minHeight="24.0"
                          AnchorPane.leftAnchor="0.0"
                          AnchorPane.rightAnchor="0.0"
                          AnchorPane.topAnchor="0.0">
-                    <Label styleClass="splitPaneToolBarLabel" text="Properties" />
-                    <Pane HBox.hgrow="ALWAYS" />
+                    <Label text="Properties"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
                     <Button mnemonicParsing="false">
                         <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="CARET_DOWN"/>
-                        </graphic>
-                    </Button>
-                    <Button mnemonicParsing="false">
-                        <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="CARET_UP"/>
+                            <Glyph fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
                         </graphic>
                     </Button>
                 </ToolBar>
@@ -64,7 +59,7 @@
                            AnchorPane.bottomAnchor="0.0"
                            AnchorPane.leftAnchor="0.0"
                            AnchorPane.rightAnchor="0.0"
-                           AnchorPane.topAnchor="20.0">
+                           AnchorPane.topAnchor="24.0">
                     <columns>
                         <TableColumn fx:id="propertyTableViewNameColumn" text="Name"/>
                         <TableColumn fx:id="propertyTableViewValueColumn" text="Value"/>

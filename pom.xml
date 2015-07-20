@@ -12,6 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <afterburner.version>1.6.2</afterburner.version>
+        <dagger.version>1.2.2</dagger.version>
         <datafx.version>8.0b5</datafx.version>
         <controlsfx.version>8.40.9</controlsfx.version>
         <elasticsearch.version>1.7.0</elasticsearch.version>
@@ -24,12 +26,20 @@
         <dependency>
             <groupId>com.airhacks</groupId>
             <artifactId>afterburner.fx</artifactId>
-            <version>1.6.2</version>
+            <version>${afterburner.version}</version>
         </dependency>
 
         <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <!-- Logging -->
+
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
+            <artifactId>log4j-api</artifactId>
             <version>2.3</version>
         </dependency>
 
@@ -68,12 +78,6 @@
         </dependency>
 
         <!-- Helper -->
-
-        <dependency>
-            <groupId>eu.lestard</groupId>
-            <artifactId>advanced-bindings</artifactId>
-            <version>0.4.0</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>

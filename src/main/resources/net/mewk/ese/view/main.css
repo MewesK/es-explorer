@@ -14,11 +14,8 @@
 .splitPaneToolBar {
     -fx-background-insets: 0;
     -fx-border-width: 0;
-    -fx-padding: 0 4 0 4;
-}
-
-.splitPaneToolBar .splitPaneToolBarLabel {
-    -fx-font-size: 10;
+    -fx-padding: 0 6 0 6;
+    -fx-font-size: 12;
 }
 
 .splitPaneToolBar .button {
@@ -26,10 +23,12 @@
     -fx-padding: 0;
 }
 
-.splitPaneToolBar .button:hover .glyph-font .text {
-    -fx-fill: green;
+.splitPaneToolBar .button .glyph-font .text {
+    -fx-font-family: FontAwesome;
+    -fx-font-smoothing-type: gray;
+    -fx-fill: #A9A9A9;
 }
 
-.splitPaneToolBar .button:armed .glyph-font .text {
-    -fx-fill: red;
+.splitPaneToolBar .button:hover .glyph-font .text, .splitPaneToolBar .button:armed .glyph-font .text {
+    -fx-fill: #000000;
 }

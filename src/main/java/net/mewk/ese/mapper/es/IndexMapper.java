@@ -1,6 +1,7 @@
 package net.mewk.ese.mapper.es;
 
-import net.mewk.ese.Main;
+import net.mewk.ese.manager.ConnectionManager;
+import net.mewk.ese.manager.ServerManager;
 import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.server.Index;
 import net.mewk.ese.model.server.Type;
@@ -9,7 +10,14 @@ import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.hppc.ObjectContainer;
 import org.elasticsearch.common.hppc.cursors.ObjectCursor;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class IndexMapper implements Mapper<IndexMetaData, Index> {
+
+    @Inject
+    TypeMapper typeMapper;
 
     @Override
     public Index map(IndexMetaData object) {
@@ -19,7 +27,7 @@ public class IndexMapper implements Mapper<IndexMetaData, Index> {
         // Set data
         ObjectContainer<MappingMetaData> mappingMetaDataObjectContainer = object.mappings().values();
         for (ObjectCursor<MappingMetaData> mappingMetaDataObjectCursor : mappingMetaDataObjectContainer) {
-            Type type = (Type) Main.getMapperManager().findByClass(TypeMapper.class).map(mappingMetaDataObjectCursor.value);
+            Type type = typeMapper.map(mappingMetaDataObjectCursor.value);
             index.getTypeMap().put(type.getName(), type);
         }
 

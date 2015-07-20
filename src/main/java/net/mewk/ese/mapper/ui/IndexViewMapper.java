@@ -8,10 +8,13 @@ import net.mewk.ese.model.server.Index;
 import net.mewk.ese.model.server.NestedType;
 import net.mewk.ese.model.server.Type;
 
+import javax.inject.Singleton;
 import java.util.Comparator;
 import java.util.Map;
 
+@Singleton
 public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
+
     @Override
     public CheckBoxTreeItem<Object> map(Index object) {
         CheckBoxTreeItem<Object> indexItem = new CheckBoxTreeItem<>(object);

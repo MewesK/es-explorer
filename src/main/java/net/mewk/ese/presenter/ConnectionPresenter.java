@@ -15,9 +15,9 @@ import java.util.ResourceBundle;
 public class ConnectionPresenter implements Initializable {
 
     @Inject
-    private ConnectionManager connectionManager;
+    ConnectionManager connectionManager;
     @Inject
-    private ServerManager serverManager;
+    ServerManager serverManager;
 
     @FXML
     public TextField nameTextField;
