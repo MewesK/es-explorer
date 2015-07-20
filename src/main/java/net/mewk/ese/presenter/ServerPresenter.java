@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.IndexViewMapper;
 import net.mewk.ese.model.server.*;
 import net.mewk.ese.view.QueryView;

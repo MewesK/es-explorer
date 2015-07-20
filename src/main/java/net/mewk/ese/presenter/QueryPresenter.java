@@ -7,13 +7,13 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import net.mewk.ese.CodeArea;
 import net.mewk.ese.Highlighter;
-import net.mewk.ese.Main;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.server.Server;
 import org.apache.logging.log4j.LogManager;
@@ -39,15 +39,15 @@ public class QueryPresenter implements Initializable {
     @FXML
     public CodeArea resultCodeArea;
     @FXML
-    public TreeTableView resultTreeTableView;
+    public TreeTableView<Object> resultTreeTableView;
     @FXML
-    public TreeTableColumn resultTreeTableViewIndexColumn;
+    public TreeTableColumn<TableView, Object> resultTreeTableViewIndexColumn;
     @FXML
-    public TreeTableColumn resultTreeTableViewNameColumn;
+    public TreeTableColumn<TableView, Object> resultTreeTableViewNameColumn;
     @FXML
-    public TreeTableColumn resultTreeTableViewValueColumn;
+    public TreeTableColumn<TableView, Object> resultTreeTableViewValueColumn;
     @FXML
-    public TreeTableColumn resultTreeTableViewScoreColumn;
+    public TreeTableColumn<TableView, Object> resultTreeTableViewScoreColumn;
 
     public void initialize(URL location, ResourceBundle resources) {
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));

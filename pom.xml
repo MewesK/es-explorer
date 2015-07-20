@@ -11,12 +11,16 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <afterburner.version>1.6.2</afterburner.version>
-        <dagger.version>1.2.2</dagger.version>
+        <guice.version>4.0</guice.version>
+        <commons.version>3.4</commons.version>
+        <guava.version>18.0</guava.version>
+        <log4j.version>2.3</log4j.version>
         <datafx.version>8.0b5</datafx.version>
-        <controlsfx.version>8.40.9</controlsfx.version>
         <elasticsearch.version>1.7.0</elasticsearch.version>
+        <controlsfx.version>8.40.9</controlsfx.version>
         <richtextfx.version>0.6.4</richtextfx.version>
     </properties>
 
@@ -32,7 +36,19 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>4.0</version>
+            <version>${guice.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- Logging -->
@@ -40,16 +56,16 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.3</version>
+            <version>${log4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.3</version>
+            <version>${log4j.version}</version>
         </dependency>
 
-        <!-- Data -->
+        <!-- Data bindings -->
 
         <dependency>
             <groupId>org.javafxdata</groupId>
@@ -63,7 +79,7 @@
             <version>${elasticsearch.version}</version>
         </dependency>
 
-        <!-- UI -->
+        <!-- Additional JavaFX controls -->
 
         <dependency>
             <groupId>org.controlsfx</groupId>
@@ -75,20 +91,6 @@
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
             <version>${richtextfx.version}</version>
-        </dependency>
-
-        <!-- Helper -->
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
         </dependency>
     </dependencies>
 

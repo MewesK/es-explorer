@@ -1,10 +1,7 @@
 package net.mewk.ese.model.server;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
-import net.mewk.ese.Main;
 import net.mewk.ese.mapper.es.IndexMapper;
 import net.mewk.ese.model.connection.Connection;
 import org.elasticsearch.action.ActionListener;

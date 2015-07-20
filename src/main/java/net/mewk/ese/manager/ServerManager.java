@@ -1,7 +1,5 @@
 package net.mewk.ese.manager;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import net.mewk.ese.Main;

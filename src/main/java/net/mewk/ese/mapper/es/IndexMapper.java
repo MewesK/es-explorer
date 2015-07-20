@@ -1,7 +1,5 @@
 package net.mewk.ese.mapper.es;
 
-import net.mewk.ese.manager.ConnectionManager;
-import net.mewk.ese.manager.ServerManager;
 import net.mewk.ese.mapper.Mapper;
 import net.mewk.ese.model.server.Index;
 import net.mewk.ese.model.server.Type;
