@@ -29,5 +29,9 @@
      -fx-fill: darkred;
 }
 .double {
-     -fx-fill: darkred;
+    -fx-fill: darkred;
+}
+.error {
+    -fx-fill: red;
+    -fx-underline: true;
 }
