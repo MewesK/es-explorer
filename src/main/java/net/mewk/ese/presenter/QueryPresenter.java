@@ -7,17 +7,17 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import net.mewk.ese.CodeArea;
 import net.mewk.ese.Highlighter;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.server.Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchResponse;
 
@@ -35,7 +35,13 @@ public class QueryPresenter implements Initializable {
     ResultViewMapper resultViewMapper;
 
     @FXML
+    public SplitPane querySplitPane;
+    @FXML
     public CodeArea queryCodeArea;
+    @FXML
+    public AnchorPane resultPane;
+    @FXML
+    public Glyph hideResultPaneButtonGlyph;
     @FXML
     public CodeArea resultCodeArea;
     @FXML
@@ -54,6 +60,20 @@ public class QueryPresenter implements Initializable {
         resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
         resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
+
+        resultPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) {
+                if (newValue.intValue() == resultPane.getMinHeight()) {
+                    hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+                    if (querySplitPane.getUserData() == null) {
+                        querySplitPane.setUserData(0.7);
+                    }
+                } else {
+                    hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+                    querySplitPane.setUserData(null);
+                }
+            }
+        });
     }
 
     public void handleQueryRunButtonAction(ActionEvent actionEvent) {
@@ -83,6 +103,18 @@ public class QueryPresenter implements Initializable {
         // Redraw hack
         resultCodeArea.replaceText(resultCodeArea.getText());
         resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(resultCodeArea.getText()));
+    }
+
+    public void handleHideResultPaneButton(ActionEvent actionEvent) {
+        if (querySplitPane.getUserData() == null) {
+            querySplitPane.setUserData(querySplitPane.getDividerPositions()[0]);
+            querySplitPane.setDividerPosition(0, 1);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            querySplitPane.setDividerPosition(0, (double) querySplitPane.getUserData());
+            querySplitPane.setUserData(null);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+        }
     }
 
     public Server getServer() {

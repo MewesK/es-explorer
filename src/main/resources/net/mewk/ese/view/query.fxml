@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import net.mewk.ese.CodeArea?><?import org.controlsfx.glyphfont.Glyph?>
-<SplitPane styleClass="noBackgroundInsets"
-           dividerPositions="0.6"
+<SplitPane dividerPositions="0.6"
            orientation="VERTICAL"
+           styleClass="noBackgroundInsets"
            xmlns="http://javafx.com/javafx/8"
            xmlns:fx="http://javafx.com/fxml/1"
+           fx:id="querySplitPane"
            fx:controller="net.mewk.ese.presenter.QueryPresenter">
     <AnchorPane minHeight="40.0">
         <ToolBar minHeight="40.0"
@@ -31,7 +32,7 @@
                 </graphic>
             </Button>
             <Separator/>
-            <Button id="queryButtonRun"
+            <Button id="queryRunButton"
                     mnemonicParsing="false"
                     onAction="#handleQueryRunButtonAction">
                 <graphic>
@@ -51,7 +52,7 @@
                   AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="40.0"/>
     </AnchorPane>
-    <AnchorPane minHeight="24.0">
+    <AnchorPane fx:id="resultPane" minHeight="24.0">
         <ToolBar styleClass="splitPaneToolBar"
                  minHeight="24.0"
                  AnchorPane.leftAnchor="0.0"
@@ -69,9 +70,9 @@
                     <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
                 </graphic>
             </Button>
-            <Button mnemonicParsing="false">
+            <Button mnemonicParsing="false" onAction="#handleHideResultPaneButton">
                 <graphic>
-                    <Glyph fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
+                    <Glyph fx:id="hideResultPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
                 </graphic>
             </Button>
         </ToolBar>

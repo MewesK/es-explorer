@@ -7,8 +7,12 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 
 import javax.inject.Singleton;
+import java.util.AbstractMap;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
 
 @Singleton
 public class ResultViewMapper implements Mapper<SearchResponse, TreeItem<Object>> {
@@ -45,6 +49,12 @@ public class ResultViewMapper implements Mapper<SearchResponse, TreeItem<Object>
         if (sourceEntry.getValue() instanceof Map) {
             for (Map.Entry<String, Object> _sourceEntry : ((Map<String, Object>) sourceEntry.getValue()).entrySet()) {
                 sourceItem.getChildren().add(mapSource(searchHit, _sourceEntry));
+            }
+        } else if (sourceEntry.getValue() instanceof List) {
+            int i = 0;
+            for (Object _sourceEntry : (List<Object>) sourceEntry.getValue()) {
+                sourceItem.getChildren().add(mapSource(searchHit, new AbstractMap.SimpleEntry<String, Object>(String.valueOf(i), _sourceEntry)));
+                i++;
             }
         }
 

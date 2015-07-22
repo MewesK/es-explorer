@@ -3,17 +3,21 @@ package net.mewk.ese.presenter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import net.mewk.ese.mapper.ui.IndexViewMapper;
 import net.mewk.ese.model.server.*;
 import net.mewk.ese.view.QueryView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.CheckTreeView;
+import org.controlsfx.glyphfont.FontAwesome;
+import org.controlsfx.glyphfont.Glyph;
 
 import javax.inject.Inject;
 import java.lang.reflect.Field;
@@ -32,7 +36,13 @@ public class ServerPresenter implements Initializable {
     IndexViewMapper indexViewMapper;
 
     @FXML
+    public SplitPane indexSplitPane;
+    @FXML
     private CheckTreeView<Object> indexTreeView;
+    @FXML
+    public AnchorPane propertyPane;
+    @FXML
+    public Glyph hidePropertyPaneButtonGlyph;
     @FXML
     public TableView<MetaData> propertyTableView;
     @FXML
@@ -45,6 +55,20 @@ public class ServerPresenter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         propertyTableViewNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         propertyTableViewValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        propertyPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) {
+                if (newValue.intValue() == propertyPane.getMinHeight()) {
+                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+                    if (indexSplitPane.getUserData() == null) {
+                        indexSplitPane.setUserData(0.7);
+                    }
+                } else {
+                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+                    indexSplitPane.setUserData(null);
+                }
+            }
+        });
 
         server.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -145,6 +169,18 @@ public class ServerPresenter implements Initializable {
                     indexTreeView.getRoot().getChildren().remove(treeItem);
                 }
             }
+        }
+    }
+
+    public void handleHidePropertyPaneButton(ActionEvent actionEvent) {
+        if (indexSplitPane.getUserData() == null) {
+            indexSplitPane.setUserData(indexSplitPane.getDividerPositions()[0]);
+            indexSplitPane.setDividerPosition(0, 1);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            indexSplitPane.setDividerPosition(0, (double) indexSplitPane.getUserData());
+            indexSplitPane.setUserData(null);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
         }
     }
 

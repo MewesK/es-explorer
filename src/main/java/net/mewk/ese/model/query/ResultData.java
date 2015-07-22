@@ -1,6 +1,6 @@
 package net.mewk.ese.model.query;
 
-public class ResultData {
+public class ResultData implements Comparable<Float> {
 
     private final String index;
     private final String name;
@@ -12,6 +12,11 @@ public class ResultData {
         this.name = type;
         this.value = value;
         this.score = score;
+    }
+
+    @Override
+    public int compareTo(Float value) {
+        return Float.compare(score, value);
     }
 
     public String getIndex() {

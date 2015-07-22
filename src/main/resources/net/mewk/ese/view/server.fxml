@@ -7,7 +7,8 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="net.mewk.ese.presenter.ServerPresenter">
     <AnchorPane>
-        <SplitPane styleClass="noBackgroundInsets"
+        <SplitPane fx:id="indexSplitPane"
+                   styleClass="noBackgroundInsets"
                    dividerPositions="0.7"
                    orientation="VERTICAL"
                    AnchorPane.bottomAnchor="0.0"
@@ -40,7 +41,7 @@
                                AnchorPane.rightAnchor="0.0"
                                AnchorPane.topAnchor="24.0"/>
             </AnchorPane>
-            <AnchorPane minHeight="24.0">
+            <AnchorPane fx:id="propertyPane" minHeight="24.0">
                 <ToolBar styleClass="splitPaneToolBar"
                          minHeight="24.0"
                          AnchorPane.leftAnchor="0.0"
@@ -48,9 +49,9 @@
                          AnchorPane.topAnchor="0.0">
                     <Label text="Properties"/>
                     <Pane HBox.hgrow="ALWAYS"/>
-                    <Button mnemonicParsing="false">
+                    <Button mnemonicParsing="false" onAction="#handleHidePropertyPaneButton">
                         <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
+                            <Glyph fx:id="hidePropertyPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
                         </graphic>
                     </Button>
                 </ToolBar>
