@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class ServerPresenter implements Initializable {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 
@@ -120,7 +120,7 @@ public class ServerPresenter implements Initializable {
                         CheckBox checkBox = (CheckBox) checkBoxField.get(this);
                         checkBox.setDisable(item instanceof SimpleField || item instanceof SimpleType);
                     } catch (Exception e) {
-                        logger.error(e.getMessage(), e);
+                        LOG.error(e.getMessage(), e);
                     }
                 }
             }

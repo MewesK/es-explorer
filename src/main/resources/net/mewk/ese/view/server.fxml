@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import org.controlsfx.control.CheckTreeView?><?import org.controlsfx.glyphfont.Glyph?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.CheckTreeView?>
+<?import org.controlsfx.glyphfont.Glyph?>
 <SplitPane styleClass="noBackgroundInsets"
            dividerPositions="0.3"
            xmlns="http://javafx.com/javafx/8"

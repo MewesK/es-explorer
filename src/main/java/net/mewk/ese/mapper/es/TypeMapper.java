@@ -17,7 +17,7 @@ import java.util.Map;
 @Singleton
 public class TypeMapper implements Mapper<MappingMetaData, Type> {
 
-    private static final Logger logger = LogManager.getLogger(TypeMapper.class);
+    private static final Logger LOG = LogManager.getLogger(TypeMapper.class);
 
     @Inject
     FieldMapper fieldMapper;
@@ -44,7 +44,7 @@ public class TypeMapper implements Mapper<MappingMetaData, Type> {
                 type.getMetaDataList().add(new MetaData(typeSetEntry.getKey(), typeSetEntry.getValue()));
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
 
         return type;

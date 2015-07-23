@@ -11,7 +11,7 @@
  * .noHeaderTableView
  */
 
- .noBackgroundInsets {
+.noBackgroundInsets {
     -fx-background-insets: 0;
     -fx-padding: 0;
 }

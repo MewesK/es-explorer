@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?><?import javafx.scene.layout.*?><?import net.mewk.ese.CodeArea?><?import org.controlsfx.glyphfont.Glyph?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import net.mewk.ese.CodeArea?>
+<?import org.controlsfx.glyphfont.*?>
 <SplitPane dividerPositions="0.6"
            orientation="VERTICAL"
            styleClass="noBackgroundInsets"

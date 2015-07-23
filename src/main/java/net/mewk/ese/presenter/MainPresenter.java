@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class MainPresenter implements Initializable {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Inject
     ServerManager serverManager;
@@ -47,7 +47,7 @@ public class MainPresenter implements Initializable {
                 mainTabPane.getTabs().add(serverTab);
                 mainTabPane.getSelectionModel().select(serverTab);
             } else {
-                logger.error("Error: Server was removed");
+                LOG.error("Error: Server was removed");
             }
         });
     }

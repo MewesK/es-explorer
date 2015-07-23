@@ -9,28 +9,36 @@
 .match {
     -fx-font-weight: bold;
 }
+
 .brace, .bracket, .comma {
     -fx-font-weight: 900;
     -fx-fill: black;
 }
+
 .key {
     -fx-fill: teal;
 }
+
 .string {
-     -fx-fill: blue;
+    -fx-fill: blue;
 }
+
 .bool {
-     -fx-fill: darkblue;
+    -fx-fill: darkblue;
 }
+
 .null {
-     -fx-fill: darkblue;
+    -fx-fill: darkblue;
 }
+
 .int {
-     -fx-fill: darkred;
+    -fx-fill: darkred;
 }
+
 .double {
     -fx-fill: darkred;
 }
+
 .error {
     -fx-fill: red;
     -fx-underline: true;

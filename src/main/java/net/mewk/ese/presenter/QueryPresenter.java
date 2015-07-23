@@ -4,8 +4,6 @@ import com.google.gson.*;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -14,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import net.mewk.ese.CodeArea;
-import net.mewk.ese.Highlighter;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.server.Server;
 import org.apache.logging.log4j.LogManager;
@@ -23,20 +20,14 @@ import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.search.SearchResponse;
-import org.fxmisc.richtext.StyleSpansBuilder;
-import org.fxmisc.richtext.TwoDimensional;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class QueryPresenter implements Initializable {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 
@@ -70,38 +61,6 @@ public class QueryPresenter implements Initializable {
         resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
         resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
 
-        queryCodeArea.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                JsonParser jp = new JsonParser();
-
-                try {
-                    JsonElement je = jp.parse(newValue);
-                } catch (JsonSyntaxException e) {
-                    logger.error(e.getMessage(), e);
-
-                    Pattern pattern = Pattern.compile("line (?<line>\\d+) column (?<column>\\d+)");
-                    Matcher matcher = pattern.matcher(e.getMessage());
-                    if (matcher.find()) {
-                        String line = matcher.group("line");
-                        String column = matcher.group("column");
-                        if (line != null && column != null) {
-                            int parsedLine = Integer.parseInt(line) - 1;
-                            TwoDimensional.Position position = queryCodeArea.position(parsedLine, 0);
-                            String text = queryCodeArea.getText(parsedLine);
-
-                            StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
-                            spansBuilder.add(Collections.emptyList(), position.toOffset());
-                            spansBuilder.add(Collections.singleton("error"), text.length());
-                            spansBuilder.add(Collections.emptyList(), newValue.length() - position.toOffset() - text.length());
-
-                            queryCodeArea.setStyleSpans(0, spansBuilder.create());
-                        }
-                    }
-                }
-            }
-        });
-
         resultPane.heightProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.equals(oldValue)) {
                 if (newValue.intValue() == resultPane.getMinHeight()) {
@@ -128,13 +87,12 @@ public class QueryPresenter implements Initializable {
                     Platform.runLater(() -> {
                         resultTreeTableView.setRoot(resultItem);
                         resultCodeArea.replaceText(searchResponse.toString());
-                        resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(resultCodeArea.getText()));
                     });
                 }
 
                 @Override
                 public void onFailure(Throwable e) {
-                    logger.error(e.getMessage(), e);
+                    LOG.error(e.getMessage(), e);
                 }
             });
         }
@@ -143,7 +101,7 @@ public class QueryPresenter implements Initializable {
     public void handleResultTabSelectionChanged(Event event) {
         // Redraw hack
         resultCodeArea.replaceText(resultCodeArea.getText());
-        resultCodeArea.setStyleSpans(0, Highlighter.computeHighlighting(resultCodeArea.getText()));
+        resultCodeArea.applyHightlighting();
     }
 
     public void handleHideResultPaneButton(ActionEvent actionEvent) {
@@ -169,7 +127,7 @@ public class QueryPresenter implements Initializable {
                 queryCodeArea.replaceText(prettyText);
             }
         } catch (JsonSyntaxException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
 

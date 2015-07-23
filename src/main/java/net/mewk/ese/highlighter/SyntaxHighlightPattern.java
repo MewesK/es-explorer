@@ -1,11 +1,11 @@
-package net.mewk.ese;
+package net.mewk.ese.highlighter;
 
-public class HighlightPattern {
+public class SyntaxHighlightPattern {
     private final String pattern;
     private final String groupName;
     private final String className;
 
-    public HighlightPattern(String pattern, String groupName, String className) {
+    public SyntaxHighlightPattern(String pattern, String groupName, String className) {
         this.pattern = pattern;
         this.groupName = groupName;
         this.className = className;

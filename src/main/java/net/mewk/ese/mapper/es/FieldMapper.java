@@ -14,7 +14,7 @@ import java.util.Map;
 @Singleton
 public class FieldMapper implements Mapper<Map.Entry<String, Object>, Field> {
 
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ public class FieldMapper implements Mapper<Map.Entry<String, Object>, Field> {
                 }
 
                 // Nested type
-                if (key.equals("properties")) {
+                else if (key.equals("properties")) {
                     if (fieldSetEntry.getValue() instanceof Map) {
                         // Create instance
                         NestedType nestedType = new NestedType(object.getKey());
@@ -60,7 +60,7 @@ public class FieldMapper implements Mapper<Map.Entry<String, Object>, Field> {
                 field.getMetaDataList().add(new MetaData(key, value));
             }
         } else {
-            logger.error("Error: Field value should always be a map");
+            LOG.error("Error: Field value should always be a map");
         }
 
         return field;
