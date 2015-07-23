@@ -1,6 +1,8 @@
 package net.mewk.ese.highlighter;
 
 import com.google.common.collect.Lists;
+import net.mewk.richtext.StyleSpanRange;
+import net.mewk.richtext.StyleSpanRangeBuilder;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,8 +42,8 @@ public class SyntaxHighlighter implements Highlighter {
         PATTERN = Pattern.compile(stringBuilder.toString());
     }
 
-    public List<Span> compute(String text) {
-        List<Span> spanList = Lists.newArrayList();
+    public StyleSpanRangeBuilder compute(String text) {
+        StyleSpanRangeBuilder styleSpanRangeBuilder = new StyleSpanRangeBuilder();
 
         Matcher matcher = PATTERN.matcher(text);
         while (matcher.find()) {
@@ -54,9 +56,9 @@ public class SyntaxHighlighter implements Highlighter {
                 }
             }
             // Create span
-            spanList.add(new Span(matcher.start(), matcher.end(), classNameList));
+            styleSpanRangeBuilder.add(new StyleSpanRange(matcher.start(), matcher.end(), classNameList));
         }
 
-        return spanList;
+        return styleSpanRangeBuilder;
     }
 }

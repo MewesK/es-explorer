@@ -1,7 +1,9 @@
 package net.mewk.ese.highlighter;
 
+import net.mewk.richtext.StyleSpanRangeBuilder;
+
 import java.util.List;
 
 public interface Highlighter {
-    List<Span> compute(String text);
+    StyleSpanRangeBuilder compute(String text);
 }

@@ -3,6 +3,8 @@ package net.mewk.ese.highlighter;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import net.mewk.richtext.StyleSpanRange;
+import net.mewk.richtext.StyleSpanRangeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,8 +22,8 @@ public class ErrorHighlighter implements Highlighter {
         PATTERN = Pattern.compile("line (?<line>\\d+)");
     }
 
-    public List<Span> compute(String text) {
-        List<Span> spanList = Lists.newArrayList();
+    public StyleSpanRangeBuilder compute(String text) {
+        StyleSpanRangeBuilder styleSpanRangeBuilder = new StyleSpanRangeBuilder();
 
         try {
             new JsonParser().parse(text);
@@ -35,20 +37,20 @@ public class ErrorHighlighter implements Highlighter {
                 if (lineNumber != null) {
                     try {
                         int parsedLineNumber = Integer.parseInt(lineNumber);
-                        spanList.add(
-                                new Span(
+                        styleSpanRangeBuilder.add(
+                                new StyleSpanRange(
                                         StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 2),
                                         StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 1),
                                         "error"
                                 )
                         );
                     } catch (NumberFormatException nfe) {
-                        LOG.error(nfe.getMessage(), nfe);
+                        LOG.error(nfe.getMessage());
                     }
                 }
             }
         }
 
-        return spanList;
+        return styleSpanRangeBuilder;
     }
 }

@@ -1,30 +1,32 @@
-package net.mewk.ese.highlighter;
+package net.mewk.richtext;
 
 import com.google.common.collect.Lists;
+import org.fxmisc.richtext.StyleSpan;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
-public class Span implements Comparable<Span>, Serializable {
+public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable {
     private int start;
     private int end;
     private List<String> classNameList = Lists.newArrayList();
 
-    public Span() {
+    public StyleSpanRange() {
         this(0, 0);
     }
 
-    public Span(int start, int end) {
+    public StyleSpanRange(int start, int end) {
         this.start = start;
         this.end = end;
     }
 
-    public Span(int start, int end, String className) {
+    public StyleSpanRange(int start, int end, String className) {
         this(start, end);
         classNameList.add(className);
     }
 
-    public Span(int start, int end, List<String> classNameList) {
+    public StyleSpanRange(int start, int end, List<String> classNameList) {
         this(start, end);
         this.classNameList = classNameList;
     }
@@ -33,15 +35,15 @@ public class Span implements Comparable<Span>, Serializable {
         return end - start;
     }
 
-    public boolean overlaps(Span span) {
+    public boolean overlaps(StyleSpanRange span) {
         return span != null && (
                 contains(span.getStart()) || contains(span.getEnd()) ||
                         span.contains(start) || span.contains(end)
         );
     }
 
-    public List<Span> stamp(Span span) {
-        final List<Span> spanList;
+    public List<StyleSpanRange> stamp(StyleSpanRange span) {
+        final List<StyleSpanRange> spanList;
 
         if (!overlaps(span)) {
             spanList = start < span.getStart() ?
@@ -52,13 +54,13 @@ public class Span implements Comparable<Span>, Serializable {
             mergedClassNameList.addAll(classNameList);
             mergedClassNameList.addAll(span.getClassNameList());
 
-            final Span first = start < span.getStart() ?
-                    new Span(start, span.getStart(), classNameList) :
-                    new Span(span.getStart(), start, span.getClassNameList());
+            final StyleSpanRange first = start < span.getStart() ?
+                    new StyleSpanRange(start, span.getStart(), classNameList) :
+                    new StyleSpanRange(span.getStart(), start, span.getClassNameList());
 
-            final Span last = end > span.getEnd() ?
-                    new Span(span.getEnd(), end, classNameList) :
-                    new Span(end, span.getEnd(), span.getClassNameList());
+            final StyleSpanRange last = end > span.getEnd() ?
+                    new StyleSpanRange(span.getEnd(), end, classNameList) :
+                    new StyleSpanRange(end, span.getEnd(), span.getClassNameList());
 
             spanList = Lists.newArrayList();
 
@@ -66,7 +68,7 @@ public class Span implements Comparable<Span>, Serializable {
                 spanList.add(first);
             }
 
-            spanList.add(new Span(first.getEnd(), last.getStart(), mergedClassNameList));
+            spanList.add(new StyleSpanRange(first.getEnd(), last.getStart(), mergedClassNameList));
 
             if (!last.isEmpty()) {
                 spanList.add(last);
@@ -84,15 +86,19 @@ public class Span implements Comparable<Span>, Serializable {
         return end - start == 0;
     }
 
+    public StyleSpan<Collection<String>> createStyleSpan() {
+        return new StyleSpan<>(classNameList, length());
+    }
+
     @Override
-    public int compareTo(Span span) {
+    public int compareTo(StyleSpanRange span) {
         return span == null ? 1 : Integer.compare(start, span.getStart());
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Span) {
-            final Span span = (Span) object;
+        if (object instanceof StyleSpanRange) {
+            final StyleSpanRange span = (StyleSpanRange) object;
             return start == span.getStart() && end == span.getEnd();
         }
         return object.equals(this);
