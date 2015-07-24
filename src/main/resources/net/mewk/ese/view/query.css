@@ -6,10 +6,6 @@
  * Syntax highlighting
  */
 
-.match {
-    -fx-font-weight: bold;
-}
-
 .brace, .bracket, .comma {
     -fx-font-weight: 900;
     -fx-fill: black;

@@ -51,7 +51,7 @@ public class ResultViewMapper implements Mapper<SearchResponse, TreeItem<Object>
         } else if (sourceEntry.getValue() instanceof List) {
             int i = 0;
             for (Object _sourceEntry : (List<Object>) sourceEntry.getValue()) {
-                sourceItem.getChildren().add(mapSource(searchHit, new AbstractMap.SimpleEntry<String, Object>(String.valueOf(i), _sourceEntry)));
+                sourceItem.getChildren().add(mapSource(searchHit, new AbstractMap.SimpleEntry<>(String.valueOf(i), _sourceEntry)));
                 i++;
             }
         }

@@ -65,14 +65,10 @@ public class StyleSpanRangeBuilderTest {
         assertEquals(1, styleSpans.getStyleSpan(7).getLength());
         assertEquals(1, styleSpans.getStyleSpan(7).getStyle().size());
 
-        // TODO: The following two spans should be merged into one
-        assertEquals(1, styleSpans.getStyleSpan(8).getLength());
+        assertEquals(2, styleSpans.getStyleSpan(8).getLength());
         assertEquals(2, styleSpans.getStyleSpan(8).getStyle().size());
 
         assertEquals(1, styleSpans.getStyleSpan(9).getLength());
-        assertEquals(2, styleSpans.getStyleSpan(9).getStyle().size());
-
-        assertEquals(1, styleSpans.getStyleSpan(10).getLength());
-        assertEquals(1, styleSpans.getStyleSpan(10).getStyle().size());
+        assertEquals(1, styleSpans.getStyleSpan(9).getStyle().size());
     }
 }

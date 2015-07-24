@@ -1,6 +1,5 @@
 package net.mewk.ese.highlighter;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import net.mewk.richtext.StyleSpanRange;
@@ -9,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable {
+
     private int start;
     private int end;
     private List<String> classNameList = Lists.newArrayList();
@@ -42,7 +43,7 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
         );
     }
 
-    public List<StyleSpanRange> stamp(StyleSpanRange span) {
+    public List<StyleSpanRange> overlay(StyleSpanRange span) {
         final List<StyleSpanRange> spanList;
 
         if (!overlaps(span)) {
@@ -101,7 +102,7 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
             final StyleSpanRange span = (StyleSpanRange) object;
             return start == span.getStart() && end == span.getEnd();
         }
-        return object.equals(this);
+        return object != null && object.equals(this);
     }
 
     @Override
