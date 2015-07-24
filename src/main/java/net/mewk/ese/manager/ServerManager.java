@@ -36,6 +36,8 @@ public class ServerManager {
         }
     }
 
+    // Property access
+
     public ObservableMap<Connection, ServerView> getServerMap() {
         return serverMap;
     }

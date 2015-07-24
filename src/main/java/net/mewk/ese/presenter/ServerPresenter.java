@@ -1,5 +1,6 @@
 package net.mewk.ese.presenter;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.MapChangeListener;
@@ -32,8 +33,12 @@ public class ServerPresenter implements Initializable {
 
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 
+    // Injected objects
+
     @Inject
     IndexViewMapper indexViewMapper;
+
+    // View objects
 
     @FXML
     public SplitPane indexSplitPane;
@@ -51,6 +56,8 @@ public class ServerPresenter implements Initializable {
     public TableColumn<MetaData, Object> propertyTableViewValueColumn;
     @FXML
     private TabPane serverTabPane;
+
+    // Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
         propertyTableViewNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -78,17 +85,21 @@ public class ServerPresenter implements Initializable {
                 }
 
                 // Populate items (adds root item)
-                for (Map.Entry<String, Index> indexEntry : newValue.getIndexMap().entrySet()) {
-                    addIndex(indexEntry.getValue());
-                }
+                Platform.runLater(() -> {
+                    for (Map.Entry<String, Index> indexEntry : newValue.getIndexMap().entrySet()) {
+                        addIndex(indexEntry.getValue());
+                    }
+                });
 
                 // Add index listener
                 newValue.getIndexMap().addListener((MapChangeListener<String, Index>) change -> {
-                    if (change.wasAdded()) {
-                        addIndex(change.getValueAdded());
-                    } else if (change.wasRemoved()) {
-                        removeIndex(change.getValueRemoved());
-                    }
+                    Platform.runLater(() -> {
+                        if (change.wasAdded()) {
+                            addIndex(change.getValueAdded());
+                        } else if (change.wasRemoved()) {
+                            removeIndex(change.getValueRemoved());
+                        }
+                    });
                 });
 
                 // Create empty query tab
@@ -127,6 +138,7 @@ public class ServerPresenter implements Initializable {
         });
 
         indexTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Change property table content
             if (newValue != oldValue) {
                 propertyTableView.getItems().clear();
 
@@ -141,6 +153,31 @@ public class ServerPresenter implements Initializable {
             }
         });
     }
+
+    // Event handlers
+
+    public void handleRefreshMappingAction(ActionEvent actionEvent) {
+        server.get().refresh();
+        //server.set(server.get());
+    }
+
+    public void handleSaveMappingAction(ActionEvent actionEvent) {
+
+    }
+
+    public void handleHidePropertyPaneAction(ActionEvent actionEvent) {
+        if (indexSplitPane.getUserData() == null) {
+            indexSplitPane.setUserData(indexSplitPane.getDividerPositions()[0]);
+            indexSplitPane.setDividerPosition(0, 1);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            indexSplitPane.setDividerPosition(0, (double) indexSplitPane.getUserData());
+            indexSplitPane.setUserData(null);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+        }
+    }
+
+    // Private methods
 
     private void addIndex(Index index) {
         if (index == null) {
@@ -172,17 +209,7 @@ public class ServerPresenter implements Initializable {
         }
     }
 
-    public void handleHidePropertyPaneButton(ActionEvent actionEvent) {
-        if (indexSplitPane.getUserData() == null) {
-            indexSplitPane.setUserData(indexSplitPane.getDividerPositions()[0]);
-            indexSplitPane.setDividerPosition(0, 1);
-            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
-        } else {
-            indexSplitPane.setDividerPosition(0, (double) indexSplitPane.getUserData());
-            indexSplitPane.setUserData(null);
-            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
-        }
-    }
+    // Property access
 
     public Server getServer() {
         return server.get();

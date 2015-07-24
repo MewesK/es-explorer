@@ -20,11 +20,17 @@ public class MainPresenter implements Initializable {
 
     private static final Logger LOG = LogManager.getLogger();
 
+    // Injected objects
+
     @Inject
     ServerManager serverManager;
 
+    // View objects
+
     @FXML
     public TabPane mainTabPane;
+
+    // Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

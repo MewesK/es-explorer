@@ -35,13 +35,17 @@ public class ErrorHighlighter implements Highlighter {
                 if (lineNumber != null) {
                     try {
                         int parsedLineNumber = Integer.parseInt(lineNumber);
-                        styleSpanRangeBuilder.add(
-                                new StyleSpanRange(
-                                        StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 2),
-                                        StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 1),
-                                        "error"
-                                )
-                        );
+                        int startOffset = StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 1);
+                        int endOffset = StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber);
+
+                        if (startOffset < 0) {
+                            startOffset = 0;
+                        }
+                        if (endOffset < 0) {
+                            endOffset = 0;
+                        }
+
+                        styleSpanRangeBuilder.add(new StyleSpanRange(startOffset, endOffset, "error"));
                     } catch (NumberFormatException nfe) {
                         LOG.error(nfe.getMessage());
                     }

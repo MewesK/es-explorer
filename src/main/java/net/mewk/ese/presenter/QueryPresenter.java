@@ -31,8 +31,12 @@ public class QueryPresenter implements Initializable {
 
     private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 
+    // Injected objects
+
     @Inject
     ResultViewMapper resultViewMapper;
+
+    // View objects
 
     @FXML
     public SplitPane querySplitPane;
@@ -55,6 +59,8 @@ public class QueryPresenter implements Initializable {
     @FXML
     public TreeTableColumn<TableView, Object> resultTreeTableViewScoreColumn;
 
+    // Initializable
+
     public void initialize(URL location, ResourceBundle resources) {
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
         resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
@@ -75,6 +81,8 @@ public class QueryPresenter implements Initializable {
             }
         });
     }
+
+    // Event handlers
 
     public void handleQueryRunButtonAction(ActionEvent actionEvent) {
         if (server.get() != null) {
@@ -130,6 +138,8 @@ public class QueryPresenter implements Initializable {
             LOG.error(e.getMessage(), e);
         }
     }
+
+    // Property access
 
     public Server getServer() {
         return server.get();

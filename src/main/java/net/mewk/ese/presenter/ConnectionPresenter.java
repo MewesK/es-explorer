@@ -14,10 +14,14 @@ import java.util.ResourceBundle;
 
 public class ConnectionPresenter implements Initializable {
 
+    // Injected objects
+
     @Inject
     ConnectionManager connectionManager;
     @Inject
     ServerManager serverManager;
+
+    // View objects
 
     @FXML
     public TextField nameTextField;
@@ -26,10 +30,14 @@ public class ConnectionPresenter implements Initializable {
     @FXML
     public TextField portTextField;
 
+    // Initializable
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    // Event handlers
 
     @FXML
     public void handleConnectButtonAction(ActionEvent actionEvent) {

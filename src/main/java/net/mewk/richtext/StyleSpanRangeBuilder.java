@@ -1,6 +1,8 @@
 package net.mewk.richtext;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
+import org.fxmisc.richtext.StyleSpan;
 import org.fxmisc.richtext.StyleSpans;
 import org.fxmisc.richtext.StyleSpansBuilder;
 
@@ -13,19 +15,24 @@ public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
 
     public StyleSpans<Collection<String>> create() {
         final StyleSpansBuilder<Collection<String>> styleSpansBuilder = new StyleSpansBuilder<>();
-        StyleSpanRange lastSpan = new StyleSpanRange();
 
-        // Merge
-        for (StyleSpanRange span : merge()) {
-            // Create blank span if necessary
-            if (lastSpan.getEnd() < span.getStart()) {
-                StyleSpanRange blankSpan = new StyleSpanRange(lastSpan.getEnd(), span.getStart());
-                styleSpansBuilder.add(blankSpan.createStyleSpan());
+        if (isEmpty()) {
+            // Add blank span
+            styleSpansBuilder.add(new StyleSpan<>(Lists.newArrayList(), 0));
+        } else {
+            // Merge
+            StyleSpanRange lastSpan = new StyleSpanRange();
+            for (StyleSpanRange span : merge()) {
+                // Add blank span if necessary
+                if (lastSpan.getEnd() < span.getStart()) {
+                    StyleSpanRange blankSpan = new StyleSpanRange(lastSpan.getEnd(), span.getStart());
+                    styleSpansBuilder.add(blankSpan.createStyleSpan());
+                }
+
+                // Convert
+                styleSpansBuilder.add(span.createStyleSpan());
+                lastSpan = span;
             }
-
-            // Convert
-            styleSpansBuilder.add(span.createStyleSpan());
-            lastSpan = span;
         }
 
         // Finalize
@@ -77,7 +84,7 @@ public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
         }
 
         // Delete all marked entries
-        styleSpanRangeStack.removeAll(Collections.singleton(null));
+        styleSpanRangeStack.removeAll(Collections.<StyleSpanRange>singleton(null));
 
         return styleSpanRangeStack;
     }

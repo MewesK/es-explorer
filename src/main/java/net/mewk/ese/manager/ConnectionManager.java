@@ -15,6 +15,8 @@ public class ConnectionManager {
         // TODO: persist to disk
     }
 
+    // Property access
+
     public ObservableList<Connection> getConnectionList() {
         return connectionList;
     }
