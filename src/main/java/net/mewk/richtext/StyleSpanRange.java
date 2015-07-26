@@ -34,7 +34,7 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
     }
 
     public int length() {
-        return end - start;
+        return Math.abs(end - start);
     }
 
     public boolean overlaps(StyleSpanRange span) {

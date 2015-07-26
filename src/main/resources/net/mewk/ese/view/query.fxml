@@ -64,7 +64,7 @@
                  AnchorPane.topAnchor="0.0">
             <Label text="Result"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <Button mnemonicParsing="false">
+            <Button mnemonicParsing="false" onAction="#handleRefreshResultAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
                 </graphic>

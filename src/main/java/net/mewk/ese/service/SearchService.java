@@ -7,6 +7,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import net.mewk.ese.mapper.data.ResultMapper;
 import net.mewk.ese.model.connection.Connection;
+import net.mewk.ese.model.query.Query;
 import net.mewk.ese.model.result.Result;
 import org.elasticsearch.action.ActionFuture;
 import org.elasticsearch.action.search.SearchRequest;
@@ -22,7 +23,7 @@ import javax.inject.Inject;
 public class SearchService extends Service<Result> {
 
     private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
-    private final StringProperty query = new SimpleStringProperty();
+    private final ObjectProperty<Query> query = new SimpleObjectProperty<>();
     private final ListProperty<String> indices = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     @Inject
@@ -45,11 +46,14 @@ public class SearchService extends Service<Result> {
                 // Get data
                 SearchRequest searchRequest = new SearchRequest(
                         indices.get().toArray(new String[indices.size()]),
-                        query.get().getBytes());
+                        query.get().getQuery().getBytes());
                 ActionFuture<SearchResponse> searchResponseActionFuture = client.search(searchRequest);
 
                 // Map data
-                return resultMapper.map(searchResponseActionFuture.get());
+                Result result = resultMapper.map(searchResponseActionFuture.get());
+                result.setQuery(getQuery().clone());
+
+                return result;
             }
         };
     }
@@ -66,15 +70,15 @@ public class SearchService extends Service<Result> {
         this.connection.set(connection);
     }
 
-    public String getQuery() {
+    public Query getQuery() {
         return query.get();
     }
 
-    public StringProperty queryProperty() {
+    public ObjectProperty<Query> queryProperty() {
         return query;
     }
 
-    public void setQuery(String query) {
+    public void setQuery(Query query) {
         this.query.set(query);
     }
 

@@ -41,7 +41,7 @@ public class QueryPresenter implements Initializable {
     // Properties
 
     private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
-    private final ObjectProperty<Query> query = new SimpleObjectProperty<>();
+    private final ObjectProperty<Query> query = new SimpleObjectProperty<>(new Query(null, ""));
     private final ObjectProperty<Result> result = new SimpleObjectProperty<>();
 
     // Injected objects
@@ -93,6 +93,13 @@ public class QueryPresenter implements Initializable {
         // Initialize mappingService
         searchService.setOnSucceeded(event -> result.set((Result) event.getSource().getValue()));
 
+        // Initialize queryCodeArea
+        queryCodeArea.textProperty().addListener((observable1, oldValue1, newValue1) -> {
+            if (newValue1 != null) {
+                query.get().setQuery(newValue1);
+            }
+        });
+
         // Initialize resultTreeTableView
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
         resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
@@ -118,7 +125,7 @@ public class QueryPresenter implements Initializable {
     // Event handlers
 
     public void handleQueryRunButtonAction(ActionEvent actionEvent) {
-        searchService.setQuery(queryCodeArea.getText());
+        searchService.setQuery(query.get());
         searchService.setIndices(FXCollections.singletonObservableList("_all"));
         searchService.restart();
     }
@@ -137,6 +144,12 @@ public class QueryPresenter implements Initializable {
         } catch (JsonSyntaxException e) {
             LOG.error(e.getMessage(), e);
         }
+    }
+
+    public void handleRefreshResultAction(ActionEvent actionEvent) {
+        searchService.setQuery(result.get().getQuery());
+        searchService.setIndices(FXCollections.singletonObservableList("_all"));
+        searchService.restart();
     }
 
     public void handleSaveResultAction(ActionEvent actionEvent) {

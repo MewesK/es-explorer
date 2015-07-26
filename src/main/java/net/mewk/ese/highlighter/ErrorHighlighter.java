@@ -26,7 +26,7 @@ public class ErrorHighlighter implements Highlighter {
         try {
             new JsonParser().parse(text);
         } catch (JsonSyntaxException jse) {
-            LOG.error(jse.getMessage(), jse);
+            LOG.info(jse.getMessage());
 
             // Add error highlighting if errors occur
             Matcher matcher = PATTERN.matcher(jse.getMessage());
@@ -41,8 +41,17 @@ public class ErrorHighlighter implements Highlighter {
                         if (startOffset < 0) {
                             startOffset = 0;
                         }
+                        if (startOffset > text.length()) {
+                            startOffset = text.length();
+                        }
                         if (endOffset < 0) {
                             endOffset = 0;
+                        }
+                        if (endOffset > text.length()) {
+                            endOffset = text.length();
+                        }
+                        if (endOffset < startOffset) {
+                            endOffset = startOffset;
                         }
 
                         styleSpanRangeBuilder.add(new StyleSpanRange(startOffset, endOffset, "error"));
