@@ -1,26 +1,16 @@
-package net.mewk.ese;
+package net.mewk.richtext;
 
 import net.mewk.ese.manager.HighlighterManager;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import javax.inject.Inject;
-
 public class CodeArea extends org.fxmisc.richtext.CodeArea {
 
-    @Inject
-    private HighlighterManager highlighterManager;
+    private final HighlighterManager highlighterManager = new HighlighterManager();
 
     public CodeArea() {
-        // TODO: remove
-        Main.INJECTOR.injectMembers(this);
-
         getStylesheets().add(CodeArea.class.getResource("/net/mewk/ese/code-area.css").toExternalForm());
         setParagraphGraphicFactory(LineNumberFactory.get(this));
-        textProperty().addListener((obs, oldText, newText) -> {
-            if (newText != null && newText.length() > 0) {
-                applyHightlighting();
-            }
-        });
+        textProperty().addListener((obs, oldText, newText) -> applyHightlighting());
     }
 
     public void applyHightlighting() {

@@ -1,6 +1,7 @@
 package net.mewk.ese.model.result;
 
 import com.google.common.collect.Lists;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class Hit implements Comparable<Float> {
     private final Object value;
     private final Float score;
 
-    private List<Hit> hits = Lists.newArrayList();
+    private final List<Hit> hits = Lists.newArrayList();
 
     public Hit(String index, String type, Object value, Float score) {
         this.index = index;
@@ -21,7 +22,7 @@ public class Hit implements Comparable<Float> {
     }
 
     @Override
-    public int compareTo(Float value) {
+    public int compareTo(@NotNull Float value) {
         return Float.compare(score, value);
     }
 

@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 public class MappingService extends Service<Mapping> {
 
-    private ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
+    private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
 
     @Inject
     MappingMapper mappingMapper;

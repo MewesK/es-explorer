@@ -75,6 +75,7 @@ public class ServerPresenter implements Initializable {
         // Initialize connection
         connection.addListener((observable, oldValue, newValue) -> {
             mappingService.setConnection(newValue);
+            mappingService.start();
 
             // Initialize queryTabPane
             QueryView queryView = new QueryView();
@@ -160,8 +161,6 @@ public class ServerPresenter implements Initializable {
                 }
             }
         });
-
-        mappingService.start();
     }
 
     // Event handlers
@@ -171,7 +170,7 @@ public class ServerPresenter implements Initializable {
     }
 
     public void handleSaveMappingAction(ActionEvent actionEvent) {
-
+        // TODO
     }
 
     public void handleHidePropertyPaneAction(ActionEvent actionEvent) {

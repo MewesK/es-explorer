@@ -1,10 +1,6 @@
 package net.mewk.ese.model.result;
 
 import com.google.common.collect.Lists;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 

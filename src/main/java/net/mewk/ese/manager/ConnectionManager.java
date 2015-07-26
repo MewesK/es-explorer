@@ -11,8 +11,8 @@ import javax.inject.Singleton;
 @Singleton
 public class ConnectionManager {
 
-    private ListProperty<Connection> connectionList = new SimpleListProperty<>(FXCollections.observableArrayList());
-    private ListProperty<Connection> activeConnectionList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ListProperty<Connection> connectionList = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ListProperty<Connection> activeConnectionList = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     // Property access
 

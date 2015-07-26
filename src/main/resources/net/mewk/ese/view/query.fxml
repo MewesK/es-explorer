@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import net.mewk.ese.CodeArea?>
+<?import net.mewk.richtext.CodeArea?>
 <?import org.controlsfx.glyphfont.*?>
 <SplitPane dividerPositions="0.6"
            orientation="VERTICAL"

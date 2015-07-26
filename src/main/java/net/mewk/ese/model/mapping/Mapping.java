@@ -1,11 +1,6 @@
 package net.mewk.ese.model.mapping;
 
 import com.google.common.collect.Maps;
-import javafx.beans.property.MapProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleMapProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableMap;
 import net.mewk.ese.model.connection.Connection;
 
 import java.io.Serializable;

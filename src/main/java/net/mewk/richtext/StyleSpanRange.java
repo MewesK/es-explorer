@@ -2,6 +2,7 @@ package net.mewk.richtext;
 
 import com.google.common.collect.Lists;
 import org.fxmisc.richtext.StyleSpan;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -92,8 +93,8 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
     }
 
     @Override
-    public int compareTo(StyleSpanRange span) {
-        return span == null ? 1 : Integer.compare(start, span.getStart());
+    public int compareTo(@NotNull StyleSpanRange span) {
+        return Integer.compare(start, span.getStart());
     }
 
     @Override

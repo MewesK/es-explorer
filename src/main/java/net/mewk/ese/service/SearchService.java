@@ -21,9 +21,9 @@ import javax.inject.Inject;
 
 public class SearchService extends Service<Result> {
 
-    private ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
-    private StringProperty query = new SimpleStringProperty();
-    private ListProperty<String> indices = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
+    private final StringProperty query = new SimpleStringProperty();
+    private final ListProperty<String> indices = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     @Inject
     private ResultMapper resultMapper;
