@@ -1,5 +1,6 @@
 package net.mewk.ese.presenter;
 
+import com.google.common.io.Files;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -8,7 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import net.mewk.ese.mapper.ui.IndexViewMapper;
 import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.model.mapping.*;
@@ -21,6 +25,8 @@ import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Comparator;
@@ -170,7 +176,24 @@ public class ServerPresenter implements Initializable {
     }
 
     public void handleSaveMappingAction(ActionEvent actionEvent) {
-        // TODO
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON file", ".json"));
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Files.write(mapping.get().getRaw().getBytes(), file);
+            } catch (IOException e) {
+                LOG.error(e.getMessage(), e);
+            }
+        }
+    }
+
+    public void handleCopyMappingAction(ActionEvent actionEvent) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(mapping.get().getRaw());
+        clipboard.setContent(content);
     }
 
     public void handleHidePropertyPaneAction(ActionEvent actionEvent) {

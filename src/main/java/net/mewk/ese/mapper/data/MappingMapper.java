@@ -6,6 +6,11 @@ import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.cluster.metadata.MappingMetaData;
 import org.elasticsearch.common.hppc.ObjectContainer;
 import org.elasticsearch.common.hppc.cursors.ObjectCursor;
+import org.elasticsearch.common.hppc.cursors.ObjectObjectCursor;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilderString;
+import org.elasticsearch.common.xcontent.json.JsonXContent;
+import org.elasticsearch.rest.action.admin.indices.mapping.get.RestGetMappingAction;
 
 import javax.inject.Singleton;
 import java.io.IOException;
@@ -18,23 +23,38 @@ public class MappingMapper implements Mapper<ObjectContainer<IndexMetaData>, Map
     public Mapping map(ObjectContainer<IndexMetaData> object) throws IOException {
         // Create mapping
         Mapping mapping = new Mapping();
-        mapping.setRaw(object.toString());
+        XContentBuilder contentBuilder = JsonXContent.contentBuilder().prettyPrint().lfAtEnd();
+        contentBuilder.startObject();
 
         // Set indices
         for (ObjectCursor<IndexMetaData> indexMetaDataObjectCursor : object) {
+            // Build raw
+            contentBuilder.startObject(indexMetaDataObjectCursor.value.getIndex(), XContentBuilder.FieldCaseConversion.NONE);
+            contentBuilder.startObject("mappings");
+
             // Create index
             Index index = new Index(indexMetaDataObjectCursor.value.index());
 
             // Set types
             ObjectContainer<MappingMetaData> mappingMetaDataObjectContainer = indexMetaDataObjectCursor.value.mappings().values();
             for (ObjectCursor<MappingMetaData> mappingMetaDataObjectCursor : mappingMetaDataObjectContainer) {
+                contentBuilder.field(mappingMetaDataObjectCursor.value.type());
+                contentBuilder.map(mappingMetaDataObjectCursor.value.sourceAsMap());
+
                 Type type = mapToType(mappingMetaDataObjectCursor.value);
                 index.getTypeMap().put(type.getName(), type);
             }
 
             // Add to mapping
             mapping.getIndices().put(index.getName(), index);
+
+            contentBuilder.endObject();
+            contentBuilder.endObject();
         }
+
+        // Set raw
+        contentBuilder.endObject();
+        mapping.setRaw(contentBuilder.string());
 
         return mapping;
     }

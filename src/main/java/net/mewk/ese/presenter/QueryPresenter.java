@@ -12,6 +12,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.connection.Connection;
@@ -117,17 +119,6 @@ public class QueryPresenter implements Initializable {
         searchService.restart();
     }
 
-    public void handleHideResultPaneButton(ActionEvent actionEvent) {
-        if (querySplitPane.getUserData() == null) {
-            querySplitPane.setUserData(querySplitPane.getDividerPositions()[0]);
-            querySplitPane.setDividerPosition(0, 1);
-            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
-        } else {
-            querySplitPane.setDividerPosition(0, (double) querySplitPane.getUserData());
-            querySplitPane.setUserData(null);
-            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
-        }
-    }
 
     public void handleReformatButtonAction(ActionEvent actionEvent) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -141,6 +132,27 @@ public class QueryPresenter implements Initializable {
             }
         } catch (JsonSyntaxException e) {
             LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public void handleCopyResultAction(ActionEvent actionEvent) {
+        if (result.get() != null) {
+            final Clipboard clipboard = Clipboard.getSystemClipboard();
+            final ClipboardContent content = new ClipboardContent();
+            content.putString(result.get().getRaw());
+            clipboard.setContent(content);
+        }
+    }
+
+    public void handleHideResultPaneButton(ActionEvent actionEvent) {
+        if (querySplitPane.getUserData() == null) {
+            querySplitPane.setUserData(querySplitPane.getDividerPositions()[0]);
+            querySplitPane.setDividerPosition(0, 1);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            querySplitPane.setDividerPosition(0, (double) querySplitPane.getUserData());
+            querySplitPane.setUserData(null);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
         }
     }
 

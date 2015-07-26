@@ -74,6 +74,11 @@
                     <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
                 </graphic>
             </Button>
+            <Button mnemonicParsing="false" onAction="#handleCopyResultAction">
+                <graphic>
+                    <Glyph fontFamily="FontAwesome" icon="COPY"/>
+                </graphic>
+            </Button>
             <Button mnemonicParsing="false" onAction="#handleHideResultPaneButton">
                 <graphic>
                     <Glyph fx:id="hideResultPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>

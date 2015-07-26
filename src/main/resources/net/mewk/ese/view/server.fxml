@@ -36,6 +36,11 @@
                             <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
                         </graphic>
                     </Button>
+                    <Button mnemonicParsing="false" onAction="#handleCopyMappingAction">
+                        <graphic>
+                            <Glyph fontFamily="FontAwesome" icon="COPY"/>
+                        </graphic>
+                    </Button>
                 </ToolBar>
                 <CheckTreeView fx:id="indexTreeView"
                                styleClass="noBackgroundInsets"
