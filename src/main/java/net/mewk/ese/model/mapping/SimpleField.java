@@ -1,20 +1,23 @@
-package net.mewk.ese.model.server;
+package net.mewk.ese.model.mapping;
 
 import com.google.common.collect.Lists;
-import org.elasticsearch.common.collect.Maps;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
-public class Index implements MetaDataContainer, Serializable {
+public class SimpleField implements Field, Serializable {
 
     protected String name;
-    protected Map<String, Type> typeMap = Maps.newHashMap();
+    protected String type;
     protected List<MetaData> metaDataList = Lists.newArrayList();
 
-    public Index(String name) {
+    public SimpleField(String name) {
+        this(name, null);
+    }
+
+    public SimpleField(String name, String type) {
         this.name = name;
+        this.type = type;
     }
 
     @Override
@@ -30,12 +33,12 @@ public class Index implements MetaDataContainer, Serializable {
         this.name = name;
     }
 
-    public Map<String, Type> getTypeMap() {
-        return typeMap;
+    public String getType() {
+        return type;
     }
 
-    public void setTypeMap(Map<String, Type> typeMap) {
-        this.typeMap = typeMap;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<MetaData> getMetaDataList() {

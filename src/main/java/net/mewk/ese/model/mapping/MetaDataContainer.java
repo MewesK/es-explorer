@@ -1,4 +1,4 @@
-package net.mewk.ese.model.server;
+package net.mewk.ese.model.mapping;
 
 import java.util.List;
 

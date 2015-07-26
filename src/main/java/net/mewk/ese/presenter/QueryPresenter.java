@@ -1,25 +1,28 @@
 package net.mewk.ese.presenter;
 
 import com.google.gson.*;
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import net.mewk.ese.CodeArea;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
-import net.mewk.ese.model.server.Server;
+import net.mewk.ese.model.connection.Connection;
+import net.mewk.ese.model.query.Query;
+import net.mewk.ese.model.result.Result;
+import net.mewk.ese.service.SearchService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
-import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.search.SearchResponse;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -29,12 +32,18 @@ public class QueryPresenter implements Initializable {
 
     private static final Logger LOG = LogManager.getLogger();
 
-    private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
+    // Properties
+
+    private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
+    private final ObjectProperty<Query> query = new SimpleObjectProperty<>();
+    private final ObjectProperty<Result> result = new SimpleObjectProperty<>();
 
     // Injected objects
 
     @Inject
-    ResultViewMapper resultViewMapper;
+    private SearchService searchService;
+    @Inject
+    private ResultViewMapper resultViewMapper;
 
     // View objects
 
@@ -62,11 +71,29 @@ public class QueryPresenter implements Initializable {
     // Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
+        // Initialize connection
+        connection.addListener((observable, oldValue, newValue) -> {
+            searchService.setConnection(newValue);
+        });
+
+        // Initialize result
+        result.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                resultTreeTableView.setRoot(resultViewMapper.map(newValue));
+                resultCodeArea.replaceText(newValue.getRaw());
+            }
+        });
+
+        // Initialize mappingService
+        searchService.setOnSucceeded(event -> result.set((Result) event.getSource().getValue()));
+
+        // Initialize resultTreeTableView
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
         resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
         resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
         resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
 
+        // Initialize resultPane
         resultPane.heightProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.equals(oldValue)) {
                 if (newValue.intValue() == resultPane.getMinHeight()) {
@@ -85,31 +112,9 @@ public class QueryPresenter implements Initializable {
     // Event handlers
 
     public void handleQueryRunButtonAction(ActionEvent actionEvent) {
-        if (server.get() != null) {
-            // Run search on different thread
-            server.get().search(new String[]{"_all"}, queryCodeArea.getText(), new ActionListener<SearchResponse>() {
-                @Override
-                public void onResponse(SearchResponse searchResponse) {
-                    TreeItem<Object> resultItem = resultViewMapper.map(searchResponse);
-                    // Return to FX thread
-                    Platform.runLater(() -> {
-                        resultTreeTableView.setRoot(resultItem);
-                        resultCodeArea.replaceText(searchResponse.toString());
-                    });
-                }
-
-                @Override
-                public void onFailure(Throwable e) {
-                    LOG.error(e.getMessage(), e);
-                }
-            });
-        }
-    }
-
-    public void handleResultTabSelectionChanged(Event event) {
-        // Redraw hack
-        resultCodeArea.replaceText(resultCodeArea.getText());
-        resultCodeArea.applyHightlighting();
+        searchService.setQuery(queryCodeArea.getText());
+        searchService.setIndices(FXCollections.singletonObservableList("_all"));
+        searchService.restart();
     }
 
     public void handleHideResultPaneButton(ActionEvent actionEvent) {
@@ -141,15 +146,39 @@ public class QueryPresenter implements Initializable {
 
     // Property access
 
-    public Server getServer() {
-        return server.get();
+    public Connection getConnection() {
+        return connection.get();
     }
 
-    public ObjectProperty<Server> serverProperty() {
-        return server;
+    public ObjectProperty<Connection> connectionProperty() {
+        return connection;
     }
 
-    public void setServer(Server server) {
-        this.server.set(server);
+    public void setConnection(Connection connection) {
+        this.connection.set(connection);
+    }
+
+    public Query getQuery() {
+        return query.get();
+    }
+
+    public ObjectProperty<Query> queryProperty() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query.set(query);
+    }
+
+    public Result getResult() {
+        return result.get();
+    }
+
+    public ObjectProperty<Result> resultProperty() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result.set(result);
     }
 }

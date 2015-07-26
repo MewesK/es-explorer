@@ -10,7 +10,7 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="net.mewk.ese.presenter.ServerPresenter">
     <AnchorPane>
-        <SplitPane fx:id="indexSplitPane"
+        <SplitPane fx:id="mappingSplitPane"
                    styleClass="noBackgroundInsets"
                    dividerPositions="0.7"
                    orientation="VERTICAL"
@@ -73,7 +73,7 @@
         </SplitPane>
     </AnchorPane>
     <AnchorPane>
-        <TabPane fx:id="serverTabPane"
+        <TabPane fx:id="queryTabPane"
                  tabClosingPolicy="SELECTED_TAB"
                  AnchorPane.bottomAnchor="0.0"
                  AnchorPane.leftAnchor="0.0"

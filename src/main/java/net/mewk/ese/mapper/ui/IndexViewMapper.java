@@ -3,10 +3,10 @@ package net.mewk.ese.mapper.ui;
 import javafx.scene.control.CheckBoxTreeItem;
 import javafx.scene.control.TreeItem;
 import net.mewk.ese.mapper.Mapper;
-import net.mewk.ese.model.server.Field;
-import net.mewk.ese.model.server.Index;
-import net.mewk.ese.model.server.NestedType;
-import net.mewk.ese.model.server.Type;
+import net.mewk.ese.model.mapping.Field;
+import net.mewk.ese.model.mapping.Index;
+import net.mewk.ese.model.mapping.NestedType;
+import net.mewk.ese.model.mapping.Type;
 
 import javax.inject.Singleton;
 import java.util.Comparator;
@@ -21,7 +21,7 @@ public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
         indexItem.setSelected(true);
 
         for (Map.Entry<String, Type> typeEntry : object.getTypeMap().entrySet()) {
-            indexItem.getChildren().add(mapType(typeEntry.getValue()));
+            indexItem.getChildren().add(mapFromType(typeEntry.getValue()));
         }
 
         indexItem.getChildren().sort(Comparator.comparing(Object::toString));
@@ -29,12 +29,12 @@ public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
         return indexItem;
     }
 
-    private CheckBoxTreeItem<Object> mapType(Type type) {
+    private CheckBoxTreeItem<Object> mapFromType(Type type) {
         CheckBoxTreeItem<Object> typeItem = new CheckBoxTreeItem<>(type);
         typeItem.setSelected(true);
 
         for (Map.Entry<String, Field> fieldEntry : type.getFieldMap().entrySet()) {
-            typeItem.getChildren().add(mapField(fieldEntry.getValue()));
+            typeItem.getChildren().add(mapFromField(fieldEntry.getValue()));
         }
 
         typeItem.getChildren().sort(Comparator.comparing(Object::toString));
@@ -42,13 +42,13 @@ public class IndexViewMapper implements Mapper<Index, TreeItem<Object>> {
         return typeItem;
     }
 
-    private CheckBoxTreeItem<Object> mapField(Field field) {
+    private CheckBoxTreeItem<Object> mapFromField(Field field) {
         CheckBoxTreeItem<Object> fieldItem = new CheckBoxTreeItem<>(field);
         fieldItem.setSelected(true);
 
         if (field instanceof NestedType) {
             for (Map.Entry<String, Field> fieldEntry : ((NestedType) field).getFieldMap().entrySet()) {
-                fieldItem.getChildren().add(mapField(fieldEntry.getValue()));
+                fieldItem.getChildren().add(mapFromField(fieldEntry.getValue()));
             }
 
             fieldItem.getChildren().sort(Comparator.comparing(Object::toString));

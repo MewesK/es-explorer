@@ -1,13 +1,19 @@
-package net.mewk.ese.model.query;
+package net.mewk.ese.model.result;
 
-public class ResultData implements Comparable<Float> {
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
+public class Hit implements Comparable<Float> {
 
     private final String index;
     private final String name;
     private final Object value;
     private final Float score;
 
-    public ResultData(String index, String type, Object value, Float score) {
+    private List<Hit> hits = Lists.newArrayList();
+
+    public Hit(String index, String type, Object value, Float score) {
         this.index = index;
         this.name = type;
         this.value = value;
@@ -33,5 +39,9 @@ public class ResultData implements Comparable<Float> {
 
     public Float getScore() {
         return score;
+    }
+
+    public List<Hit> getHits() {
+        return hits;
     }
 }

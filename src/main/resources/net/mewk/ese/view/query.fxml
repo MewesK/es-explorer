@@ -105,7 +105,7 @@
                     </TreeTableView>
                 </AnchorPane>
             </Tab>
-            <Tab onSelectionChanged="#handleResultTabSelectionChanged" text="Raw">
+            <Tab text="Raw">
                 <AnchorPane>
                     <CodeArea fx:id="resultCodeArea"
                               editable="false"

@@ -11,6 +11,7 @@ public class CodeArea extends org.fxmisc.richtext.CodeArea {
     private HighlighterManager highlighterManager;
 
     public CodeArea() {
+        // TODO: remove
         Main.INJECTOR.injectMembers(this);
 
         getStylesheets().add(CodeArea.class.getResource("/net/mewk/ese/code-area.css").toExternalForm());

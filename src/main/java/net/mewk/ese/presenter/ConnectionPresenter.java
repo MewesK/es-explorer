@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import net.mewk.ese.manager.ConnectionManager;
-import net.mewk.ese.manager.ServerManager;
 import net.mewk.ese.model.connection.Connection;
 
 import javax.inject.Inject;
@@ -18,8 +17,6 @@ public class ConnectionPresenter implements Initializable {
 
     @Inject
     ConnectionManager connectionManager;
-    @Inject
-    ServerManager serverManager;
 
     // View objects
 
@@ -46,7 +43,8 @@ public class ConnectionPresenter implements Initializable {
                 hostnameTextField.getText(),
                 Integer.parseInt(portTextField.getText())
         );
+
         connectionManager.getConnectionList().add(connection);
-        serverManager.create(connection);
+        connectionManager.getActiveConnectionList().add(connection);
     }
 }

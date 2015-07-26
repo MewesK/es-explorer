@@ -1,11 +1,11 @@
 package net.mewk.ese.presenter;
 
-import javafx.collections.MapChangeListener;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import net.mewk.ese.manager.ServerManager;
+import net.mewk.ese.manager.ConnectionManager;
 import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.view.ConnectionView;
 import net.mewk.ese.view.ServerView;
@@ -23,7 +23,7 @@ public class MainPresenter implements Initializable {
     // Injected objects
 
     @Inject
-    ServerManager serverManager;
+    private ConnectionManager connectionManager;
 
     // View objects
 
@@ -43,17 +43,31 @@ public class MainPresenter implements Initializable {
 
         mainTabPane.getTabs().add(connectionTab);
 
-        serverManager.getServerMap().addListener((MapChangeListener<Connection, ServerView>) change -> {
-            if (change.wasAdded()) {
-                Tab serverTab = new Tab();
-                serverTab.setClosable(true);
-                serverTab.setText(change.getKey().getName());
-                serverTab.setContent(change.getValueAdded().getView());
+        connectionManager.getActiveConnectionList().addListener((ListChangeListener<Connection>) change -> {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    for (Connection connection : change.getAddedSubList()) {
+                        ServerView serverView = new ServerView();
+                        ((ServerPresenter) serverView.getPresenter()).setConnection(connection);
 
-                mainTabPane.getTabs().add(serverTab);
-                mainTabPane.getSelectionModel().select(serverTab);
-            } else {
-                LOG.error("Error: Server was removed");
+                        Tab serverTab = new Tab();
+                        serverTab.setClosable(true);
+                        serverTab.setText(connection.getName());
+                        serverTab.setContent(serverView.getView());
+
+                        mainTabPane.getTabs().add(serverTab);
+                        mainTabPane.getSelectionModel().select(serverTab);
+                    }
+                } else {
+                    for (Connection connection : change.getRemoved()) {
+                        for (Tab tab : mainTabPane.getTabs()) {
+                            if (tab.getText().equals(connection.getName())) {
+                                mainTabPane.getTabs().remove(tab);
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         });
     }
