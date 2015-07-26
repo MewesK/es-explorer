@@ -149,7 +149,6 @@ public class ServerPresenter implements Initializable {
             }
         });
 
-        // TODO: Move into mapper
         indexTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Change property table content
             if (newValue != oldValue) {
@@ -158,11 +157,7 @@ public class ServerPresenter implements Initializable {
 
                 // Add children
                 if (newValue != null && newValue.getValue() instanceof MetaDataContainer) {
-                    MetaDataContainer metaDataContainer = (MetaDataContainer) newValue.getValue();
-                    for (MetaData metaData : metaDataContainer.getMetaDataList()) {
-                        propertyTableView.getItems().add(metaData);
-                    }
-
+                    propertyTableView.getItems().addAll(((MetaDataContainer) newValue.getValue()).getMetaDataList());
                     propertyTableView.getItems().sort(Comparator.comparing(MetaData::getName));
                 }
             }
@@ -176,15 +171,17 @@ public class ServerPresenter implements Initializable {
     }
 
     public void handleSaveMappingAction(ActionEvent actionEvent) {
-        final FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON file", ".json"));
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                Files.write(mapping.get().getRaw().getBytes(), file);
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
+        if (mapping.get() != null) {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON file", ".json"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try {
+                    Files.write(mapping.get().getRaw().getBytes(), file);
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
+                }
             }
         }
     }

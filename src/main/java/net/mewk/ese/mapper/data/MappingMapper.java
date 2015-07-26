@@ -23,6 +23,8 @@ public class MappingMapper implements Mapper<ObjectContainer<IndexMetaData>, Map
     public Mapping map(ObjectContainer<IndexMetaData> object) throws IOException {
         // Create mapping
         Mapping mapping = new Mapping();
+
+        // TODO: Fix pretty printer to use only one line break (windows)
         XContentBuilder contentBuilder = JsonXContent.contentBuilder().prettyPrint().lfAtEnd();
         contentBuilder.startObject();
 

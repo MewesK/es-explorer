@@ -1,5 +1,6 @@
 package net.mewk.ese.presenter;
 
+import com.google.common.io.Files;
 import com.google.gson.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import net.mewk.ese.mapper.ui.ResultViewMapper;
 import net.mewk.ese.model.connection.Connection;
 import net.mewk.ese.model.query.Query;
@@ -27,6 +29,8 @@ import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -132,6 +136,22 @@ public class QueryPresenter implements Initializable {
             }
         } catch (JsonSyntaxException e) {
             LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public void handleSaveResultAction(ActionEvent actionEvent) {
+        if (result.get() != null) {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON file", ".json"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            File file = fileChooser.showSaveDialog(null);
+            if (file != null) {
+                try {
+                    Files.write(result.get().getRaw().getBytes(), file);
+                } catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
+                }
+            }
         }
     }
 
