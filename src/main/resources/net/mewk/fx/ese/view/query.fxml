@@ -16,7 +16,7 @@
                  AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
                  AnchorPane.topAnchor="0.0">
-            <Button id="queryButtonNew" mnemonicParsing="false" onAction="#handleQueryNewButtonAction">
+            <Button id="queryNewButton" mnemonicParsing="false" onAction="#handleQueryNewButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="FILE_ALT"/>
                 </graphic>
@@ -33,7 +33,7 @@
                 </graphic>
             </Button>
             <Separator/>
-            <Button id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction">
+            <Button fx:id="queryRunButton" id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="PLAY"/>
                 </graphic>
@@ -58,7 +58,7 @@
                  AnchorPane.topAnchor="0.0">
             <Label text="Result"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <Button mnemonicParsing="false" onAction="#handleRefreshResultAction">
+            <Button fx:id="refreshResultButton" mnemonicParsing="false" onAction="#handleRefreshResultAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
                 </graphic>
@@ -79,41 +79,41 @@
                 </graphic>
             </Button>
         </ToolBar>
-        <TabPane side="BOTTOM"
-                 tabClosingPolicy="UNAVAILABLE"
-                 styleClass="noBackgroundInsets"
-                 AnchorPane.bottomAnchor="0.0"
-                 AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="24.0">
-            <Tab text="Table">
-                <AnchorPane>
-                    <TreeTableView fx:id="resultTreeTableView"
-                                   showRoot="false"
-                                   styleClass="noBackgroundInsets"
-                                   AnchorPane.bottomAnchor="0.0"
-                                   AnchorPane.leftAnchor="0.0"
-                                   AnchorPane.rightAnchor="0.0"
-                                   AnchorPane.topAnchor="0.0">
-                        <columns>
-                            <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
-                            <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
-                            <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
-                            <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
-                        </columns>
-                    </TreeTableView>
-                </AnchorPane>
-            </Tab>
-            <Tab text="Raw">
-                <AnchorPane>
-                    <CodeArea fx:id="resultCodeArea"
-                              editable="false"
-                              AnchorPane.bottomAnchor="0.0"
-                              AnchorPane.leftAnchor="0.0"
-                              AnchorPane.rightAnchor="0.0"
-                              AnchorPane.topAnchor="0.0"/>
-                </AnchorPane>
-            </Tab>
-        </TabPane>
+        <StackPane AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0"
+                   AnchorPane.topAnchor="24.0">
+            <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" styleClass="noBackgroundInsets">
+                <Tab text="Table">
+                    <AnchorPane>
+                        <TreeTableView fx:id="resultTreeTableView"
+                                       showRoot="false"
+                                       styleClass="noBackgroundInsets"
+                                       AnchorPane.bottomAnchor="0.0"
+                                       AnchorPane.leftAnchor="0.0"
+                                       AnchorPane.rightAnchor="0.0"
+                                       AnchorPane.topAnchor="0.0">
+                            <columns>
+                                <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
+                                <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
+                            </columns>
+                        </TreeTableView>
+                    </AnchorPane>
+                </Tab>
+                <Tab text="Raw">
+                    <AnchorPane>
+                        <CodeArea fx:id="resultCodeArea"
+                                  editable="false"
+                                  AnchorPane.bottomAnchor="0.0"
+                                  AnchorPane.leftAnchor="0.0"
+                                  AnchorPane.rightAnchor="0.0"
+                                  AnchorPane.topAnchor="0.0"/>
+                    </AnchorPane>
+                </Tab>
+            </TabPane>
+            <ProgressIndicator fx:id="resultProgressIndicator" maxWidth="100" maxHeight="100"/>
+        </StackPane>
     </AnchorPane>
 </SplitPane>

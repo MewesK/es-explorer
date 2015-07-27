@@ -4,15 +4,15 @@ import com.airhacks.afterburner.injection.Injector;
 import com.google.common.io.Files;
 import com.google.gson.*;
 import javax.inject.Inject;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
-import javafx.scene.control.TreeTableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -44,6 +44,7 @@ public class QueryPresenter implements Initializable {
     private final ObjectProperty<ServerPresenter> serverPresenter = new SimpleObjectProperty<>();
     private final ObjectProperty<Query> query = new SimpleObjectProperty<>();
     private final ObjectProperty<Result> result = new SimpleObjectProperty<>();
+    private final BooleanProperty loaded = new SimpleBooleanProperty(true);
 
     // Instantiated objects
 
@@ -57,33 +58,48 @@ public class QueryPresenter implements Initializable {
     // View objects
 
     @FXML
-    public SplitPane querySplitPane;
+    private SplitPane querySplitPane;
     @FXML
-    public CodeArea queryCodeArea;
+    private Button queryRunButton;
     @FXML
-    public AnchorPane resultPane;
+    private CodeArea queryCodeArea;
     @FXML
-    public Glyph hideResultPaneButtonGlyph;
+    private AnchorPane resultPane;
     @FXML
-    public CodeArea resultCodeArea;
+    private Button refreshResultButton;
     @FXML
-    public TreeTableView<Object> resultTreeTableView;
+    private Glyph hideResultPaneButtonGlyph;
     @FXML
-    public TreeTableColumn<TableView, Object> resultTreeTableViewIndexColumn;
+    private ProgressIndicator resultProgressIndicator;
     @FXML
-    public TreeTableColumn<TableView, Object> resultTreeTableViewNameColumn;
+    private CodeArea resultCodeArea;
     @FXML
-    public TreeTableColumn<TableView, Object> resultTreeTableViewValueColumn;
+    private TreeTableView<Object> resultTreeTableView;
     @FXML
-    public TreeTableColumn<TableView, Object> resultTreeTableViewScoreColumn;
+    private TreeTableColumn<TableView, Object> resultTreeTableViewIndexColumn;
+    @FXML
+    private TreeTableColumn<TableView, Object> resultTreeTableViewNameColumn;
+    @FXML
+    private TreeTableColumn<TableView, Object> resultTreeTableViewValueColumn;
+    @FXML
+    private TreeTableColumn<TableView, Object> resultTreeTableViewScoreColumn;
 
     // Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
-        // Initialize connection
+        // Initialize serverPresenter
         serverPresenter.addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                // Initialize searchService
                 searchService.setConnection(newValue.getConnection());
+
+                // Initialize queryRunButton
+                queryRunButton.disableProperty().bind(serverPresenter.get().loadedProperty().not());
+                queryRunButton.disableProperty().bind(loaded.not());
+
+                // Initialize refreshResultButton
+                refreshResultButton.disableProperty().bind(serverPresenter.get().loadedProperty().not());
+                refreshResultButton.disableProperty().bind(loaded.not());
             }
         });
 
@@ -92,10 +108,11 @@ public class QueryPresenter implements Initializable {
             if (newValue != null) {
                 resultTreeTableView.setRoot(resultViewMapper.map(newValue));
                 resultCodeArea.replaceText(newValue.getRaw());
+                loaded.set(true);
             }
         });
 
-        // Initialize mappingService
+        // Initialize searchService
         searchService.setOnSucceeded(event -> result.set((Result) event.getSource().getValue()));
 
         // Initialize queryCodeArea
@@ -104,6 +121,9 @@ public class QueryPresenter implements Initializable {
                 query.get().setQuery(newValue1);
             }
         });
+
+        // Initialize resultProgressIndicator
+        resultProgressIndicator.visibleProperty().bind(loadedProperty().not());
 
         // Initialize resultTreeTableView
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
@@ -129,7 +149,16 @@ public class QueryPresenter implements Initializable {
 
     // Event handlers
 
+    public void handleQueryNewButtonAction(ActionEvent actionEvent) {
+        try {
+            serverPresenter.get().createQuery(null);
+        } catch (IOException ignored) {
+        }
+    }
+
     public void handleQueryRunButtonAction(ActionEvent actionEvent) {
+        loaded.set(false);
+
         // Set currently selected indices
         query.get().setIndexNameList(
                 serverPresenter.get().getCheckedIndices().stream().map(Index::getName).collect(Collectors.toList())
@@ -140,13 +169,6 @@ public class QueryPresenter implements Initializable {
         // Start search
         searchService.setQuery(query.get());
         searchService.restart();
-    }
-
-    public void handleQueryNewButtonAction(ActionEvent actionEvent) {
-        try {
-            serverPresenter.get().createQuery(null);
-        } catch (IOException ignored) {
-        }
     }
 
     public void handleReformatButtonAction(ActionEvent actionEvent) {
@@ -164,6 +186,7 @@ public class QueryPresenter implements Initializable {
     }
 
     public void handleRefreshResultAction(ActionEvent actionEvent) {
+        loaded.set(false);
         searchService.setQuery(result.get().getQuery());
         searchService.restart();
     }
@@ -241,5 +264,17 @@ public class QueryPresenter implements Initializable {
 
     public void setResult(Result result) {
         this.result.set(result);
+    }
+
+    public boolean getLoaded() {
+        return loaded.get();
+    }
+
+    public BooleanProperty loadedProperty() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded.set(loaded);
     }
 }

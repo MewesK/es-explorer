@@ -2,7 +2,9 @@ package net.mewk.fx.ese.presenter;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,6 +50,7 @@ public class ServerPresenter implements Initializable {
 
     private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
     private final ObjectProperty<Mapping> mapping = new SimpleObjectProperty<>();
+    private final BooleanProperty loaded = new SimpleBooleanProperty(false);
 
     // Injected objects
 
@@ -59,19 +62,23 @@ public class ServerPresenter implements Initializable {
     // View objects
 
     @FXML
-    public SplitPane mappingSplitPane;
+    private SplitPane mappingSplitPane;
     @FXML
-    private CheckTreeView<Object> indexTreeView;
+    private Button refreshMappingButton;
     @FXML
-    public AnchorPane propertyPane;
+    private CheckTreeView<Object> mappingTreeView;
     @FXML
-    public Glyph hidePropertyPaneButtonGlyph;
+    private ProgressIndicator mappingProgressIndicator;
     @FXML
-    public TableView<MetaData> propertyTableView;
+    private AnchorPane propertyPane;
     @FXML
-    public TableColumn<MetaData, String> propertyTableViewNameColumn;
+    private Glyph hidePropertyPaneButtonGlyph;
     @FXML
-    public TableColumn<MetaData, Object> propertyTableViewValueColumn;
+    private TableView<MetaData> propertyTableView;
+    @FXML
+    private TableColumn<MetaData, String> propertyTableViewNameColumn;
+    @FXML
+    private TableColumn<MetaData, Object> propertyTableViewValueColumn;
     @FXML
     private TabPane queryTabPane;
 
@@ -80,6 +87,12 @@ public class ServerPresenter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Initialize mappingService
         mappingService.setOnSucceeded(event -> mapping.set((Mapping) event.getSource().getValue()));
+
+        // Initialize refreshMappingButton
+        refreshMappingButton.disableProperty().bind(loadedProperty().not());
+
+        // Initialize mappingProgressIndicator
+        mappingProgressIndicator.visibleProperty().bind(loadedProperty().not());
 
         // Initialize propertyTableView
         propertyTableViewNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -105,13 +118,15 @@ public class ServerPresenter implements Initializable {
                 CheckBoxTreeItem<Object> rootItem = new CheckBoxTreeItem<>("_all");
                 rootItem.setExpanded(true);
                 rootItem.setSelected(true);
-                indexTreeView.setRoot(rootItem);
+                mappingTreeView.setRoot(rootItem);
 
                 // Add children
                 for (Map.Entry<String, Index> indexEntry : newValue.getIndices().entrySet()) {
-                    indexTreeView.getRoot().getChildren().add(indexViewMapper.map(indexEntry.getValue()));
-                    indexTreeView.getRoot().getChildren().sort(Comparator.comparing(Object::toString));
+                    mappingTreeView.getRoot().getChildren().add(indexViewMapper.map(indexEntry.getValue()));
+                    mappingTreeView.getRoot().getChildren().sort(Comparator.comparing(Object::toString));
                 }
+
+                loaded.set(true);
             }
         });
 
@@ -130,8 +145,10 @@ public class ServerPresenter implements Initializable {
             }
         });
 
-        // Initialize indexTreeView
-        indexTreeView.setCellFactory(param -> new CheckBoxTreeCell<Object>() {
+        // Initialize mappingTreeView
+        mappingTreeView.disableProperty().bind(loadedProperty().not());
+
+        mappingTreeView.setCellFactory(param -> new CheckBoxTreeCell<Object>() {
             @Override
             public void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
@@ -151,7 +168,7 @@ public class ServerPresenter implements Initializable {
             }
         });
 
-        indexTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        mappingTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Change property table content
             if (newValue != oldValue) {
                 // Clear children
@@ -169,6 +186,7 @@ public class ServerPresenter implements Initializable {
     // Event handlers
 
     public void handleRefreshMappingAction(ActionEvent actionEvent) {
+        loaded.set(false);
         mappingService.restart();
     }
 
@@ -213,9 +231,9 @@ public class ServerPresenter implements Initializable {
         List<Index> indexList = Lists.newArrayList();
 
         // First level under root is the only place for indices
-        for (TreeItem<Object> treeItem : indexTreeView.getRoot().getChildren()) {
-            int row = indexTreeView.getRow(treeItem);
-            if (row >= 0 && indexTreeView.getItemBooleanProperty(row).get()) {
+        for (TreeItem<Object> treeItem : mappingTreeView.getRoot().getChildren()) {
+            int row = mappingTreeView.getRow(treeItem);
+            if (row >= 0 && mappingTreeView.getItemBooleanProperty(row).get()) {
                 indexList.add((Index) treeItem.getValue());
             }
         }
@@ -270,5 +288,17 @@ public class ServerPresenter implements Initializable {
 
     public void setMapping(Mapping mapping) {
         this.mapping.set(mapping);
+    }
+
+    public boolean getLoaded() {
+        return loaded.get();
+    }
+
+    public BooleanProperty loadedProperty() {
+        return loaded;
+    }
+
+    public void setLoaded(boolean loaded) {
+        this.loaded.set(loaded);
     }
 }

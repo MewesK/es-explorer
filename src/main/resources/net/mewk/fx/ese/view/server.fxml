@@ -26,7 +26,7 @@
                          AnchorPane.topAnchor="0.0">
                     <Label text="Indices"/>
                     <Pane HBox.hgrow="ALWAYS"/>
-                    <Button mnemonicParsing="false" onAction="#handleRefreshMappingAction">
+                    <Button fx:id="refreshMappingButton" mnemonicParsing="false" onAction="#handleRefreshMappingAction">
                         <graphic>
                             <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
                         </graphic>
@@ -42,12 +42,13 @@
                         </graphic>
                     </Button>
                 </ToolBar>
-                <CheckTreeView fx:id="indexTreeView"
-                               styleClass="noBackgroundInsets"
-                               AnchorPane.bottomAnchor="0.0"
-                               AnchorPane.leftAnchor="0.0"
-                               AnchorPane.rightAnchor="0.0"
-                               AnchorPane.topAnchor="24.0"/>
+                <StackPane AnchorPane.bottomAnchor="0.0"
+                           AnchorPane.leftAnchor="0.0"
+                           AnchorPane.rightAnchor="0.0"
+                           AnchorPane.topAnchor="24.0">
+                    <CheckTreeView fx:id="mappingTreeView" styleClass="noBackgroundInsets"/>
+                    <ProgressIndicator fx:id="mappingProgressIndicator" maxWidth="100" maxHeight="100"/>
+                </StackPane>
             </AnchorPane>
             <AnchorPane fx:id="propertyPane" minHeight="24.0">
                 <ToolBar styleClass="splitPaneToolBar"
