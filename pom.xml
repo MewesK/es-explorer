@@ -14,7 +14,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <afterburner.version>1.6.2</afterburner.version>
-        <guice.version>4.0</guice.version>
         <commonslang.version>3.4</commonslang.version>
         <commonscollection.version>4.0</commonscollection.version>
         <guava.version>18.0</guava.version>

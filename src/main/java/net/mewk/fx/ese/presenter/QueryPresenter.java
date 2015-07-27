@@ -47,7 +47,7 @@ public class QueryPresenter implements Initializable {
 
     // Instantiated objects
 
-    private SearchService searchService = (SearchService) Injector.registerExistingAndInject(new SearchService());
+    private SearchService searchService = Injector.instantiateModelOrService(SearchService.class);
 
     // Injected objects
 
