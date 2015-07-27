@@ -1,0 +1,8 @@
+package net.mewk.fx.ese.model.mapping;
+
+public interface Field extends MetaDataContainer {
+
+    String getName();
+
+    String getType();
+}

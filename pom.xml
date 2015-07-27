@@ -143,7 +143,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>net.mewk.ese.Main</mainClass>
+                            <mainClass>net.mewk.fx.ese.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
