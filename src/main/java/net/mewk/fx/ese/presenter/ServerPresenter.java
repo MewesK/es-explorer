@@ -20,6 +20,7 @@ import net.mewk.fx.ese.model.mapping.Index;
 import net.mewk.fx.ese.model.mapping.Mapping;
 import net.mewk.fx.ese.model.mapping.MetaData;
 import net.mewk.fx.ese.model.mapping.MetaDataContainer;
+import net.mewk.fx.ese.model.query.Query;
 import net.mewk.fx.ese.service.MappingService;
 import net.mewk.fx.ese.view.QueryView;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -85,21 +87,15 @@ public class ServerPresenter implements Initializable {
 
         // Initialize connection
         connection.addListener((observable, oldValue, newValue) -> {
+            // Fetch mapping
             mappingService.setConnection(newValue);
             mappingService.restart();
 
-            // Initialize queryTabPane
-            QueryView queryView = new QueryView();
-            ((QueryPresenter) queryView.getPresenter()).setServerPresenter(this);
-
-            Tab queryTab = new Tab();
-            queryTab.setClosable(true);
-            queryTab.setText("unnamed.json");
-            queryTab.setContent(queryView.getView());
-            queryTab.setUserData(queryView);
-
-            queryTabPane.getTabs().add(queryTab);
-            queryTabPane.getSelectionModel().select(queryTab);
+            // Create initial query
+            try {
+                createQuery(null);
+            } catch (IOException ignored) {
+            }
         });
 
         // Initialize mapping
@@ -211,7 +207,7 @@ public class ServerPresenter implements Initializable {
         }
     }
 
-    // Property access
+    // Methods
 
     public List<Index> getCheckedIndices() {
         List<Index> indexList = Lists.newArrayList();
@@ -226,6 +222,31 @@ public class ServerPresenter implements Initializable {
 
         return indexList;
     }
+
+    public void createQuery(File file) throws IOException {
+        Query query;
+        if (file == null || !file.exists()) {
+            query = new Query(null, "");
+        } else {
+            query = new Query(file, Files.toString(file, Charset.defaultCharset()));
+        }
+
+        QueryView queryView = new QueryView();
+        QueryPresenter queryPresenter = (QueryPresenter) queryView.getPresenter();
+        queryPresenter.setServerPresenter(this);
+        queryPresenter.setQuery(query);
+
+        Tab queryTab = new Tab();
+        queryTab.setClosable(true);
+        queryTab.setText(file != null ? file.getName() : "Unsaved Query");
+        queryTab.setContent(queryView.getView());
+        queryTab.setUserData(queryView);
+
+        queryTabPane.getTabs().add(queryTab);
+        queryTabPane.getSelectionModel().select(queryTab);
+    }
+
+    // Property access
 
     public Connection getConnection() {
         return connection.get();

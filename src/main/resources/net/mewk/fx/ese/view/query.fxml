@@ -16,8 +16,7 @@
                  AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
                  AnchorPane.topAnchor="0.0">
-            <Button id="queryButtonNew"
-                    mnemonicParsing="false">
+            <Button id="queryButtonNew" mnemonicParsing="false" onAction="#handleQueryNewButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="FILE_ALT"/>
                 </graphic>
@@ -28,23 +27,18 @@
                     <Glyph fontFamily="FontAwesome" icon="FOLDER_OPEN_ALT"/>
                 </graphic>
             </Button>
-            <Button id="querySaveButton"
-                    mnemonicParsing="false">
+            <Button id="querySaveButton" mnemonicParsing="false">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="FLOPPY_ALT"/>
                 </graphic>
             </Button>
             <Separator/>
-            <Button id="queryRunButton"
-                    mnemonicParsing="false"
-                    onAction="#handleQueryRunButtonAction">
+            <Button id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="PLAY"/>
                 </graphic>
             </Button>
-            <Button id="queryReformatButton"
-                    mnemonicParsing="false"
-                    onAction="#handleReformatButtonAction">
+            <Button id="queryReformatButton" mnemonicParsing="false" onAction="#handleReformatButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="CODE"/>
                 </graphic>

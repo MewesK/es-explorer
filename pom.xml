@@ -27,18 +27,13 @@
     </properties>
 
     <dependencies>
+
         <!-- Framework -->
 
         <dependency>
             <groupId>com.airhacks</groupId>
             <artifactId>afterburner.fx</artifactId>
             <version>${afterburner.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>${guice.version}</version>
         </dependency>
 
         <dependency>
@@ -161,14 +156,6 @@
                         </goals>
                         <configuration>
                             <minimizeJar>true</minimizeJar>
-                            <filters>
-                                <filter>
-                                    <artifact>com.airhacks:afterburner.fx</artifact>
-                                    <excludes>
-                                        <exclude>javax/inject/**</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
                         </configuration>
                     </execution>
                 </executions>

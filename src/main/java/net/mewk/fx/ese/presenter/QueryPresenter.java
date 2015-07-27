@@ -1,7 +1,9 @@
 package net.mewk.fx.ese.presenter;
 
+import com.airhacks.afterburner.injection.Injector;
 import com.google.common.io.Files;
 import com.google.gson.*;
+import javax.inject.Inject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -27,7 +29,6 @@ import org.apache.logging.log4j.Logger;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -41,13 +42,15 @@ public class QueryPresenter implements Initializable {
     // Properties
 
     private final ObjectProperty<ServerPresenter> serverPresenter = new SimpleObjectProperty<>();
-    private final ObjectProperty<Query> query = new SimpleObjectProperty<>(new Query(null, ""));
+    private final ObjectProperty<Query> query = new SimpleObjectProperty<>();
     private final ObjectProperty<Result> result = new SimpleObjectProperty<>();
+
+    // Instantiated objects
+
+    private SearchService searchService = (SearchService) Injector.registerExistingAndInject(new SearchService());
 
     // Injected objects
 
-    @Inject
-    private SearchService searchService;
     @Inject
     private ResultViewMapper resultViewMapper;
 
@@ -139,6 +142,12 @@ public class QueryPresenter implements Initializable {
         searchService.restart();
     }
 
+    public void handleQueryNewButtonAction(ActionEvent actionEvent) {
+        try {
+            serverPresenter.get().createQuery(null);
+        } catch (IOException ignored) {
+        }
+    }
 
     public void handleReformatButtonAction(ActionEvent actionEvent) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

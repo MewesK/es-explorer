@@ -1,7 +1,5 @@
 package net.mewk.fx.ese;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -9,8 +7,6 @@ import javafx.stage.Stage;
 import net.mewk.fx.ese.view.MainView;
 
 public class Main extends Application {
-
-    public static final Injector INJECTOR = Guice.createInjector();
 
     @Override
     public void start(Stage stage) throws Exception {
