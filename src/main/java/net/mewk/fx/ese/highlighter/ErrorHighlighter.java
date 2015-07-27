@@ -38,20 +38,11 @@ public class ErrorHighlighter implements Highlighter {
                         int startOffset = StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber - 1);
                         int endOffset = StringUtils.ordinalIndexOf(text, "\n", parsedLineNumber);
 
-                        if (startOffset < 0) {
+                        if (startOffset == -1) {
                             startOffset = 0;
                         }
-                        if (startOffset > text.length()) {
-                            startOffset = text.length();
-                        }
-                        if (endOffset < 0) {
-                            endOffset = 0;
-                        }
-                        if (endOffset > text.length()) {
+                        if (endOffset == -1) {
                             endOffset = text.length();
-                        }
-                        if (endOffset < startOffset) {
-                            endOffset = startOffset;
                         }
 
                         styleSpanRangeBuilder.add(new StyleSpanRange(startOffset, endOffset, "error"));

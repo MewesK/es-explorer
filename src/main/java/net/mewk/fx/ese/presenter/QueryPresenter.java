@@ -146,12 +146,11 @@ public class QueryPresenter implements Initializable {
 
         try {
             JsonElement je = jp.parse(queryCodeArea.getText());
-            String prettyText = gson.toJson(je);
-            if (prettyText != null) {
-                queryCodeArea.replaceText(prettyText);
+            if (!(je instanceof JsonNull)) {
+                queryCodeArea.replaceText(gson.toJson(je));
             }
         } catch (JsonSyntaxException e) {
-            LOG.error(e.getMessage(), e);
+            LOG.info(e.getMessage());
         }
     }
 
