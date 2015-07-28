@@ -17,7 +17,7 @@ public class ErrorHighlighter implements Highlighter {
     private static final Pattern PATTERN;
 
     static {
-        PATTERN = Pattern.compile("line (?<line>\\d+)");
+        PATTERN = Pattern.compile("line (?<line>\\d{1,10})");
     }
 
     public StyleSpanRangeBuilder compute(String text) {

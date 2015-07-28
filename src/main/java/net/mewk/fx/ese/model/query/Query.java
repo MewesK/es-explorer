@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Query implements Cloneable, Serializable {
 
-    protected File file;
-    protected String query;
-    protected List<String> indexNameList;
+    private File file;
+    private String query;
+    private List<String> indexNameList;
 
     public Query() {
         this(null, "", Lists.newArrayList());

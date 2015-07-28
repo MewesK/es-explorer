@@ -10,17 +10,17 @@ public class CodeArea extends org.fxmisc.richtext.CodeArea {
     public CodeArea() {
         getStylesheets().add(CodeArea.class.getResource("/net/mewk/fx/ese/code-area.css").toExternalForm());
         setParagraphGraphicFactory(LineNumberFactory.get(this));
-        textProperty().addListener((obs, oldText, newText) -> applyHightlighting());
-    }
-
-    public void applyHightlighting() {
-        setStyleSpans(0, highlighterManager.compute(getText()));
+        textProperty().addListener((obs, oldText, newText) -> applyHighlighting());
     }
 
     @Override
     public void replaceText(int start, int end, String text) {
         super.replaceText(start, end, text);
-        // TODO: Work around - should not be encessary
-        applyHightlighting();
+        // TODO: Work around - should not be necessary
+        applyHighlighting();
+    }
+
+    private void applyHighlighting() {
+        setStyleSpans(0, highlighterManager.compute(getText()));
     }
 }

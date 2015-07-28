@@ -56,7 +56,7 @@ public class ServerPresenter implements Initializable {
 
     // Instantiated objects
 
-    private MappingService mappingService = Injector.instantiateModelOrService(MappingService.class);
+    private final MappingService mappingService = Injector.instantiateModelOrService(MappingService.class);
 
     // Injected objects
 

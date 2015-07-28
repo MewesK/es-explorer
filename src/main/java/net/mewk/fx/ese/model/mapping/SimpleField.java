@@ -7,9 +7,9 @@ import java.util.List;
 
 public class SimpleField implements Field, Serializable {
 
-    protected String name;
-    protected String type;
-    protected List<MetaData> metaDataList = Lists.newArrayList();
+    private String name;
+    private String type;
+    private List<MetaData> metaDataList = Lists.newArrayList();
 
     public SimpleField(String name) {
         this(name, null);

@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class SimpleType implements Type, Serializable {
 
-    protected String name;
-    protected Map<String, Field> fieldMap = Maps.newHashMap();
-    protected List<MetaData> metaDataList = Lists.newArrayList();
+    private String name;
+    private Map<String, Field> fieldMap = Maps.newHashMap();
+    private List<MetaData> metaDataList = Lists.newArrayList();
 
     public SimpleType(String name) {
         this.name = name;

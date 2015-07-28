@@ -9,9 +9,9 @@ import java.util.Map;
 
 public class Index implements MetaDataContainer, Serializable {
 
-    protected String name;
-    protected Map<String, Type> typeMap = Maps.newHashMap();
-    protected List<MetaData> metaDataList = Lists.newArrayList();
+    private String name;
+    private Map<String, Type> typeMap = Maps.newHashMap();
+    private List<MetaData> metaDataList = Lists.newArrayList();
 
     public Index(String name) {
         this.name = name;
