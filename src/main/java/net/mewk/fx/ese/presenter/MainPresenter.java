@@ -34,15 +34,8 @@ public class MainPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ConnectionView connectionView = new ConnectionView();
 
-        Tab connectionTab = new Tab();
-        connectionTab.setClosable(false);
-        connectionTab.setText("Connections");
-        connectionTab.setContent(connectionView.getView());
-
-        mainTabPane.getTabs().add(connectionTab);
-
+        // Initialize connectionManager
         connectionManager.getActiveConnectionList().addListener((ListChangeListener<Connection>) change -> {
             while (change.next()) {
                 if (change.wasAdded()) {
@@ -70,5 +63,15 @@ public class MainPresenter implements Initializable {
                 }
             }
         });
+
+        // Initialize mainTabPane
+        ConnectionView connectionView = new ConnectionView();
+
+        Tab connectionTab = new Tab();
+        connectionTab.setClosable(false);
+        connectionTab.setText("Connections");
+        connectionTab.setContent(connectionView.getView());
+
+        mainTabPane.getTabs().add(connectionTab);
     }
 }

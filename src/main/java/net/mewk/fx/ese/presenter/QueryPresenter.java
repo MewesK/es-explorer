@@ -17,6 +17,7 @@ import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import net.mewk.fx.control.codearea.CodeArea;
 import net.mewk.fx.ese.mapper.ui.ResultViewMapper;
@@ -66,9 +67,9 @@ public class QueryPresenter implements Initializable {
     @FXML
     private AnchorPane resultPane;
     @FXML
-    private Button refreshResultButton;
-    @FXML
     private Glyph hideResultPaneButtonGlyph;
+    @FXML
+    private StackPane resultStackPane;
     @FXML
     private ProgressIndicator resultProgressIndicator;
     @FXML
@@ -87,19 +88,11 @@ public class QueryPresenter implements Initializable {
     // Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
-        // Initialize serverPresenter
-        serverPresenter.addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                // Initialize searchService
-                searchService.setConnection(newValue.getConnection());
 
-                // Initialize queryRunButton
-                queryRunButton.disableProperty().bind(serverPresenter.get().loadedProperty().not());
-                queryRunButton.disableProperty().bind(loaded.not());
-
-                // Initialize refreshResultButton
-                refreshResultButton.disableProperty().bind(serverPresenter.get().loadedProperty().not());
-                refreshResultButton.disableProperty().bind(loaded.not());
+        // Initialize queryCodeArea
+        queryCodeArea.textProperty().addListener((observable1, oldValue1, newValue1) -> {
+            if (newValue1 != null) {
+                query.get().setQuery(newValue1);
             }
         });
 
@@ -111,25 +104,6 @@ public class QueryPresenter implements Initializable {
                 loaded.set(true);
             }
         });
-
-        // Initialize searchService
-        searchService.setOnSucceeded(event -> result.set((Result) event.getSource().getValue()));
-
-        // Initialize queryCodeArea
-        queryCodeArea.textProperty().addListener((observable1, oldValue1, newValue1) -> {
-            if (newValue1 != null) {
-                query.get().setQuery(newValue1);
-            }
-        });
-
-        // Initialize resultProgressIndicator
-        resultProgressIndicator.visibleProperty().bind(loadedProperty().not());
-
-        // Initialize resultTreeTableView
-        resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
-        resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
-        resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
-        resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
 
         // Initialize resultPane
         resultPane.heightProperty().addListener((observable, oldValue, newValue) -> {
@@ -145,9 +119,58 @@ public class QueryPresenter implements Initializable {
                 }
             }
         });
+
+        // Initialize resultProgressIndicator
+        resultProgressIndicator.visibleProperty().bind(loadedProperty().not());
+
+        // Initialize resultTreeTableView
+        resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
+        resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
+        resultTreeTableViewValueColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("value"));
+        resultTreeTableViewScoreColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("score"));
+
+        // Initialize searchService
+        searchService.setOnSucceeded(event -> result.set((Result) event.getSource().getValue()));
+
+        // Initialize serverPresenter
+        serverPresenter.addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                // Initialize searchService
+                searchService.setConnection(newValue.getConnection());
+
+                // Initialize queryRunButton
+                queryRunButton.disableProperty().bind(serverPresenter.get().loadedProperty().and(loaded).not());
+
+                // Initialize resultStackPane
+                resultStackPane.disableProperty().bind(serverPresenter.get().loadedProperty().and(loaded).not());
+            }
+        });
+
+
     }
 
     // Event handlers
+
+    public void handleCopyResultAction(ActionEvent actionEvent) {
+        if (result.get() != null) {
+            final Clipboard clipboard = Clipboard.getSystemClipboard();
+            final ClipboardContent content = new ClipboardContent();
+            content.putString(result.get().getRaw());
+            clipboard.setContent(content);
+        }
+    }
+
+    public void handleHideResultPaneButton(ActionEvent actionEvent) {
+        if (querySplitPane.getUserData() == null) {
+            querySplitPane.setUserData(querySplitPane.getDividerPositions()[0]);
+            querySplitPane.setDividerPosition(0, 1);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            querySplitPane.setDividerPosition(0, (double) querySplitPane.getUserData());
+            querySplitPane.setUserData(null);
+            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+        }
+    }
 
     public void handleQueryNewButtonAction(ActionEvent actionEvent) {
         try {
@@ -204,27 +227,6 @@ public class QueryPresenter implements Initializable {
                     LOG.error(e.getMessage(), e);
                 }
             }
-        }
-    }
-
-    public void handleCopyResultAction(ActionEvent actionEvent) {
-        if (result.get() != null) {
-            final Clipboard clipboard = Clipboard.getSystemClipboard();
-            final ClipboardContent content = new ClipboardContent();
-            content.putString(result.get().getRaw());
-            clipboard.setContent(content);
-        }
-    }
-
-    public void handleHideResultPaneButton(ActionEvent actionEvent) {
-        if (querySplitPane.getUserData() == null) {
-            querySplitPane.setUserData(querySplitPane.getDividerPositions()[0]);
-            querySplitPane.setDividerPosition(0, 1);
-            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
-        } else {
-            querySplitPane.setDividerPosition(0, (double) querySplitPane.getUserData());
-            querySplitPane.setUserData(null);
-            hideResultPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
         }
     }
 

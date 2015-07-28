@@ -11,7 +11,7 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:id="querySplitPane"
            fx:controller="net.mewk.fx.ese.presenter.QueryPresenter">
-    <AnchorPane minHeight="40.0">
+    <AnchorPane>
         <ToolBar minHeight="40.0"
                  AnchorPane.leftAnchor="0.0"
                  AnchorPane.rightAnchor="0.0"
@@ -21,8 +21,7 @@
                     <Glyph fontFamily="FontAwesome" icon="FILE_ALT"/>
                 </graphic>
             </Button>
-            <Button id="queryOpenButton"
-                    mnemonicParsing="false">
+            <Button id="queryOpenButton" mnemonicParsing="false">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="FOLDER_OPEN_ALT"/>
                 </graphic>
@@ -33,7 +32,7 @@
                 </graphic>
             </Button>
             <Separator/>
-            <Button fx:id="queryRunButton" id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction">
+            <Button fx:id="queryRunButton" id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction" styleClass="disableable">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="PLAY"/>
                 </graphic>
@@ -50,70 +49,73 @@
                   AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="40.0"/>
     </AnchorPane>
-    <AnchorPane fx:id="resultPane" minHeight="24.0">
-        <ToolBar styleClass="splitPaneToolBar"
-                 minHeight="24.0"
-                 AnchorPane.leftAnchor="0.0"
-                 AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="0.0">
-            <Label text="Result"/>
-            <Pane HBox.hgrow="ALWAYS"/>
-            <Button fx:id="refreshResultButton" mnemonicParsing="false" onAction="#handleRefreshResultAction">
-                <graphic>
-                    <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
-                </graphic>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#handleSaveResultAction">
-                <graphic>
-                    <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
-                </graphic>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#handleCopyResultAction">
-                <graphic>
-                    <Glyph fontFamily="FontAwesome" icon="COPY"/>
-                </graphic>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#handleHideResultPaneButton">
-                <graphic>
-                    <Glyph fx:id="hideResultPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
-                </graphic>
-            </Button>
-        </ToolBar>
-        <StackPane AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0"
-                   AnchorPane.topAnchor="24.0">
-            <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" styleClass="noBackgroundInsets">
-                <Tab text="Table">
-                    <AnchorPane>
-                        <TreeTableView fx:id="resultTreeTableView"
-                                       showRoot="false"
-                                       styleClass="noBackgroundInsets"
-                                       AnchorPane.bottomAnchor="0.0"
-                                       AnchorPane.leftAnchor="0.0"
-                                       AnchorPane.rightAnchor="0.0"
-                                       AnchorPane.topAnchor="0.0">
-                            <columns>
-                                <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
-                                <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
-                            </columns>
-                        </TreeTableView>
-                    </AnchorPane>
-                </Tab>
-                <Tab text="Raw">
-                    <AnchorPane>
-                        <CodeArea fx:id="resultCodeArea"
-                                  editable="false"
-                                  AnchorPane.bottomAnchor="0.0"
-                                  AnchorPane.leftAnchor="0.0"
-                                  AnchorPane.rightAnchor="0.0"
-                                  AnchorPane.topAnchor="0.0"/>
-                    </AnchorPane>
-                </Tab>
-            </TabPane>
-            <ProgressIndicator fx:id="resultProgressIndicator" maxWidth="100" maxHeight="100"/>
-        </StackPane>
-    </AnchorPane>
+    <StackPane fx:id="resultStackPane" styleClass="disableable">
+        <AnchorPane fx:id="resultPane">
+            <ToolBar minHeight="24.0"
+                     styleClass="splitPaneToolBar"
+                     AnchorPane.leftAnchor="0.0"
+                     AnchorPane.rightAnchor="0.0"
+                     AnchorPane.topAnchor="0.0">
+                <Label text="Result"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button mnemonicParsing="false" onAction="#handleRefreshResultAction">
+                    <graphic>
+                        <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleSaveResultAction">
+                    <graphic>
+                        <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleCopyResultAction">
+                    <graphic>
+                        <Glyph fontFamily="FontAwesome" icon="COPY"/>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#handleHideResultPaneButton">
+                    <graphic>
+                        <Glyph fx:id="hideResultPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
+                    </graphic>
+                </Button>
+            </ToolBar>
+                <TabPane side="BOTTOM"
+                         styleClass="noBackgroundInsets"
+                         tabClosingPolicy="UNAVAILABLE"
+                         AnchorPane.bottomAnchor="0.0"
+                         AnchorPane.leftAnchor="0.0"
+                         AnchorPane.rightAnchor="0.0"
+                         AnchorPane.topAnchor="24.0">
+                    <Tab text="Table">
+                        <AnchorPane>
+                            <TreeTableView fx:id="resultTreeTableView"
+                                           showRoot="false"
+                                           styleClass="noBackgroundInsets"
+                                           AnchorPane.bottomAnchor="0.0"
+                                           AnchorPane.leftAnchor="0.0"
+                                           AnchorPane.rightAnchor="0.0"
+                                           AnchorPane.topAnchor="0.0">
+                                <columns>
+                                    <TreeTableColumn fx:id="resultTreeTableViewNameColumn" text="Name"/>
+                                    <TreeTableColumn fx:id="resultTreeTableViewValueColumn" text="Value"/>
+                                    <TreeTableColumn fx:id="resultTreeTableViewIndexColumn" text="Index"/>
+                                    <TreeTableColumn fx:id="resultTreeTableViewScoreColumn" text="Score"/>
+                                </columns>
+                            </TreeTableView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="Raw">
+                        <AnchorPane>
+                            <CodeArea fx:id="resultCodeArea"
+                                      editable="false"
+                                      AnchorPane.bottomAnchor="0.0"
+                                      AnchorPane.leftAnchor="0.0"
+                                      AnchorPane.rightAnchor="0.0"
+                                      AnchorPane.topAnchor="0.0"/>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+        </AnchorPane>
+        <ProgressIndicator fx:id="resultProgressIndicator" maxWidth="100" maxHeight="100"/>
+    </StackPane>
 </SplitPane>

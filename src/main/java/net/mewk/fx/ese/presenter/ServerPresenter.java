@@ -1,5 +1,6 @@
 package net.mewk.fx.ese.presenter;
 
+import com.airhacks.afterburner.injection.Injector;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import javafx.beans.property.BooleanProperty;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import net.mewk.fx.ese.mapper.ui.IndexViewMapper;
 import net.mewk.fx.ese.model.connection.Connection;
@@ -52,10 +54,12 @@ public class ServerPresenter implements Initializable {
     private final ObjectProperty<Mapping> mapping = new SimpleObjectProperty<>();
     private final BooleanProperty loaded = new SimpleBooleanProperty(false);
 
+    // Instantiated objects
+
+    private MappingService mappingService = Injector.instantiateModelOrService(MappingService.class);
+
     // Injected objects
 
-    @Inject
-    private MappingService mappingService;
     @Inject
     private IndexViewMapper indexViewMapper;
 
@@ -64,7 +68,7 @@ public class ServerPresenter implements Initializable {
     @FXML
     private SplitPane mappingSplitPane;
     @FXML
-    private Button refreshMappingButton;
+    private StackPane mappingStackPane;
     @FXML
     private CheckTreeView<Object> mappingTreeView;
     @FXML
@@ -85,18 +89,6 @@ public class ServerPresenter implements Initializable {
     // Initializable
 
     public void initialize(URL location, ResourceBundle resources) {
-        // Initialize mappingService
-        mappingService.setOnSucceeded(event -> mapping.set((Mapping) event.getSource().getValue()));
-
-        // Initialize refreshMappingButton
-        refreshMappingButton.disableProperty().bind(loadedProperty().not());
-
-        // Initialize mappingProgressIndicator
-        mappingProgressIndicator.visibleProperty().bind(loadedProperty().not());
-
-        // Initialize propertyTableView
-        propertyTableViewNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        propertyTableViewValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
         // Initialize connection
         connection.addListener((observable, oldValue, newValue) -> {
@@ -130,24 +122,16 @@ public class ServerPresenter implements Initializable {
             }
         });
 
-        // Initialize propertyPane
-        propertyPane.heightProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.equals(oldValue)) {
-                if (newValue.intValue() == propertyPane.getMinHeight()) {
-                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
-                    if (mappingSplitPane.getUserData() == null) {
-                        mappingSplitPane.setUserData(0.7);
-                    }
-                } else {
-                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
-                    mappingSplitPane.setUserData(null);
-                }
-            }
-        });
+        // Initialize mappingProgressIndicator
+        mappingProgressIndicator.visibleProperty().bind(loaded.not());
+
+        // Initialize mappingService
+        mappingService.setOnSucceeded(event -> mapping.set((Mapping) event.getSource().getValue()));
+
+        // Initialize mappingStackPane
+        mappingStackPane.disableProperty().bind(loaded.not());
 
         // Initialize mappingTreeView
-        mappingTreeView.disableProperty().bind(loadedProperty().not());
-
         mappingTreeView.setCellFactory(param -> new CheckBoxTreeCell<Object>() {
             @Override
             public void updateItem(Object item, boolean empty) {
@@ -181,9 +165,47 @@ public class ServerPresenter implements Initializable {
                 }
             }
         });
+
+        // Initialize propertyPane
+        propertyPane.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.equals(oldValue)) {
+                if (newValue.intValue() == propertyPane.getMinHeight()) {
+                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+                    if (mappingSplitPane.getUserData() == null) {
+                        mappingSplitPane.setUserData(0.7);
+                    }
+                } else {
+                    hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+                    mappingSplitPane.setUserData(null);
+                }
+            }
+        });
+
+        // Initialize propertyTableView
+        propertyTableViewNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        propertyTableViewValueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
     }
 
     // Event handlers
+
+    public void handleCopyMappingAction(ActionEvent actionEvent) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(mapping.get().getRaw());
+        clipboard.setContent(content);
+    }
+
+    public void handleHidePropertyPaneAction(ActionEvent actionEvent) {
+        if (mappingSplitPane.getUserData() == null) {
+            mappingSplitPane.setUserData(mappingSplitPane.getDividerPositions()[0]);
+            mappingSplitPane.setDividerPosition(0, 1);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
+        } else {
+            mappingSplitPane.setDividerPosition(0, (double) mappingSplitPane.getUserData());
+            mappingSplitPane.setUserData(null);
+            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
+        }
+    }
 
     public void handleRefreshMappingAction(ActionEvent actionEvent) {
         loaded.set(false);
@@ -206,40 +228,7 @@ public class ServerPresenter implements Initializable {
         }
     }
 
-    public void handleCopyMappingAction(ActionEvent actionEvent) {
-        final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final ClipboardContent content = new ClipboardContent();
-        content.putString(mapping.get().getRaw());
-        clipboard.setContent(content);
-    }
-
-    public void handleHidePropertyPaneAction(ActionEvent actionEvent) {
-        if (mappingSplitPane.getUserData() == null) {
-            mappingSplitPane.setUserData(mappingSplitPane.getDividerPositions()[0]);
-            mappingSplitPane.setDividerPosition(0, 1);
-            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_UP);
-        } else {
-            mappingSplitPane.setDividerPosition(0, (double) mappingSplitPane.getUserData());
-            mappingSplitPane.setUserData(null);
-            hidePropertyPaneButtonGlyph.setIcon(FontAwesome.Glyph.CHEVRON_DOWN);
-        }
-    }
-
     // Methods
-
-    public List<Index> getCheckedIndices() {
-        List<Index> indexList = Lists.newArrayList();
-
-        // First level under root is the only place for indices
-        for (TreeItem<Object> treeItem : mappingTreeView.getRoot().getChildren()) {
-            int row = mappingTreeView.getRow(treeItem);
-            if (row >= 0 && mappingTreeView.getItemBooleanProperty(row).get()) {
-                indexList.add((Index) treeItem.getValue());
-            }
-        }
-
-        return indexList;
-    }
 
     public void createQuery(File file) throws IOException {
         Query query;
@@ -262,6 +251,20 @@ public class ServerPresenter implements Initializable {
 
         queryTabPane.getTabs().add(queryTab);
         queryTabPane.getSelectionModel().select(queryTab);
+    }
+
+    public List<Index> getCheckedIndices() {
+        List<Index> indexList = Lists.newArrayList();
+
+        // First level under root is the only place for indices
+        for (TreeItem<Object> treeItem : mappingTreeView.getRoot().getChildren()) {
+            int row = mappingTreeView.getRow(treeItem);
+            if (row >= 0 && mappingTreeView.getItemBooleanProperty(row).get()) {
+                indexList.add((Index) treeItem.getValue());
+            }
+        }
+
+        return indexList;
     }
 
     // Property access

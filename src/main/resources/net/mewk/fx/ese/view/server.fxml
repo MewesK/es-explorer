@@ -18,39 +18,41 @@
                    AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0"
                    AnchorPane.topAnchor="0.0">
-            <AnchorPane minHeight="24.0">
-                <ToolBar styleClass="splitPaneToolBar"
-                         minHeight="24.0"
-                         AnchorPane.leftAnchor="0.0"
-                         AnchorPane.rightAnchor="0.0"
-                         AnchorPane.topAnchor="0.0">
-                    <Label text="Indices"/>
-                    <Pane HBox.hgrow="ALWAYS"/>
-                    <Button fx:id="refreshMappingButton" mnemonicParsing="false" onAction="#handleRefreshMappingAction">
-                        <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
-                        </graphic>
-                    </Button>
-                    <Button mnemonicParsing="false" onAction="#handleSaveMappingAction">
-                        <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
-                        </graphic>
-                    </Button>
-                    <Button mnemonicParsing="false" onAction="#handleCopyMappingAction">
-                        <graphic>
-                            <Glyph fontFamily="FontAwesome" icon="COPY"/>
-                        </graphic>
-                    </Button>
-                </ToolBar>
-                <StackPane AnchorPane.bottomAnchor="0.0"
-                           AnchorPane.leftAnchor="0.0"
-                           AnchorPane.rightAnchor="0.0"
-                           AnchorPane.topAnchor="24.0">
-                    <CheckTreeView fx:id="mappingTreeView" styleClass="noBackgroundInsets"/>
-                    <ProgressIndicator fx:id="mappingProgressIndicator" maxWidth="100" maxHeight="100"/>
-                </StackPane>
-            </AnchorPane>
-            <AnchorPane fx:id="propertyPane" minHeight="24.0">
+            <StackPane fx:id="mappingStackPane">
+                <AnchorPane>
+                    <ToolBar styleClass="splitPaneToolBar"
+                             minHeight="24.0"
+                             AnchorPane.leftAnchor="0.0"
+                             AnchorPane.rightAnchor="0.0"
+                             AnchorPane.topAnchor="0.0">
+                        <Label text="Indices"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Button mnemonicParsing="false" onAction="#handleRefreshMappingAction">
+                            <graphic>
+                                <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
+                            </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleSaveMappingAction">
+                            <graphic>
+                                <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
+                            </graphic>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleCopyMappingAction">
+                            <graphic>
+                                <Glyph fontFamily="FontAwesome" icon="COPY"/>
+                            </graphic>
+                        </Button>
+                    </ToolBar>
+                    <CheckTreeView fx:id="mappingTreeView"
+                                   styleClass="noBackgroundInsets"
+                                   AnchorPane.bottomAnchor="0.0"
+                                   AnchorPane.leftAnchor="0.0"
+                                   AnchorPane.rightAnchor="0.0"
+                                   AnchorPane.topAnchor="24.0"/>
+                </AnchorPane>
+                <ProgressIndicator fx:id="mappingProgressIndicator" maxWidth="100" maxHeight="100"/>
+            </StackPane>
+            <AnchorPane fx:id="propertyPane">
                 <ToolBar styleClass="splitPaneToolBar"
                          minHeight="24.0"
                          AnchorPane.leftAnchor="0.0"
