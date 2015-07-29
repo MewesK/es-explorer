@@ -32,7 +32,7 @@
                 </graphic>
             </Button>
             <Separator/>
-            <Button fx:id="queryRunButton" id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction" styleClass="disableable">
+            <Button id="queryRunButton" mnemonicParsing="false" onAction="#handleQueryRunButtonAction">
                 <graphic>
                     <Glyph fontFamily="FontAwesome" icon="PLAY"/>
                 </graphic>
@@ -49,7 +49,7 @@
                   AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="40.0"/>
     </AnchorPane>
-    <StackPane fx:id="resultStackPane" styleClass="disableable">
+    <StackPane fx:id="resultStackPane">
         <AnchorPane fx:id="resultPane">
             <ToolBar minHeight="24.0"
                      styleClass="splitPaneToolBar"

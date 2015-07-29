@@ -61,8 +61,6 @@ public class QueryPresenter implements Initializable {
     @FXML
     private SplitPane querySplitPane;
     @FXML
-    private Button queryRunButton;
-    @FXML
     private CodeArea queryCodeArea;
     @FXML
     private AnchorPane resultPane;
@@ -123,6 +121,9 @@ public class QueryPresenter implements Initializable {
         // Initialize resultProgressIndicator
         resultProgressIndicator.visibleProperty().bind(loadedProperty().not());
 
+        // Initialize resultStackPane
+        resultStackPane.disableProperty().bind(loaded.not());
+
         // Initialize resultTreeTableView
         resultTreeTableViewIndexColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("index"));
         resultTreeTableViewNameColumn.setCellValueFactory(new TreeItemPropertyValueFactory<>("name"));
@@ -137,16 +138,8 @@ public class QueryPresenter implements Initializable {
             if (newValue != null) {
                 // Initialize searchService
                 searchService.setConnection(newValue.getConnection());
-
-                // Initialize queryRunButton
-                queryRunButton.disableProperty().bind(serverPresenter.get().loadedProperty().and(loaded).not());
-
-                // Initialize resultStackPane
-                resultStackPane.disableProperty().bind(serverPresenter.get().loadedProperty().and(loaded).not());
             }
         });
-
-
     }
 
     // Event handlers
@@ -186,8 +179,6 @@ public class QueryPresenter implements Initializable {
         query.get().setIndexNameList(
                 serverPresenter.get().getCheckedIndices().stream().map(Index::getName).collect(Collectors.toList())
         );
-
-        // TODO: Check for zero indices
 
         // Start search
         searchService.setQuery(query.get());
