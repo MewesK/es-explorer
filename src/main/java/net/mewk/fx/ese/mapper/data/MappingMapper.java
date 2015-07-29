@@ -59,7 +59,7 @@ public class MappingMapper implements Mapper<ObjectContainer<IndexMetaData>, Map
     }
 
     @SuppressWarnings("unchecked")
-    public Type mapToType(MappingMetaData object) throws IOException {
+    private Type mapToType(MappingMetaData object) throws IOException {
         // Create type
         Type type = new SimpleType(object.type());
 
@@ -82,7 +82,7 @@ public class MappingMapper implements Mapper<ObjectContainer<IndexMetaData>, Map
     }
 
     @SuppressWarnings("unchecked")
-    public Field mapToField(Map.Entry<String, Object> object) {
+    private Field mapToField(Map.Entry<String, Object> object) {
         // Create field
         Field field = new SimpleField(object.getKey());
 

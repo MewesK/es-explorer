@@ -49,7 +49,7 @@ public class QueryPresenter implements Initializable {
 
     // Instantiated objects
 
-    private SearchService searchService = Injector.instantiateModelOrService(SearchService.class);
+    private final SearchService searchService = Injector.instantiateModelOrService(SearchService.class);
 
     // Injected objects
 

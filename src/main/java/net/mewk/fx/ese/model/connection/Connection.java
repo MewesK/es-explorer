@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class Connection implements Serializable {
 
-    protected String name;
-    protected String hostname;
-    protected int port;
+    private String name;
+    private String hostname;
+    private int port;
 
     public Connection(String name, String hostname, int port) {
         this.name = name;
