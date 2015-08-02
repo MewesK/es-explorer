@@ -9,11 +9,23 @@
     <packaging>jar</packaging>
     <name>ES Explorer</name>
 
+    <developers>
+        <developer>
+            <name>Mewes Kochheim</name>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>Mewes Kochheim</name>
+    </organization>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <afterburner.version>1.6.2</afterburner.version>
+        <mainClass>net.mewk.fx.esexplorer.Main</mainClass>
+
+        <afterburner.version>1.6.3-SNAPSHOT</afterburner.version>
         <commonslang.version>3.4</commonslang.version>
         <commonscollection.version>4.0</commonscollection.version>
         <guava.version>18.0</guava.version>
@@ -70,12 +82,6 @@
         <!-- Data bindings -->
 
         <dependency>
-            <groupId>org.javafxdata</groupId>
-            <artifactId>datafx-core</artifactId>
-            <version>${datafx.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
@@ -117,6 +123,8 @@
     </dependencies>
 
     <build>
+        <finalName>es-explorer</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -137,7 +145,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>net.mewk.fx.ese.Main</mainClass>
+                            <mainClass>${mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -155,6 +163,23 @@
                         </goals>
                         <configuration>
                             <minimizeJar>true</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>native</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>${mainClass}</mainClass>
                         </configuration>
                     </execution>
                 </executions>

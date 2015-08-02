@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<?import org.controlsfx.control.CheckTreeView?>
+<AnchorPane
+        xmlns="http://javafx.com/javafx/8"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="net.mewk.fx.esexplorer.presenter.ServerPresenter">
+    <ToolBar minHeight="40.0"
+             AnchorPane.leftAnchor="0.0"
+             AnchorPane.rightAnchor="0.0"
+             AnchorPane.topAnchor="0.0">
+        <Button id="queryNewButton" mnemonicParsing="false" onAction="#handleQueryNewButtonAction">
+            <graphic>
+                <Glyph fontFamily="FontAwesome" icon="FILE_ALT"/>
+            </graphic>
+        </Button>
+    </ToolBar>
+    <SplitPane styleClass="noBackgroundInsets"
+               dividerPositions="0.3"
+               AnchorPane.bottomAnchor="0.0"
+               AnchorPane.leftAnchor="0.0"
+               AnchorPane.rightAnchor="0.0"
+               AnchorPane.topAnchor="40.0">
+        <AnchorPane>
+            <SplitPane fx:id="mappingSplitPane"
+                       styleClass="noBackgroundInsets"
+                       dividerPositions="0.7"
+                       orientation="VERTICAL"
+                       AnchorPane.bottomAnchor="0.0"
+                       AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0"
+                       AnchorPane.topAnchor="0.0">
+                <StackPane fx:id="mappingStackPane">
+                    <AnchorPane>
+                        <ToolBar styleClass="splitPaneToolBar"
+                                 minHeight="24.0"
+                                 AnchorPane.leftAnchor="0.0"
+                                 AnchorPane.rightAnchor="0.0"
+                                 AnchorPane.topAnchor="0.0">
+                            <Label text="Indices"/>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button mnemonicParsing="false" onAction="#handleRefreshMappingAction">
+                                <graphic>
+                                    <Glyph fontFamily="FontAwesome" icon="REFRESH"/>
+                                </graphic>
+                            </Button>
+                            <Button mnemonicParsing="false" onAction="#handleSaveMappingAction">
+                                <graphic>
+                                    <Glyph fontFamily="FontAwesome" icon="DOWNLOAD"/>
+                                </graphic>
+                            </Button>
+                            <Button mnemonicParsing="false" onAction="#handleCopyMappingAction">
+                                <graphic>
+                                    <Glyph fontFamily="FontAwesome" icon="COPY"/>
+                                </graphic>
+                            </Button>
+                        </ToolBar>
+                        <CheckTreeView fx:id="mappingTreeView"
+                                       styleClass="noBackgroundInsets"
+                                       AnchorPane.bottomAnchor="0.0"
+                                       AnchorPane.leftAnchor="0.0"
+                                       AnchorPane.rightAnchor="0.0"
+                                       AnchorPane.topAnchor="24.0"/>
+                    </AnchorPane>
+                    <ProgressIndicator fx:id="mappingProgressIndicator" maxWidth="100" maxHeight="100"/>
+                </StackPane>
+                <AnchorPane fx:id="propertyPane">
+                    <ToolBar styleClass="splitPaneToolBar"
+                             minHeight="24.0"
+                             AnchorPane.leftAnchor="0.0"
+                             AnchorPane.rightAnchor="0.0"
+                             AnchorPane.topAnchor="0.0">
+                        <Label text="Properties"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Button mnemonicParsing="false" onAction="#handleHidePropertyPaneAction">
+                            <graphic>
+                                <Glyph fx:id="hidePropertyPaneButtonGlyph" fontFamily="FontAwesome" icon="CHEVRON_DOWN"/>
+                            </graphic>
+                        </Button>
+                    </ToolBar>
+                    <TableView fx:id="propertyTableView"
+                               styleClass="noBackgroundInsets"
+                               AnchorPane.bottomAnchor="0.0"
+                               AnchorPane.leftAnchor="0.0"
+                               AnchorPane.rightAnchor="0.0"
+                               AnchorPane.topAnchor="24.0">
+                        <columns>
+                            <TableColumn fx:id="propertyTableViewNameColumn" text="Name"/>
+                            <TableColumn fx:id="propertyTableViewValueColumn" text="Value"/>
+                        </columns>
+                    </TableView>
+                </AnchorPane>
+            </SplitPane>
+        </AnchorPane>
+        <AnchorPane>
+            <TabPane fx:id="queryTabPane"
+                     tabClosingPolicy="SELECTED_TAB"
+                     AnchorPane.bottomAnchor="0.0"
+                     AnchorPane.leftAnchor="0.0"
+                     AnchorPane.rightAnchor="0.0"
+                     AnchorPane.topAnchor="0.0"/>
+        </AnchorPane>
+    </SplitPane>
+</AnchorPane>
