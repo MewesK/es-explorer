@@ -17,6 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import net.mewk.fx.control.codearea.CodeArea;
+import net.mewk.fx.control.codearea.style.provider.ActiveProvider;
+import net.mewk.fx.control.codearea.style.provider.json.JsonErrorProvider;
+import net.mewk.fx.control.codearea.style.provider.json.JsonSyntaxProvider;
 import net.mewk.fx.esexplorer.mapper.ui.ResultViewMapper;
 import net.mewk.fx.esexplorer.model.mapping.Index;
 import net.mewk.fx.esexplorer.model.query.Query;
@@ -86,11 +89,18 @@ public class QueryPresenter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Initialize queryCodeArea
+        queryCodeArea.getTextStyleRangeProviderList().add(new JsonErrorProvider());
+        queryCodeArea.getTextStyleRangeProviderList().add(new JsonSyntaxProvider());
+        queryCodeArea.getStateStyleRangeProviderList().add(new ActiveProvider(queryCodeArea));
         queryCodeArea.textProperty().addListener((observable1, oldValue1, newValue1) -> {
             if (newValue1 != null) {
                 query.setQuery(newValue1);
             }
         });
+
+        // Initialize responseCodeArea
+        responseCodeArea.getTextStyleRangeProviderList().add(new JsonErrorProvider());
+        responseCodeArea.getTextStyleRangeProviderList().add(new JsonSyntaxProvider());
 
         // Initialize result
         result.addListener((observable, oldValue, newValue) -> {

@@ -52,7 +52,8 @@ public class MainPresenter implements Initializable {
                         mainTabPane.getTabs().add(serverTab);
                         mainTabPane.getSelectionModel().select(serverTab);
                     }
-                } else {
+                }
+                if (change.wasRemoved()) {
                     for (Connection connection : change.getRemoved()) {
                         for (Tab tab : mainTabPane.getTabs()) {
                             if (tab.getText().equals(connection.getName())) {

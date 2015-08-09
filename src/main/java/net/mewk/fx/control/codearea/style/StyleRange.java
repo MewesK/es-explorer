@@ -1,4 +1,4 @@
-package net.mewk.fx.control.codearea;
+package net.mewk.fx.control.codearea.style;
 
 import com.google.common.collect.Lists;
 import org.fxmisc.richtext.StyleSpan;
@@ -8,27 +8,27 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable {
+public class StyleRange implements Comparable<StyleRange>, Serializable {
 
     private int start;
     private int end;
     private List<String> classNameList = Lists.newArrayList();
 
-    public StyleSpanRange() {
+    public StyleRange() {
         this(0, 0);
     }
 
-    public StyleSpanRange(int start, int end) {
+    public StyleRange(int start, int end) {
         this.start = start;
         this.end = end;
     }
 
-    public StyleSpanRange(int start, int end, String className) {
+    public StyleRange(int start, int end, String className) {
         this(start, end);
         classNameList.add(className);
     }
 
-    public StyleSpanRange(int start, int end, List<String> classNameList) {
+    public StyleRange(int start, int end, List<String> classNameList) {
         this(start, end);
         this.classNameList = classNameList;
     }
@@ -37,15 +37,15 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
         return Math.abs(end - start);
     }
 
-    public boolean overlaps(StyleSpanRange span) {
+    public boolean overlaps(StyleRange span) {
         return span != null && (
                 contains(span.getStart()) || contains(span.getEnd()) ||
                         span.contains(start) || span.contains(end)
         );
     }
 
-    public List<StyleSpanRange> overlay(StyleSpanRange span) {
-        final List<StyleSpanRange> spanList;
+    public List<StyleRange> overlay(StyleRange span) {
+        final List<StyleRange> spanList;
 
         if (!overlaps(span)) {
             spanList = start < span.getStart() ?
@@ -56,13 +56,13 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
             mergedClassNameList.addAll(classNameList);
             mergedClassNameList.addAll(span.getClassNameList());
 
-            final StyleSpanRange first = start < span.getStart() ?
-                    new StyleSpanRange(start, span.getStart(), classNameList) :
-                    new StyleSpanRange(span.getStart(), start, span.getClassNameList());
+            final StyleRange first = start < span.getStart() ?
+                    new StyleRange(start, span.getStart(), classNameList) :
+                    new StyleRange(span.getStart(), start, span.getClassNameList());
 
-            final StyleSpanRange last = end > span.getEnd() ?
-                    new StyleSpanRange(span.getEnd(), end, classNameList) :
-                    new StyleSpanRange(end, span.getEnd(), span.getClassNameList());
+            final StyleRange last = end > span.getEnd() ?
+                    new StyleRange(span.getEnd(), end, classNameList) :
+                    new StyleRange(end, span.getEnd(), span.getClassNameList());
 
             spanList = Lists.newArrayList();
 
@@ -70,7 +70,7 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
                 spanList.add(first);
             }
 
-            spanList.add(new StyleSpanRange(first.getEnd(), last.getStart(), mergedClassNameList));
+            spanList.add(new StyleRange(first.getEnd(), last.getStart(), mergedClassNameList));
 
             if (!last.isEmpty()) {
                 spanList.add(last);
@@ -93,14 +93,14 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
     }
 
     @Override
-    public int compareTo(@NotNull StyleSpanRange span) {
+    public int compareTo(@NotNull StyleRange span) {
         return Integer.compare(start, span.getStart());
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof StyleSpanRange) {
-            final StyleSpanRange span = (StyleSpanRange) object;
+        if (object instanceof StyleRange) {
+            final StyleRange span = (StyleRange) object;
             return start == span.getStart() && end == span.getEnd();
         }
         return object != null && object.equals(this);

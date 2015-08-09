@@ -25,7 +25,7 @@
 
         <mainClass>net.mewk.fx.esexplorer.Main</mainClass>
 
-        <afterburner.version>1.6.3-SNAPSHOT</afterburner.version>
+        <afterburner.version>1.7.0-SNAPSHOT</afterburner.version>
         <commonslang.version>3.4</commonslang.version>
         <commonscollection.version>4.0</commonscollection.version>
         <guava.version>18.0</guava.version>
