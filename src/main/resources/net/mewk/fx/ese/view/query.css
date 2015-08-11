@@ -3,12 +3,19 @@
 }
 
 /*
+ * Default highlighting
+ */
+
+.text {
+    -fx-font-weight: 900;
+    -fx-fill: black;
+}
+
+/*
  * Syntax highlighting
  */
 
 .brace, .bracket, .comma {
-    -fx-font-weight: 900;
-    -fx-fill: black;
 }
 
 .key {
@@ -34,6 +41,18 @@
 .double {
     -fx-fill: darkred;
 }
+
+/*
+ * Keyword highlighting
+ */
+
+.query-function, .score-function, .filter-parser {
+    -fx-underline: true;
+}
+
+/*
+ * Error highlighting
+ */
 
 .error {
     -fx-fill: red;

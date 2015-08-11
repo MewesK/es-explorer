@@ -3,8 +3,6 @@ package net.mewk.fx.ese.presenter;
 import com.airhacks.afterburner.injection.Injector;
 import com.google.common.io.Files;
 import com.google.gson.*;
-import javax.inject.Inject;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -30,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import org.controlsfx.glyphfont.FontAwesome;
 import org.controlsfx.glyphfont.Glyph;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

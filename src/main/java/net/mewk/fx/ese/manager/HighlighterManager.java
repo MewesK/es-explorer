@@ -3,9 +3,7 @@ package net.mewk.fx.ese.manager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import net.mewk.fx.control.codearea.StyleSpanRangeBuilder;
-import net.mewk.fx.ese.highlighter.ErrorHighlighter;
-import net.mewk.fx.ese.highlighter.Highlighter;
-import net.mewk.fx.ese.highlighter.SyntaxHighlighter;
+import net.mewk.fx.ese.highlighter.*;
 import org.fxmisc.richtext.StyleSpans;
 
 import javax.inject.Singleton;
@@ -18,7 +16,9 @@ public class HighlighterManager {
 
     public HighlighterManager() {
         highlighterList.addAll(
+                new DefaultHighlighter(),
                 new SyntaxHighlighter(),
+                new KeywordHighlighter(),
                 new ErrorHighlighter()
         );
     }

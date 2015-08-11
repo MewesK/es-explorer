@@ -26,8 +26,6 @@ public class ErrorHighlighter implements Highlighter {
         try {
             new JsonParser().parse(text);
         } catch (JsonSyntaxException jse) {
-            LOG.info(jse.getMessage());
-
             // Add error highlighting if errors occur
             Matcher matcher = PATTERN.matcher(jse.getMessage());
             if (matcher.find()) {

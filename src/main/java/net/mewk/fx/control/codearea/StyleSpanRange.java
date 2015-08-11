@@ -39,22 +39,26 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
 
     public boolean overlaps(StyleSpanRange span) {
         return span != null && (
-                contains(span.getStart()) || contains(span.getEnd()) ||
+                equals(span) || contains(span.getStart()) || contains(span.getEnd()) ||
                         span.contains(start) || span.contains(end)
+        );
+    }
+
+    public boolean touches(StyleSpanRange span) {
+        return span != null && (
+                touches(span.getStart()) || touches(span.getEnd()) ||
+                        span.touches(start) || span.touches(end)
         );
     }
 
     public List<StyleSpanRange> overlay(StyleSpanRange span) {
         final List<StyleSpanRange> spanList;
 
-        if (!overlaps(span)) {
+        if (!touches(span)) {
             spanList = start < span.getStart() ?
                     Lists.newArrayList(this, span) :
                     Lists.newArrayList(span, this);
         } else {
-            final List<String> mergedClassNameList = Lists.newArrayList();
-            mergedClassNameList.addAll(classNameList);
-            mergedClassNameList.addAll(span.getClassNameList());
 
             final StyleSpanRange first = start < span.getStart() ?
                     new StyleSpanRange(start, span.getStart(), classNameList) :
@@ -64,13 +68,21 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
                     new StyleSpanRange(span.getEnd(), end, classNameList) :
                     new StyleSpanRange(end, span.getEnd(), span.getClassNameList());
 
+            final List<String> mergedClassNameList = Lists.newArrayList();
+            mergedClassNameList.addAll(classNameList);
+            mergedClassNameList.addAll(span.getClassNameList());
+
+            final StyleSpanRange middle = new StyleSpanRange(first.getEnd(), last.getStart(), mergedClassNameList);
+
             spanList = Lists.newArrayList();
 
             if (!first.isEmpty()) {
                 spanList.add(first);
             }
 
-            spanList.add(new StyleSpanRange(first.getEnd(), last.getStart(), mergedClassNameList));
+            if (!middle.isEmpty()) {
+                spanList.add(middle);
+            }
 
             if (!last.isEmpty()) {
                 spanList.add(last);
@@ -81,6 +93,10 @@ public class StyleSpanRange implements Comparable<StyleSpanRange>, Serializable 
     }
 
     public boolean contains(int value) {
+        return value > start && value < end;
+    }
+
+    public boolean touches(int value) {
         return value >= start && value <= end;
     }
 

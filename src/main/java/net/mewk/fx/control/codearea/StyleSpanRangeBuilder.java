@@ -8,8 +8,7 @@ import org.fxmisc.richtext.StyleSpansBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Stack;
+import java.util.List;
 
 public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
 
@@ -20,16 +19,24 @@ public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
             // Add blank span
             styleSpansBuilder.add(new StyleSpan<>(Lists.newArrayList(), 0));
         } else {
+            // Overlay
+            List<StyleSpanRange> styleSpanRangeList = overlay(this);
+
             // Merge
+            styleSpanRangeList = merge(styleSpanRangeList);
+
+            // Sort
+            styleSpanRangeList.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
+
+            // Convert
             StyleSpanRange lastSpan = new StyleSpanRange();
-            for (StyleSpanRange span : merge()) {
+            for (StyleSpanRange span : styleSpanRangeList) {
                 // Add blank span if necessary
                 if (lastSpan.getEnd() < span.getStart()) {
                     StyleSpanRange blankSpan = new StyleSpanRange(lastSpan.getEnd(), span.getStart());
                     styleSpansBuilder.add(blankSpan.createStyleSpan());
                 }
 
-                // Convert
                 styleSpansBuilder.add(span.createStyleSpan());
                 lastSpan = span;
             }
@@ -39,33 +46,50 @@ public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
         return styleSpansBuilder.create();
     }
 
-    private Stack<StyleSpanRange> merge() {
-        final Stack<StyleSpanRange> styleSpanRangeStack = new Stack<>();
+    private List<StyleSpanRange> overlay(List<StyleSpanRange> styleSpanRangeList) {
+        List<StyleSpanRange> newStyleSpanRangeList = Lists.newArrayList();
 
         // Sort
-        this.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
+        styleSpanRangeList.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
 
-        // Overlay
-        for (StyleSpanRange span : this) {
-            if (styleSpanRangeStack.size() == 0) {
-                styleSpanRangeStack.push(span);
-            } else {
-                StyleSpanRange topSpan = styleSpanRangeStack.peek();
+        boolean changed = false;
+        for (StyleSpanRange span : styleSpanRangeList) {
+            if (newStyleSpanRangeList.size() != 0) {
+                int lastIndex = newStyleSpanRangeList.size() - 1;
+                StyleSpanRange topSpan = newStyleSpanRangeList.get(lastIndex);
                 if (topSpan.overlaps(span)) {
-                    styleSpanRangeStack.pop();
-                    styleSpanRangeStack.addAll(topSpan.overlay(span));
-                } else {
-                    styleSpanRangeStack.push(span);
+                    changed = true;
+
+                    // Overlay operation
+                    newStyleSpanRangeList.remove(lastIndex);
+                    newStyleSpanRangeList.addAll(topSpan.overlay(span));
+                    continue;
                 }
             }
+
+            newStyleSpanRangeList.add(span);
         }
 
-        // Merge
-        int size = styleSpanRangeStack.size();
+        // Repeat if changed
+        if (changed) {
+            newStyleSpanRangeList = overlay(newStyleSpanRangeList);
+        }
+
+        return newStyleSpanRangeList;
+    }
+
+    private List<StyleSpanRange> merge(List<StyleSpanRange> styleSpanRangeList) {
+        List<StyleSpanRange> newStyleSpanRangeList = Lists.newArrayList();
+
+        // Sort
+        styleSpanRangeList.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
+
+        boolean changed = false;
+        int size = styleSpanRangeList.size();
         for (int i = 0; i < size; i++) {
             if (i + 1 < size) {
-                StyleSpanRange current = styleSpanRangeStack.get(i);
-                StyleSpanRange next = styleSpanRangeStack.get(i + 1);
+                StyleSpanRange current = styleSpanRangeList.get(i);
+                StyleSpanRange next = styleSpanRangeList.get(i + 1);
 
                 // Overlap check
                 if (next.contains(current.getEnd())) {
@@ -73,19 +97,25 @@ public class StyleSpanRangeBuilder extends ArrayList<StyleSpanRange> {
 
                     // Class names check
                     if (commonClasses.size() == current.getClassNameList().size() && commonClasses.size() == next.getClassNameList().size()) {
+                        changed = true;
+
                         // Merge operation
                         next.setStart(current.getStart());
-
-                        // Mark for deletion
-                        styleSpanRangeStack.set(i, null);
+                        current = null;
                     }
+                }
+
+                if (current != null) {
+                    newStyleSpanRangeList.add(current);
                 }
             }
         }
 
-        // Delete all marked entries
-        styleSpanRangeStack.removeAll(Collections.<StyleSpanRange>singleton(null));
+        // Repeat if necessary
+        if (changed) {
+            newStyleSpanRangeList = merge(newStyleSpanRangeList);
+        }
 
-        return styleSpanRangeStack;
+        return newStyleSpanRangeList;
     }
 }

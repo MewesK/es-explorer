@@ -20,6 +20,10 @@ public class CodeArea extends org.fxmisc.richtext.CodeArea {
         applyHighlighting();
     }
 
+    public void setText(String text) {
+        replaceText(text);
+    }
+
     private void applyHighlighting() {
         setStyleSpans(0, highlighterManager.compute(getText()));
     }
