@@ -18,18 +18,28 @@ import java.util.stream.Collectors;
 
 public class KeywordHighlighter implements Highlighter {
 
+    private static final List<String> queryFunctionNameList;
+    private static final List<String> scoreFunctionNameList;
+    private static final List<String> filterParserNameList;
+
+    static {
+        queryFunctionNameList = createStringListByType(QueryParser.class, QueryParser::names);
+        scoreFunctionNameList = createStringListByType(ScoreFunctionParser.class, ScoreFunctionParser::getNames);
+        filterParserNameList = createStringListByType(FilterParser.class, FilterParser::names);
+    }
+
     @Override
     public StyleSpanRangeBuilder compute(String text) {
         StyleSpanRangeBuilder styleSpanRangeBuilder = new StyleSpanRangeBuilder();
 
-        styleSpanRangeBuilder.addAll(createStyleSpanRangeBuilderByStringList(
-                text, "query-function", createStringListByType(QueryParser.class, QueryParser::names)));
+        styleSpanRangeBuilder.addAll(createStylesByStringList(
+                text, "query-function", queryFunctionNameList));
 
-        styleSpanRangeBuilder.addAll(createStyleSpanRangeBuilderByStringList(
-                text, "score-function", createStringListByType(ScoreFunctionParser.class, ScoreFunctionParser::getNames)));
+        styleSpanRangeBuilder.addAll(createStylesByStringList(
+                text, "score-function", scoreFunctionNameList));
 
-        styleSpanRangeBuilder.addAll(createStyleSpanRangeBuilderByStringList(
-                text, "filter-parser", createStringListByType(FilterParser.class, FilterParser::names)));
+        styleSpanRangeBuilder.addAll(createStylesByStringList(
+                text, "filter-parser", filterParserNameList));
 
         return styleSpanRangeBuilder;
     }
@@ -40,16 +50,16 @@ public class KeywordHighlighter implements Highlighter {
      * @param stringList
      * @return
      */
-    private StyleSpanRangeBuilder createStyleSpanRangeBuilderByStringList(String text, String className, List<String> stringList) {
+    private StyleSpanRangeBuilder createStylesByStringList(String text, String className, List<String> stringList) {
         StyleSpanRangeBuilder styleSpanRangeBuilder = new StyleSpanRangeBuilder();
 
         for (String string : stringList) {
             // Find occurrences of the given string
-            Pattern pattern = Pattern.compile(Pattern.quote(string));
+            Pattern pattern = Pattern.compile(Pattern.quote("\"" + string + "\""));
             Matcher matcher = pattern.matcher(text);
             while (matcher.find()) {
                 // Create style span
-                styleSpanRangeBuilder.add(new StyleSpanRange(matcher.start(), matcher.end(), className));
+                styleSpanRangeBuilder.add(new StyleSpanRange(matcher.start() + 1, matcher.end() - 1, className));
             }
         }
 
@@ -64,7 +74,7 @@ public class KeywordHighlighter implements Highlighter {
      * @param <T>               The type
      * @return Name list
      */
-    private <T> List<String> createStringListByType(Class<T> type, Function<T, String[]> generatorFunction) {
+    private static <T> List<String> createStringListByType(Class<T> type, Function<T, String[]> generatorFunction) {
         List<String> nameList = Lists.newArrayList();
 
         // Limit scan to package of parent class
