@@ -18,10 +18,9 @@
         <commonscollection.version>4.0</commonscollection.version>
         <guava.version>18.0</guava.version>
         <log4j.version>2.3</log4j.version>
-        <datafx.version>8.0b5</datafx.version>
         <elasticsearch.version>1.7.0</elasticsearch.version>
         <controlsfx.version>8.40.9</controlsfx.version>
-        <richtextfx.version>0.6.4</richtextfx.version>
+        <richtextfx.version>0.6.5</richtextfx.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -68,12 +67,6 @@
         </dependency>
 
         <!-- Data bindings -->
-
-        <dependency>
-            <groupId>org.javafxdata</groupId>
-            <artifactId>datafx-core</artifactId>
-            <version>${datafx.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.elasticsearch</groupId>
