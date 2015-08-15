@@ -39,6 +39,7 @@
             </Button>
         </ToolBar>
         <CodeArea fx:id="queryCodeArea"
+                  text="{&quot;term&quot; : { &quot;user&quot; : &quot;Kimchy&quot; } }"
                   AnchorPane.bottomAnchor="0.0"
                   AnchorPane.leftAnchor="0.0"
                   AnchorPane.rightAnchor="0.0"

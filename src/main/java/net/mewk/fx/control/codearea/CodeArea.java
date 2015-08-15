@@ -82,4 +82,8 @@ public class CodeArea extends org.fxmisc.richtext.CodeArea {
     public List<StyleRangeProvider> getStateStyleRangeProviderList() {
         return stateStyleRangeProviderList;
     }
+
+    public void setText(String text) {
+        replaceText(text);
+    }
 }
