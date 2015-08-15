@@ -20,17 +20,17 @@ public class StyleRangesBuilder extends ArrayList<StyleRange> {
             styleSpansBuilder.add(new StyleSpan<>(Lists.newArrayList(), 0));
         } else {
             // Overlay
-            List<StyleRange> StyleRangeList = overlay(this);
+            List<StyleRange> styleRangeList = overlay(this);
 
             // Merge
-            StyleRangeList = merge(StyleRangeList);
+            styleRangeList = merge(styleRangeList);
 
             // Sort
-            StyleRangeList.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
+            styleRangeList.sort((o1, o2) -> Integer.compare(o1.getStart(), o2.getStart()));
 
             // Convert
             StyleRange lastSpan = new StyleRange();
-            for (StyleRange span : StyleRangeList) {
+            for (StyleRange span : styleRangeList) {
                 // Add blank span if necessary
                 if (lastSpan.getEnd() < span.getStart()) {
                     StyleRange blankSpan = new StyleRange(lastSpan.getEnd(), span.getStart());

@@ -18,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import net.mewk.fx.control.codearea.CodeArea;
 import net.mewk.fx.control.codearea.style.provider.ActiveProvider;
+import net.mewk.fx.control.codearea.style.provider.elasticsearch.ElasticsearchKeywordProvider;
 import net.mewk.fx.control.codearea.style.provider.json.JsonErrorProvider;
 import net.mewk.fx.control.codearea.style.provider.json.JsonSyntaxProvider;
 import net.mewk.fx.esexplorer.mapper.ui.ResultViewMapper;
@@ -89,9 +90,13 @@ public class QueryPresenter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         // Initialize queryCodeArea
-        queryCodeArea.getTextStyleRangeProviderList().add(new JsonErrorProvider());
-        queryCodeArea.getTextStyleRangeProviderList().add(new JsonSyntaxProvider());
-        queryCodeArea.getStateStyleRangeProviderList().add(new ActiveProvider(queryCodeArea));
+        query.setQuery(queryCodeArea.getText());
+
+        // Initialize queryCodeArea
+        queryCodeArea.getStyleRangeProviderList().addAll(new JsonErrorProvider(),
+                new JsonSyntaxProvider(),
+                new ElasticsearchKeywordProvider(),
+                new ActiveProvider(queryCodeArea));
         queryCodeArea.textProperty().addListener((observable1, oldValue1, newValue1) -> {
             if (newValue1 != null) {
                 query.setQuery(newValue1);
@@ -99,8 +104,8 @@ public class QueryPresenter implements Initializable {
         });
 
         // Initialize responseCodeArea
-        responseCodeArea.getTextStyleRangeProviderList().add(new JsonErrorProvider());
-        responseCodeArea.getTextStyleRangeProviderList().add(new JsonSyntaxProvider());
+        responseCodeArea.getStyleRangeProviderList().addAll(new JsonSyntaxProvider(),
+                new ActiveProvider(responseCodeArea));
 
         // Initialize result
         result.addListener((observable, oldValue, newValue) -> {

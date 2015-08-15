@@ -9,11 +9,9 @@ import java.util.function.IntFunction;
 
 public class LineNumberFactory implements IntFunction<Node> {
 
-    private final CodeArea codeArea;
     private final Val<Integer> paragraphs;
 
     public LineNumberFactory(CodeArea codeArea) {
-        this.codeArea = codeArea;
         this.paragraphs = LiveList.sizeOf(codeArea.getParagraphs());
     }
 
@@ -21,10 +19,6 @@ public class LineNumberFactory implements IntFunction<Node> {
     public Node apply(int index) {
         Label lineNumber = new Label();
         lineNumber.getStyleClass().add("line-number");
-
-        if (codeArea.getCurrentParagraph() == index) {
-            lineNumber.getStyleClass().add("active");
-        }
 
         // When removed from the scene, bind label's text to constant "",
         // which is a fake binding that consumes no resources, instead of

@@ -3,16 +3,6 @@
 }
 
 /*
- * Default highlighting
- */
-
-.text {
-    -fx-font-weight: 900;
-    -fx-fill: black;
-    -fx-background-color: aquamarine;
-}
-
-/*
  * Syntax highlighting
  */
 

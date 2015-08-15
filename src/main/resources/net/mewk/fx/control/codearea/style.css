@@ -10,5 +10,10 @@
 }
 
 .active {
-    -fx-background-color: #FFFAE3;
+    -fx-effect: dropshadow(gaussian, orange, 10, 0, 0, 0);
+}
+
+.paragraph-box {
+    -fx-font-weight: 900;
+    -fx-fill: black;
 }

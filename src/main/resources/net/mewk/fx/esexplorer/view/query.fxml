@@ -39,7 +39,7 @@
             </Button>
         </ToolBar>
         <CodeArea fx:id="queryCodeArea"
-                  text="{&quot;term&quot; : { &quot;user&quot; : &quot;Kimchy&quot; } }"
+                  text="{&quot;query&quot;:{&quot;match&quot;:{&quot;firstname&quot;:&quot;Jenkins&quot;}}}"
                   AnchorPane.bottomAnchor="0.0"
                   AnchorPane.leftAnchor="0.0"
                   AnchorPane.rightAnchor="0.0"

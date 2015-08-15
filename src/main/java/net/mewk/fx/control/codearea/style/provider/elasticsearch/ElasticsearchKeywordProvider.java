@@ -1,8 +1,9 @@
 package net.mewk.fx.control.codearea.style.provider.elasticsearch;
 
 import com.google.common.collect.Lists;
-import net.mewk.fx.control.codearea.StyleRange;
-import net.mewk.fx.control.codearea.StyleRangeBuilder;
+import net.mewk.fx.control.codearea.style.StyleRange;
+import net.mewk.fx.control.codearea.style.StyleRangesBuilder;
+import net.mewk.fx.control.codearea.style.provider.StyleRangeProvider;
 import org.elasticsearch.index.query.FilterParser;
 import org.elasticsearch.index.query.QueryParser;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionParser;
@@ -16,7 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ElasticsearchKeywordProvider implements Highlighter {
+public class ElasticsearchKeywordProvider implements StyleRangeProvider {
 
     private static final List<String> queryFunctionNameList;
     private static final List<String> scoreFunctionNameList;
@@ -29,19 +30,19 @@ public class ElasticsearchKeywordProvider implements Highlighter {
     }
 
     @Override
-    public StyleRangeBuilder compute(String text) {
-        StyleRangeBuilder StyleRangeBuilder = new StyleRangeBuilder();
+    public StyleRangesBuilder compute(String text) {
+        StyleRangesBuilder styleRangeBuilder = new StyleRangesBuilder();
 
-        StyleRangeBuilder.addAll(createStylesByStringList(
+        styleRangeBuilder.addAll(createStylesByStringList(
                 text, "query-function", queryFunctionNameList));
 
-        StyleRangeBuilder.addAll(createStylesByStringList(
+        styleRangeBuilder.addAll(createStylesByStringList(
                 text, "score-function", scoreFunctionNameList));
 
-        StyleRangeBuilder.addAll(createStylesByStringList(
+        styleRangeBuilder.addAll(createStylesByStringList(
                 text, "filter-parser", filterParserNameList));
 
-        return StyleRangeBuilder;
+        return styleRangeBuilder;
     }
 
     /**
@@ -50,8 +51,8 @@ public class ElasticsearchKeywordProvider implements Highlighter {
      * @param stringList
      * @return
      */
-    private StyleRangeBuilder createStylesByStringList(String text, String className, List<String> stringList) {
-        StyleRangeBuilder StyleRangeBuilder = new StyleRangeBuilder();
+    private StyleRangesBuilder createStylesByStringList(String text, String className, List<String> stringList) {
+        StyleRangesBuilder styleRangeBuilder = new StyleRangesBuilder();
 
         for (String string : stringList) {
             // Find occurrences of the given string
@@ -59,11 +60,11 @@ public class ElasticsearchKeywordProvider implements Highlighter {
             Matcher matcher = pattern.matcher(text);
             while (matcher.find()) {
                 // Create style span
-                StyleRangeBuilder.add(new StyleRange(matcher.start() + 1, matcher.end() - 1, className));
+                styleRangeBuilder.add(new StyleRange(matcher.start() + 1, matcher.end() - 1, className));
             }
         }
 
-        return StyleRangeBuilder;
+        return styleRangeBuilder;
     }
 
     /**
